@@ -7251,13 +7251,21 @@ License: For each use you must have a valid license purchased only from above li
 											<!--begin::Input group-->
 											<div class="fv-row mb-8">
 												<!--begin::Label-->
-												<label class="required fs-6 fw-semibold mb-2">Clients/Partners</label>
+												<label class="fs-6 fw-semibold mb-2">Clients/Partners
+													<span class="ms-1" data-bs-toggle="tooltip" title="Mention any collaborators of the event">
+														<i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+															<span class="path1"></span>
+															<span class="path2"></span>
+															<span class="path3"></span>
+														</i>
+													</span>
+												</label>
 												<!--end::Label-->
 												<!--begin::Input-->
 												<select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select..." name="settings_customer">
 													<option></option>
 													<option value="1">Take from the db</option>
-													<option value="2">Not necessary to have it</option>
+													<option value="2" selected>No collaborators</option>
 												</select>
 												<!--end::Input-->
 											</div>
@@ -7277,10 +7285,23 @@ License: For each use you must have a valid license purchased only from above li
 												</label>
 												<!--end::Label-->
 												<!--begin::Input-->
-												<input type="text" class="form-control form-control-solid" placeholder="Enter Project Name" value="StockPro Mobile App" name="settings_name" />
+												<input type="text" class="form-control form-control-solid" placeholder="Enter Project Name" value="Start Up Project" name="settings_name" />
 												<!--end::Input-->
 											</div>
 											<!--end::Input group-->
+											
+											<!--begin::Input group-->
+											<div class="fv-row mb-8">
+											<!--begin::Label-->
+											<label class="required fs-6 fw-semibold mb-2">Venue</label>
+											<!--end::Label-->
+                                            <!--begin::Input-->
+											<input type="text" class="form-control form-control-solid" placeholder="venue" value="Cyberjaya, Selangor"
+												name="settings_name" />
+											<!--end::Input-->
+											</div>
+											<!--end::Input group-->
+											
 											<!--begin::Input group-->
 											<div class="fv-row mb-8">
 												<!--begin::Label-->
