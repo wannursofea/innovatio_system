@@ -24,6 +24,16 @@
 															<a class="nav-link py-3 py-lg-6 active text-active-primary" href="#" data-bs-toggle="tab" data-bs-target="#kt_app_header_menu_pages_pages">Event</a>
 														</li>
 														<!--end:Nav item-->
+														<!--begin:Nav item-->
+														<li class="nav-item mx-lg-1">
+															<a class="nav-link py-3 py-lg-6 text-active-primary" href="#" data-bs-toggle="tab" data-bs-target="#kt_app_header_menu_pages_account">Registration</a>
+														</li>
+														<!--end:Nav item-->
+														<!--begin:Nav item-->
+														<li class="nav-item mx-lg-1">
+															<a class="nav-link py-3 py-lg-6 text-active-primary" href="#" data-bs-toggle="tab" data-bs-target="#kt_app_header_menu_pages_authentication">Feedback</a>
+														</li>
+														<!--end:Nav item-->
 													</ul>
 												</div>
 												<!--end:Tabs nav-->
@@ -45,6 +55,15 @@
 																		<!--begin:Menu item-->
 																		<div class="menu-item p-0 m-0">
 																			<!--begin:Menu link-->
+																			<a href="<?php echo URLROOT; ?>/events/mainpage_event" class="menu-link">
+																				<span class="menu-title">Event</span>
+																			</a>
+																			<!--end:Menu link-->
+																		</div>
+																		<!--end:Menu item-->
+																		<!--begin:Menu item-->
+																		<div class="menu-item p-0 m-0">
+																			<!--begin:Menu link-->
 																			<a href="<?php echo URLROOT; ?>/events" class="menu-link">
 																				<span class="menu-title">View Event</span>
 																			</a>
@@ -60,24 +79,8 @@
 																			<!--end:Menu link-->
 																		</div>
 																		<!--end:Menu item-->
-																		<!--begin:Menu item-->
-																		<div class="menu-item p-0 m-0">
-																			<!--begin:Menu link-->
-																			<a href="<?php echo URLROOT; ?>/events" class="menu-link">
-																				<span class="menu-title">Manage Event</span>
-																			</a>
-																			<!--end:Menu link-->
-																		</div>
-																		<!--end:Menu item-->
-																		<!--begin:Menu item-->
-																		<div class="menu-item p-0 m-0">
-																			<!--begin:Menu link-->
-																			<a href="pages/user-profile/campaigns.html" class="menu-link">
-																				<span class="menu-title">Event Option</span>
-																			</a>
-																			<!--end:Menu link-->
-																		</div>
-																		<!--end:Menu item-->
+																		
+																		
 																	</div>
 																	<!--end:Col-->
 																</div>
