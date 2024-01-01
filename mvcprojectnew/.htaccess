@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  <!-- Redirect specific directories to themselves (bypass)-->
+  RewriteRule ^(phpMyAdmyadmin|app)(/.*) ?$ [NC,L]
+
+  <!--Redirect everything else to the public folder-->
+  RewriteRule (?!public/) public/$1 [NC,L]
+</IfModule>
