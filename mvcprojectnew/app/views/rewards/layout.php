@@ -6,8 +6,8 @@
 									<div class="row g-5 g-xl-10">
 					                <!--start content -->
 
- 
 
+						
 									<?php 
                                         if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
                                             $url = "https://";
@@ -17,13 +17,17 @@
                                         $url .= $_SERVER['HTTP_HOST'];
 
                                         $url .= $_SERVER['REQUEST_URI'];
+
+										
                                     ?>
                                     
                                     <?php //rule
                                     
 
-                                        $rb_url = URLROOT. "/rewardsnbadges"; // based on the name of file in controller
+                                        $rb_url = URLROOT. "/rewards"; // based on the name of file in controller
+										
                                         if($url == $rb_url){
+											
                                             require 'manage.php';
                                         }
                                     ?>
