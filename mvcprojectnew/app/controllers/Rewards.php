@@ -1,23 +1,23 @@
 <?php 
-class RewardsnBadges extends Controller{
+class Rewards extends Controller{
     public function __construct(){
-        $this->rewardnbadgeModel = $this->model('RewardnBadge');
+        $this->rewardModel = $this->model('Reward');
 
     }
 
     public function index(){
-        $badge = $this->rewardnbadgeModel->manageAllRewardnBadge();//rewardnbadge.php has manageAllRewardnBadge
+        $badge = $this->rewardModel->manageAllReward();//reward.php has manageAllReward
         
-        $data = [ //hold the collection of data from entity rewardnbadge //is an array
+        $data = [ //hold the collection of data from entity reward //is an array
             'badge' => $badge //$badge being defined
         ];
 
-        $this->view('rewardnbadge/index', $data);
+        $this->view('rewards/index', $data);
     }
-    public function addBadge()
+   /* public function addBadge()
     {
         if (!isLoggedIn()){
-            header("Location: " . URLROOT. "/rewardsnbadges" );
+            header("Location: " . URLROOT. "/rewards" );
         }
 
         $data = 
@@ -52,6 +52,6 @@ class RewardsnBadges extends Controller{
         }
 
         $this->view('posts/index', $data);
-    }
+    }*/
 }
 ?>

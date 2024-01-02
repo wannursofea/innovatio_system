@@ -3,7 +3,7 @@
         <h3 class="card-title">Manage Reward & Badge</h3>
         <div class="card-toolbar">
             <?php if(isLoggedIn()): ?>
-            <a href="<?php echo URLROOT;?>/rewardnbadge/create" class="btn btn-light-primary">Create</a>
+            <a href="<?php echo URLROOT;?>/rewards/create" class="btn btn-light-primary">Create</a>
             <?php endif; ?>
         </div>
     </div>
@@ -13,17 +13,19 @@
             <table id="kt_datatable_posts" class="table table-row-bordered gy-5"> <!-- relate to line 37-->
                 <thead>
                     <tr class="fw-semibold fs-6 text-muted">
-                        <th>Badge</th>
-                        <th>Desription</th>
-                        <th>Date</th><!-- Not sure -->
+                        <th>Student Name</th>
+                        <th>Gold Badge</th>
+                        <th>Silver Badge</th>
+                        <th>Bronze Badge</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($data['badge'] as $badge): ?><!-- panggil balik data dari table -->
                     <tr> <!-- $badge->NAMA ATTRIBUTES -->
-                        <td><?php echo $badge->badgeName; ?></td>
-                        <td><?php echo $badge->description; ?></td>
-                        <td><?php echo date('F j, Y', strtotime($badge->dateAwarded)); ?></td>
+                        <td><?php echo $badge->fName; ?></td>
+                        <td><?php echo $badge->goldBadge; ?></td>
+                        <td><?php echo $badge->silverBadge; ?></td>
+                        <td><?php echo $badge->bronzeBadge; ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
