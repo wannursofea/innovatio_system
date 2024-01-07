@@ -228,10 +228,6 @@ class Events extends Controller
                 $data['venueError'] = "At least change the venue!";
             }
 
-            if($data['venue'] == $this->eventModel->findEventById($event_id)->venue)
-            {
-                $data['venueError'] = "At least change the venue!";
-            }
 
             if (isset($_POST['noCollaborator']) && $_POST['noCollaborator'] == '0' && isset($_POST['selectedClients']) && !empty($_POST['selectedClients'])) {
                 // Handle the condition where 'No collaborator' is selected and clients are selected
