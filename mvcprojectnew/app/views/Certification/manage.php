@@ -31,12 +31,12 @@
             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-100px py-4" data-kt-menu="true">
                 <!--begin::Menu item-->
                 <div class="menu-item px-3">
-                    <a href="<?php echo URLROOT . "/certifications/update/" . $post->id ?>" class="menu-link btn btn-sm btn-light btn-primary text-white px-3">Edit</a>
+                    <a href="<?php echo URLROOT . "/certifications/update/" . $post->certification_id ?>" class="menu-link btn btn-sm btn-light btn-primary text-white px-3">Edit</a>
                 </div>
                 <!--end::Menu item-->
                 <!--begin::Menu item-->
                 <div class="menu-item px-3">
-                    <form action="<?php echo URLROOT . "/certifications/delete/" . $post->id ?>" method="POST" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                    <form action="<?php echo URLROOT . "/certifications/delete/" . $post->certification_id ?>" method="POST" onsubmit="return confirm('Are you sure you want to delete this event?');">
                         <!-- Your delete button or link -->
                         <button style="width: 82px; height: 32.3px;" type="submit" class="menu-link btn btn-sm btn-light btn-danger text-white px-3" data-kt-customer-table-filter="delete_row">Delete</button>
                     </form>

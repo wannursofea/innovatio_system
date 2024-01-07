@@ -35,10 +35,10 @@ class Certification
         }
     }
 
-    public function findCertificationById($id)
+    public function findCertificationById($certification_id)
     {
         $this->db->query('SELECT * FROM certification WHERE certification_id = :certification_id');
-        $this->db->bind(':certification_id', $id);
+        $this->db->bind(':certification_id', $certification_id);
 
         $row = $this->db->single();
 
@@ -63,10 +63,10 @@ class Certification
         }
     }
 
-    public function deleteCertification($id){
+    public function deleteCertification($certification_id){
         $this->db->query('DELETE FROM certification WHERE certification_id = :certification_id');
 
-        $this->db->bind(':certification_id', $id);
+        $this->db->bind(':certification_id', $certification_id);
 
         if ($this->db->execute())
         {

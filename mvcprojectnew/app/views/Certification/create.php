@@ -20,7 +20,7 @@
                  <label for="exampleFormControlInput1" class="form-label">Validity</label>
                 <div class="position-relative">
                 <div class="required position-absolute top-0"></div>
-            <input type="date" name="validity" class="form-control" id="exampleFormControlInput1" required>
+            <input type="date" name="validity" class="form-control form-control-solid" placeholder="validity" required >
          </div>
     </div>
 

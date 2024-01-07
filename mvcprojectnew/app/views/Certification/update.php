@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form action="<?php echo URLROOT; ?>/certifications/update/<?php echo $data['certification']->id ?>" method="POST">
+        <form action="<?php echo URLROOT; ?>/certifications/update/<?php echo $data['certification']->certification_id ?>" method="POST">
             <div class="mb-10">
                 <label for="exampleFormControlInput1" class="required form-label">Certification Name</label>
                 <input type="text" name="certName" class="form-control form-control-solid"
@@ -18,11 +18,11 @@
             <div class="mb-10">
                 <label for="exampleFormControlInput1" class="form-label">Valid until</label>
                 <div class="position-relative">
-                    <div class="required position-absolute top-0"></div>
-                    <textarea name="body" class="form-control" aria-label="With textarea"
-                        required><?php echo $data['certificationst']->validity;?></textarea>
-                </div>
+                <div class="required position-absolute top-0"></div>
+                <input type="date" name="validity" class="form-control" value="<?php echo $data['certifications']->validity;?>" required>
             </div>
+    </div>
+
 
             <button type="submit" class="btn btn-primary font-weight-bold">Submit</button>
 
