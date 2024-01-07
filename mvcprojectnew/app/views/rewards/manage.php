@@ -2,9 +2,6 @@
     <div class="card-header">
         <h3 class="card-title">Manage Reward & Badge</h3>
         <div class="card-toolbar">
-            <?php if(isLoggedIn()): ?>
-            <a href="<?php echo URLROOT;?>/rewards/create" class="btn btn-light-primary">Create</a>
-            <?php endif; ?>
         </div>
     </div>
     <div class="card-body">
@@ -17,15 +14,25 @@
                         <th>Gold Badge</th>
                         <th>Silver Badge</th>
                         <th>Bronze Badge</th>
+                        <th>Rewards</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($data['badge'] as $badge): ?><!-- panggil balik data dari table -->
                     <tr> <!-- $badge->NAMA ATTRIBUTES -->
-                        <td><?php echo $badge->fName; ?></td>
+                        <td><?php echo $badge->name; ?></td>
                         <td><?php echo $badge->goldBadge; ?></td>
                         <td><?php echo $badge->silverBadge; ?></td>
                         <td><?php echo $badge->bronzeBadge; ?></td>
+                        <td>    <div class="form-check form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="updateCheckbox" onchange="updateBadgeStatus(<?php echo $badge->badge_id; ?>, this.checked)">
+                            <label class="form-check-label" for="flexCheckDefault">
+                        <td><a href="<?php echo URLROOT . "/rewards/update/" . $badge->badge_id ?>"
+                                class="btn btn-light-warning">Update</a></td>
+      
+    </div>
+
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
