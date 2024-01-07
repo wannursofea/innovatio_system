@@ -18,8 +18,8 @@
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label fw-semibold fs-6">Avatar</label>
             <div class="col-lg-8">
-                <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('<?php echo URLROOT."/public/".$studentProfile->st_image; ?>')">
-                    <div class="image-input-wrapper w-125px h-125px" style="background-image: url('<?php echo URLROOT."/public/".$studentProfile->st_image; ?>')"></div>
+                <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('<?php echo URLROOT."/public/".$studentProfile->image; ?>')">
+                    <div class="image-input-wrapper w-125px h-125px" style="background-image: url('<?php echo URLROOT."/public/".$studentProfile->image; ?>')"></div>
                     <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
                         <i class="ki-duotone ki-pencil fs-7"></i>
                         <input type="file" name="file" accept=".png, .jpg, .jpeg" />
@@ -40,15 +40,15 @@
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Full Name</label>
             <div class="col-lg-8">
-                <input class="form-control form-control-lg form-control-solid" name="st_fullname" type="text" required value="<?php echo $studentProfile->st_fullname; ?>" />
+                <input class="form-control form-control-lg form-control-solid" name="name" type="text" required value="<?php echo $studentProfile->name; ?>" />
             </div>
         </div>
 
-        <!-- IC Number Section -->
+        <!-- Phone Number Section -->
         <div class="row mb-6">
-            <label class="col-lg-4 col-form-label required fw-semibold fs-6">IC Number</label>
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Phone Number (Example:012-3456789)</label>
             <div class="col-lg-8">
-                <input class="form-control form-control-lg form-control-solid" name="st_ic" type="text" required value="<?php echo $studentProfile->st_ic; ?>" />
+                <input class="form-control form-control-lg form-control-solid" name="phoneNum" type="text" required value="<?php echo $studentProfile->phoneNum; ?>" />
             </div>
         </div>
 
@@ -56,7 +56,7 @@
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Email Address</label>
             <div class="col-lg-8">
-                <input class="form-control form-control-lg form-control-solid" name="st_email" type="text" readonly value="<?php echo $studentProfile->st_email; ?>" />
+                <input class="form-control form-control-lg form-control-solid" name="email" type="text" readonly value="<?php echo $studentProfile->email; ?>" />
             </div>
         </div>
 
@@ -64,8 +64,8 @@
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Gender</label>
             <div class="col-lg-8">
-                <select class="form-select form-select-solid form-select-lg" name="st_gender">
-                    <option value="<?php echo $studentProfile->st_gender ?>"><?php echo $studentProfile->st_gender ?></option>
+                <select class="form-select form-select-solid form-select-lg" name="gender">
+                    <option value="<?php echo $studentProfile->gender ?>"><?php echo $studentProfile->gender ?></option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                 </select>
@@ -76,8 +76,8 @@
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Race</label>
             <div class="col-lg-8">
-                <select class="form-select form-select-solid form-select-lg" name="st_race">
-                    <option value="<?php echo $studentProfile->st_race ?>"><?php echo $studentProfile->st_race ?></option>
+                <select class="form-select form-select-solid form-select-lg" name="race">
+                    <option value="<?php echo $studentProfile->st_race ?>"><?php echo $studentProfile->race ?></option>
                     <option value="Malay">Malay</option>
                     <option value="Chinese">Chinese</option>
                     <option value="Indian">Indian</option>
@@ -92,7 +92,7 @@
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Institution of Higher Learning</label>
             <div class="col-lg-8">
-                <select class="form-select form-select-solid form-select-lg" name="univ_code">
+                <select class="form-select form-select-solid form-select-lg" name="institution">
                     <option value="UTM">UTM</option>
                     <option value="UKM">UKM</option>
                     <option value="UM">UM</option>
@@ -118,13 +118,28 @@
             </div>
         </div>
 
+        <!-- Course Section -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Course</label>
+            <div class="col-lg-8">
+                <input class="form-control form-control-lg form-control-solid" name="course" type="text" required value="<?php echo $studentProfile->course; ?>" />
+            </div>
+        </div>
+
         <!-- Address Section -->
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Address</label>
             <div class="col-lg-8">
-                <textarea class="form-control form-control-solid" name="st_address" rows="3" required><?php echo $studentProfile->st_address ?></textarea>
+                <textarea class="form-control form-control-solid" name="address" rows="3" required><?php echo $studentProfile->address ?></textarea>
             </div>
         </div>
+
+        <!-- Bio Section -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Bio</label>
+            <div class="col-lg-8">
+                <textarea class="form-control form-control-solid" name="bio" rows="3"><?php echo $studentProfile->bio ?></textarea>
+            </div>
 
         <!-- Submit Button -->
         <div class="card-footer d-flex justify-content-end py-6 px-9">
