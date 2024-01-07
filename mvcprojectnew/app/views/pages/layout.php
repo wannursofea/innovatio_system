@@ -33,13 +33,17 @@
 
                          require 'edit_profile.php';
 
-                     }else{
+                     } else if ($_SESSION['user_role'] == "Admin"){
 
-             
+                        
                      }
  
-                 } else {
+                     else if ($_SESSION['user_role']== "Partner") {
+                            
+                        
                  }
+
+                }
 
                     ?>
 
