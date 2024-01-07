@@ -22,20 +22,28 @@
                                     ?>
                                     
                                     <?php //rule
-                                    
-
-                                        $rb_url = URLROOT. "/rewards"; // based on the name of file in controller
+                                        $mb_url = URLROOT. "/rewards/manage";
+										$bb_url = URLROOT . "/rewards/badge"; 
+										$cb_url = URLROOT . "/rewards/create"; 
 										
-                                        if($url == $rb_url){
-											
+										if (isset($data['badge']) && is_object($data['badge'])){
+											$ub_url = URLROOT . "/rewards/update".$data['badge']->badge_id; 
+										}
+
+                                        if($url == $mb_url){
                                             require 'manage.php';
-                                        }
-                                    ?>
- 
+                                        } else if($url == $bb_url){
+											require 's_badge.php';
+										}else if($url == $cb_url){
+											require 'create.php';
+										}else if($url == $ub_url){
+											require 'update.php';
+										}else{
 
+										}
 
+									?>
 
-       
 
                                     <!-- end content -->
 

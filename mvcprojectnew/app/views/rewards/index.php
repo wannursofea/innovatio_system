@@ -5,7 +5,7 @@
 
 
 <?php require APPROOT . '/views/rewards/layout.php'; ?>  
-<?php require APPROOT . '/views/rewards/manage.php'; ?>  
+<?//php require APPROOT . '/views/rewards/manage.php'; ?>  
 <?//php require APPROOT . '/views/includes/drawer.php';?>
 
 
