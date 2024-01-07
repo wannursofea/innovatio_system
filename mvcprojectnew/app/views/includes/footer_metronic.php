@@ -21,6 +21,15 @@
 		<script src="<?php echo URLROOT ?>/public/assets/js/custom/utilities/modals/create-campaign.js"></script>
 		<script src="<?php echo URLROOT ?>/public/assets/js/custom/utilities/modals/create-app.js"></script>
 		<script src="<?php echo URLROOT ?>/public/assets/js/custom/utilities/modals/create-project/type.js"></script>
+
+
+		<script src="<?php echo URLROOT ?>/public/assets/js/custom/utilities/modals/create-project/mvc/checkboxEvent.js"></script>
+		<script src="<?php echo URLROOT ?>/public/assets/js/custom/utilities/modals/create-project/mvc/checkboxRegister.js"></script>
+		<script src="<?php echo URLROOT ?>/public/assets/js/custom/utilities/modals/create-project/mvc/dropzone.js"></script>
+	
+
+
+
 		<script src="<?php echo URLROOT ?>/public/assets/js/custom/utilities/modals/create-project/budget.js"></script>
 		<script src="<?php echo URLROOT ?>/public/assets/js/custom/utilities/modals/create-project/settings.js"></script>
 		<script src="<?php echo URLROOT ?>/public/assets/js/custom/utilities/modals/create-project/team.js"></script>
