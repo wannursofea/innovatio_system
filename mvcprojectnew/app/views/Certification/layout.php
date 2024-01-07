@@ -23,13 +23,11 @@
 
         <?php
 
-                    $c_url = URLROOT . "/skills"; 
-                    $t_url = URLROOT . "/skills/create"; 
-                    $u_url = URLROOT . "/skills/update" ;
+                    $c_url = URLROOT . "/certifications"; 
+                    $t_url = URLROOT . "/certifications/create"; 
+                    $u_url = URLROOT . "/certifications/update" ;
 
-                   if ($data['skill']) {
-                    echo "yes";
-                }
+                
                 
 
                   // if (isset($data['resume']) && is_object($data['resume'])) {

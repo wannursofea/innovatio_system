@@ -22,54 +22,30 @@
                     <tr>
                         <td><?php echo $post->certName; ?></td>
                         <td><?php echo date('F j', strtotime($post->validity)); ?></td>
-                        <td>
-                            <?php if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $post->user_id): ?>
-
-                            <a href="<?php echo URLROOT . "/certifications/update/" . $post->id ?>"
-                                class="btn btn-light-warning">Update</a>
-
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#kt<?php echo $post->id?>">
-                                Delete
-                            </button>
-
-                            <div class="modal fade" tabindex="-1" id="kt<?php echo $post->id?>">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h3 class="modal-title">Modal title</h3>
-
-                                            <!--begin::Close-->
-                                            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-                                                data-bs-dismiss="modal" aria-label="Close">
-                                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
-                                                        class="path2"></span></i>
-                                            </div>
-                                            <!--end::Close-->
-                                        </div>
-
-                                        <div class="modal-body">
-                                            Are you sure want to delete this transaction?
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <form action="<?php echo URLROOT . "/certifications/delete/" . $post->id; ?>"
-                                                method="POST">
-                                                <input type="hidden" id="expenses" name="expenses" value="expenses">
-                                                <button type="button" class="btn btn-light-primary font-weight-bold"
-                                                    data-dismiss="modal">Close</button>
-                                                <button type="submit"
-                                                    class="btn btn-primary font-weight-bold">Delete</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <?php endif; ?>
-                        </td>
-                    </tr>
+                        
+                        <td class="text-end">
+            <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions 
+                <i class="ki-duotone ki-down fs-5 ms-1"></i>
+            </a>
+            <!--begin::Menu-->
+            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-100px py-4" data-kt-menu="true">
+                <!--begin::Menu item-->
+                <div class="menu-item px-3">
+                    <a href="<?php echo URLROOT . "/certifications/update/" . $post->id ?>" class="menu-link btn btn-sm btn-light btn-primary text-white px-3">Edit</a>
+                </div>
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <div class="menu-item px-3">
+                    <form action="<?php echo URLROOT . "/certifications/delete/" . $post->id ?>" method="POST" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                        <!-- Your delete button or link -->
+                        <button style="width: 82px; height: 32.3px;" type="submit" class="menu-link btn btn-sm btn-light btn-danger text-white px-3" data-kt-customer-table-filter="delete_row">Delete</button>
+                    </form>
+                </div>
+                <!--end::Menu item-->
+            </div>
+            <!--end::Menu-->
+        </td>
+    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>

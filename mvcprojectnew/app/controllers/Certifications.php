@@ -34,12 +34,13 @@ class Certifications extends Controller
             $data = 
             [
             'user_id' => $_SESSION['user_id'],
-            'certName' => trim($_POST['certification']),
-            'validity' => trim($_POST['validity'])
+            'certName' => trim($_POST['certName']),
+            'validity' => trim($_POST['validity']),
+
             ];
 
 
-            if ($data['certification'] && $data['validity']){
+            if ($data['certName'] && $data['validity']){
                 if ($this->certificationModel->addCertification($data)){
                     header("Location: " . URLROOT. "/certifications" );
                 }

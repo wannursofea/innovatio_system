@@ -21,12 +21,7 @@ class Certification
 
     public function addCertification($data)
     {
-        $this->db->query('INSERT INTO certification (certification_id, user_id, profile_id, resume_id, certName, validity) VALUES (:certification_id, :user_id, :profile_id, :resume_id, :certName, :validity)');
-        
-        $this->db->bind(':certification_id', $data['certification_id']);
-        $this->db->bind(':user_id', $data['user_id']);
-        $this->db->bind(':profile_id', $data['profile_id']);
-        $this->db->bind(':resume_id', $data['resume_id']);
+        $this->db->query('INSERT INTO certification (certName, validity) VALUES (:certName, :validity)');
         $this->db->bind(':certName', $data['certName']);
         $this->db->bind(':validity', $data['validity']);
 
