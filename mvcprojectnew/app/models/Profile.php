@@ -10,7 +10,7 @@ class Profile {
 
     public function getProfile(){
 
-    $this->db->query('SELECT * FROM users');
+    $this->db->query('SELECT * FROM user');
 
     $results = $this->db->resultSet();
 
