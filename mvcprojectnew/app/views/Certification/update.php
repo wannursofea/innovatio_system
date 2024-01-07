@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form action="<?php echo URLROOT; ?>/certifications/update/<?php echo $data['certification']->certification_id ?>" method="POST">
+        <form action="<?php echo URLROOT; ?>/certifications/update/<?php echo $data['certifications']->certification_id ?>" method="POST">
             <div class="mb-10">
                 <label for="exampleFormControlInput1" class="required form-label">Certification Name</label>
                 <input type="text" name="certName" class="form-control form-control-solid"

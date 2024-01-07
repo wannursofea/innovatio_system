@@ -25,13 +25,12 @@
 
                     $c_url = URLROOT . "/certifications"; 
                     $t_url = URLROOT . "/certifications/create"; 
-                    $u_url = URLROOT . "/certifications/update" ;
 
                 
                 
 
-                  // if (isset($data['resume']) && is_object($data['resume'])) {
-                   //   $u_url = URLROOT . "/resumes/update" . $data['resume']->resume_id;}
+                   if (isset($data['certifications']) && is_object($data['certifications'])) {
+                     $u_url = URLROOT . "/certifications/update/" . $data['certifications']->certification_id;}
                    
 
 

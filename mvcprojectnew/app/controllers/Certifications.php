@@ -58,9 +58,9 @@ class Certifications extends Controller
         $this->view('certifications/index', $data);
     }
 
-    public function update($id)
+    public function update($certification_id)
     {
-        $certification = $this->certificationModel->findCertificationById($id);
+        $certification = $this->certificationModel->findCertificationById($certification_id);
 
         if(!isLoggedIn()) {
             header("Location: " . URLROOT . "/certifications");
@@ -73,7 +73,7 @@ class Certifications extends Controller
 
         $data = 
         [
-            'certification' => $certification,
+            'certifications' => $certifications,
             'certName' => '',
             'validity' => '',
             'certNameError' => '',
@@ -84,8 +84,8 @@ class Certifications extends Controller
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = 
             [
-            'certification_id' => $id,
-            'certification' => $certification,
+            'certification_id' => $certification_id,
+            'certifications' => $certifications,
             'user_id' => $_SESSION['user_id'],
             'certName' => trim($_POST['certName']),
             'validity' => trim($_POST['validity']),
@@ -94,19 +94,19 @@ class Certifications extends Controller
             ];
 
             if(empty($data['certName'])){
-                $data['certName'] = 'The title of a certification cannot be empty';
+                $data['certName'] = 'The name of a certification cannot be empty';
             }
 
             if(empty($data['validity'])){
-                $data['validityError'] = 'The validity of a certification cannot be empty';
+                $data['validityError'] = 'The valid date of certification cannot be empty';
             }
 
-            if($data['certName'] == $this->certificationModel->findCertificationById($id)->title)
+            if($data['certName'] == $this->certificationModel->findCertificationById($certification_id)->certName)
             {
-                $data['certNameError'] = "At least change the title!";
+                $data['certNameError'] = "At least change the certification name!";
             }
 
-            if($data['validity'] == $this->certificationModel->findCertificationById($id)->body)
+            if($data['validity'] == $this->certificationModel->findCertificationById($certification_id)->validity)
             {
                 $data['validityError'] = "At least change the validity date!";
             }
@@ -130,9 +130,9 @@ class Certifications extends Controller
         $this->view('certifications/index', $data);
     }
 
-    public function delete($id)
+    public function delete($certification_id)
     {
-        $certification = $this->certificationModel->findCertificationById($id);
+        $certifications = $this->certificationModel->findCertificationById($certification_id);
 
         if(!isLoggedIn()) {
             header("Location: " . URLROOT . "/certifications");
@@ -145,7 +145,7 @@ class Certifications extends Controller
 
         $data = 
         [
-            'certification' => $certification,
+            'certifications' => $certifications,
             'certName' => '',
             'validity' => '',
             'certNameError' => '',
@@ -157,7 +157,7 @@ class Certifications extends Controller
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         }
 
-        if($this->certificationModel->deleteCertification($id)){
+        if($this->certificationModel->deleteCertification($certification_id)){
             header("Location: " . URLROOT . "/certifications");
         }
         else
