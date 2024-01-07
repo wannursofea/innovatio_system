@@ -1,6 +1,6 @@
 <div class="card shadow-sm">
     <div class="card-header">
-        <h3 class="card-title">Edit Profile</h3>
+        <h3 class="card-title">Profile Details</h3>
         <div class="card-toolbar">
       
         </div>
