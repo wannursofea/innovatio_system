@@ -34,7 +34,7 @@
 
             <div class="mb-10">
                 <label for="exampleFormControlInput1" class="form-label">Date</label>
-                <input type="datetime-local" name="dateAwarded" class="form-control form-control-solid" />
+                <input type="datetime-local" name="dateAwarded" id="dateAwarded" class="form-control form-control-solid" />
             </div>
 
             <button type="submit" class="btn btn-primary font-weight-bold">Add</button>

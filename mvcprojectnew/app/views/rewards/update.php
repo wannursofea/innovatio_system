@@ -36,7 +36,7 @@
 
             <div class="mb-10">
                 <label for="exampleFormControlInput1" class="form-label">Date</label>
-                <input type="datetime-local" name="dateAwarded" class="form-control form-control-solid" value="<?php echo $data['badge']->dateAwarded ?>"required/>
+                <input type="date" name="dateAwarded" class="form-control form-control-solid" value="<?php echo $data['badge']->dateAwarded ?>"required/>
             </div>
 
             <button type="submit" class="btn btn-primary font-weight-bold">Submit</button>
