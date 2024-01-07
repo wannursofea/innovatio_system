@@ -25,8 +25,8 @@
                         <td><?php echo $badge->goldBadge; ?></td>
                         <td><?php echo $badge->silverBadge; ?></td>
                         <td><?php echo $badge->bronzeBadge; ?></td>
-                        <td>    <div class="form-check form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="updateCheckbox" onchange="updateBadgeStatus(<?php echo $badge->badge_id; ?>, this.checked)">
+                        <td><div class="form-check form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="claimStatus" onchange="updateBadgeStatus(<?php echo $badge->badge_id; ?>, this.checked)">
                             <label class="form-check-label" for="flexCheckDefault">
                         <td><a href="<?php echo URLROOT . "/rewards/update/" . $badge->badge_id ?>"
                                 class="btn btn-light-warning">Update</a></td>
