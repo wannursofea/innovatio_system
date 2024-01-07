@@ -40,7 +40,7 @@
  
                      else if ($_SESSION['user_role']== "Partner") {
                             
-                        
+                        require 'edit_profile.php';
                  }
 
                 }
