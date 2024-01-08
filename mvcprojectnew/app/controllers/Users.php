@@ -1,21 +1,17 @@
 <?php
 class Users extends Controller {
+
+    private $userModel;   
     public function __construct() {
         $this->userModel = $this->model('User');
     }
-    public function createUserSession($user) {
-        $_SESSION['user_id'] = $user->id;
-        $_SESSION['username'] = $user->username;
-        $_SESSION['email'] = $user->email;
-        $_SESSION['userRole'] = $user->userRole;
-        header('location:' . URLROOT . '/pages/index');
-    }
-    
+
     public function register() {
         $data = [
             'username' => '',
             'email' => '',
             'password' => '',
+            'user_role' => '',
             'confirmPassword' => '',
             'usernameError' => '',
             'emailError' => '',
@@ -33,6 +29,7 @@ class Users extends Controller {
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
                 'confirmPassword' => trim($_POST['confirmPassword']),
+                'user_role' => trim($_POST['user_role']),
                 'usernameError' => '',
                 'emailError' => '',
                 'passwordError' => '',
@@ -151,12 +148,22 @@ class Users extends Controller {
         $this->view('users/login', $data);
     }
 
-    
+    public function createUserSession($user) {
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['username'] = $user->username;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['user_role'] = $user->user_role;
+        header('location:' . URLROOT . '/pages/index');
+    }
+
+
+   
 
     public function logout() {
         unset($_SESSION['user_id']);
         unset($_SESSION['username']);
         unset($_SESSION['email']);
+        unset($_SESSION['user_role']);
         header('location:' . URLROOT . '/users/login');
     }
 }
