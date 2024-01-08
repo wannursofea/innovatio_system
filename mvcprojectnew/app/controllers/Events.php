@@ -1,326 +1,774 @@
-<?php
+<?php 
 
-class Event{
-    private $db;
+class Events extends Controller
+{
 
-    public function __construct(){
-        $this->db = new Database;
+    public function __construct()
+    {
+        $this->eventModel = $this->model('Event');
     }
 
-    public function manageAllEvents(){
-        $this->db->query('SELECT * FROM events');
+    public function index()
+    {
 
-        $results = $this->db->resultSet();
+        $events = $this->eventModel->manageAllEvents();
+       
+        $data = 
+        [
+            'events' => $events,
 
-        return $results;
-    }
-
-    public function manageCollaborator(){
-        //remark:
-        //use for checkbox selection in form
-        //retrieve name of client in the database
-        $this->db->query('SELECT * FROM partnerclient');
-
-        $result = $this->db->resultSet();
-
-        return $result;
-    }
-
-    public function findEventById($event_id){
-        $this->db->query('SELECT * FROM events WHERE event_id = :event_id');
-        $this->db->bind(':event_id', $event_id);
-
-        $row = $this->db->single();
-
-        return $row;
-    }
-
-    public function findInvitationById($event_id){
-        //remark:
-        //use for function findSelectedClientsById and editInvitation and delete_event 
-        //retrieve the row(s) of invitation table according to event_id
-        $this->db->query('SELECT * FROM invitation WHERE event_id = :event_id');
-        $this->db->bind(':event_id', $event_id);
-        $result = $this->db->resultSet();
-
-        return $result;
-    }
-
-    public function findSelectedClientsById($event_id){
-        //remark:
-        //use for model Events
-        //retrieve the client_id(s) from specific row(s) of invitation table according to event_id
-        $result = $this->findInvitationById($event_id);
-        $client_ids = array_column($result, 'client_id');
-
-        return $client_ids;
-    }
-
-    public function createEvent($data){
-        $this->db->query('INSERT INTO events (`eventName`, `category`, `eventDescription`, `date`, `time`, `venue`, `user_id`) 
-        VALUES (:eventName, :category, :eventDescription, :date, :time, :venue, :user_id )');
+        ];
         
-        $this->db->bind(':eventName', $data['eventName']);
-        $this->db->bind(':category', $data['category']);
-        $this->db->bind(':eventDescription', $data['eventDescription']);
-        $this->db->bind(':date', $data['date']);
-        $this->db->bind(':time', $data['time']);
-        $this->db->bind(':venue', $data['venue']);
-        $this->db->bind(':user_id', $data['user_id']);
-        
-        if ($this->db->execute()){
-            return $this->db->lastInsertId();
-        }
-        else{
-            return false;
-        }
+
+        $this->view('events/index', $data);
     }
 
-    public function editEvent($data){
-        $this->db->query('UPDATE events SET event_id = :event_id, eventName = :eventName, category = :category, eventDescription = eventDescription, date = :date, time = :time, venue = :venue, user_id = :user_id WHERE event_id = :event_id');
+    public function create()
+    {
+        $data = 
+        [
+            'eventName' => '',
+            'category' => '',
+            'eventDescription' => '',
+            'date' => '',
+            'time' => '',
+            'venue' => '',
+        ];
 
-        $this->db->bind(':event_id', $data['event_id']);
-        $this->db->bind(':eventName', $data['eventName']);
-        $this->db->bind(':category', $data['category']);
-        $this->db->bind(':eventDescription', $data['eventDescription']);
-        $this->db->bind(':date', $data['date']);
-        $this->db->bind(':time', $data['time']);
-        $this->db->bind(':venue', $data['venue']);
-        $this->db->bind(':user_id', $data['user_id']);
+        $invitationData=
+        [
+            'client_id'=> '',
+        ];
 
-        if ($this->db->execute()){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public function createInvitation($invitationData){
-        $invitationData['invitation_date'] = date('Y-m-d');
-        $this->db->query('INSERT INTO invitation (`event_id`, `client_id`, `invitation_date`) VALUES (:event_id, :client_id, :invitation_date)');
-        $this->db->bind(':event_id', $invitationData['event_id']);
-        $this->db->bind(':client_id', $invitationData['client_id']);
-        $this->db->bind(':invitation_date', $invitationData['invitation_date']);
-        
-        if ($this->db->execute()){
-            return true;
-        } 
-        else{
-            return false;
-        }
-    }
-
-    public function editInvitation($invitationData){
-
-        // Check if the existing invitation data is different from the new data
-        $existingInvitation = $this->findInvitationById($invitationData['event_id']);
-        
-        if ($existingInvitation && 
-            $existingInvitation->client_id != $invitationData['client_id']) {
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = 
+            [
+            'user_id' => $_SESSION['user_id'],
+            'eventName' => trim($_POST['eventName']),
+            'category' => trim($_POST['category']),
+            'eventDescription' => trim($_POST['eventDescription']),
+            'date' => trim($_POST['date']),
+            'time' => trim($_POST['time']),
+            'venue' => trim($_POST['venue']),
             
-            // Data is different, update the invitation and date
-            $invitationData['invitation_date'] = date('Y-m-d');
-            $this->db->query('UPDATE `invitation` SET event_id = :event_id, client_id = :client_id, invitation_date = :invitation_date WHERE event_id = :event_id');
-            $this->db->bind(':event_id', $invitationData['event_id']);
-            $this->db->bind(':client_id', $invitationData['client_id']);
-            $this->db->bind(':invitation_date', $invitationData['invitation_date']);
-            
-            if ($this->db->execute()) {
-                return true;
-            } 
-            else {
-                return false;
+            ];
+
+            if (isset($_POST['noCollaborator']) && $_POST['noCollaborator'] == '0' && isset($_POST['selectedClients']) && !empty($_POST['selectedClients'])) {
+                // Handle the condition where 'No collaborator' is selected and clients are selected
+                $errorMessage = "Error: You've selected 'No collaborator' and collaborator(s) simultaneously. Please choose either 'No collaborator' or select collaborator(s), not both.";
+                echo $errorMessage;
+                $this->view('events/index',$data);
+            }
+            elseif(isset($_POST['noCollaborator']) && $_POST['noCollaborator'] == '0' && empty($_POST['selectedClients'])){
+                // Handle the condition where 'No collaborator'is selected and clients are not selected
+
+                if ($data['eventName'] && 
+                    $data['category'] && 
+                    $data['eventDescription'] && 
+                    $data['date'] &&
+                    $data['time'] &&
+                    $data['venue']){
+
+                    $event_id = $this->eventModel->createEvent($data);
+                    if ($event_id){
+                        header("Location: " . URLROOT. "/events" );
+                    }
+                    else
+                    {
+                        die("Something went wrong :(");
+                    }
+                }
+                else{
+                    $this->view('events/index', $data);
+                }
+
+            }
+            elseif(!isset($_POST['noCollaborator']) && isset($_POST['selectedClients']) && !empty($_POST['selectedClients'])){
+                //Hanlde the condition where 'No collaborator' is not selected and client is selected
+
+                
+
+                if ($data['eventName'] && 
+                    $data['category'] && 
+                    $data['eventDescription'] && 
+                    $data['date'] &&
+                    $data['time'] &&
+                    $data['venue']){
+
+                    $event_id = $this->eventModel->createEvent($data);
+                        if ($event_id) {
+                            foreach ($_POST['selectedClients'] as $client_id) {
+                                $invitationData = [
+                                    'event_id' => $event_id,
+                                    'client_id' => $client_id,
+                                ];
+                                    if (!$this->eventModel->createInvitation($invitationData)) {
+                                        die("Failed to create invitation");
+                                    }
+                            }
+                        header("Location: " . URLROOT . "/events");
+                            
+                        } 
+                }
+                else {
+                    die("Failed to create event");
+                }
             }
         }
-        else {
-            // Data remains the same, no need to update
-            return true;
-        }
+        $this->view('events/index', $data);
     }
 
-    public function deleteEvent($event_id){
-        $this->db->query('DELETE FROM events WHERE event_id = :event_id');
-        $this->db->bind(':event_id', $event_id);
+    public function edit_event($event_id)
+    {
+        $event = $this->eventModel->findEventById($event_id); // To obtain the data of THIS event 
+        
+        $selected_clients = $this->eventModel->findSelectedClientsById($event_id); // To obtain the client_id(s) of the collaborator(s) of THIS event
+        
+        $updateCollaboratorSuccess = false;
+        // !!!! this need to change related to admin
+        if(!isLoggedIn()) {
+            header("Location: " . URLROOT . "/events");
+        }
+        
+        $data = 
+        [
+            'event' => $event,
+            'selected_clients' => $selected_clients,// IMPORTANT: for showing collaborator selected previously
+            'eventName' => '',
+            'category' => '',
+            'eventDescription' => '',
+            'date' => '',
+            'time' => '',
+            'venue' => '',
+        ];
 
-        if ($this->db->execute())
-        {
-            return true;
+        $invitationData[]=
+        [
+            'event_id' => '',
+            'client_id'=> '',
+        ];
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            //To obtain data event from edit form
+            $data = 
+            [
+            'event_id' => $event_id,
+            'event' => $event,
+            'selected_clients' => $selected_clients,// IMPORTANT: for showing collaborator selected previously
+            'user_id' => $_SESSION['user_id'],
+            'eventName' => trim($_POST['eventName']),
+            'category' => trim($_POST['category']),
+            'eventDescription' => trim($_POST['eventDescription']),
+            'date' => trim($_POST['date']),
+            'time' => trim($_POST['time']),
+            'venue' => trim($_POST['venue']),
+            'eventNameError' => '',
+            'categoryError' => '',
+            'eventDescriptionError' => '',
+            'dateError' => '',
+            'timeError' => '',
+            'venueError' => '',
+            //To hold the value of client from the form
+            
+            ];
+
+            if(empty($data['eventName'])){
+                $data['eventNameError'] = 'The name of an event cannot be empty';
+            }
+
+            if(empty($data['category'])){
+                $data['categoryError'] = 'The category of an event cannot be empty';
+            }
+
+            if(empty($data['eventDescription'])){
+                $data['eventDescriptionError'] = 'The description of an event cannot be empty';
+            }
+
+            if(empty($data['date'])){
+                $data['dateError'] = 'The date of an event cannot be empty';
+            }
+
+            if(empty($data['time'])){
+                $data['timeError'] = 'The time of an event cannot be empty';
+            }
+
+            if(empty($data['venue'])){
+                $data['venueError'] = 'The venue of an event cannot be empty';
+            }
+
+            if($data['eventName'] == $this->eventModel->findEventById($event_id)->eventName)
+            {
+                $data['eventNameError'] = "At least change the event name!";
+            }
+
+            if($data['category'] == $this->eventModel->findEventById($event_id)->category)
+            {
+                $data['categoryError'] = "At least change the category!";
+            }
+
+            if($data['eventDescription'] == $this->eventModel->findEventById($event_id)->eventDescription)
+            {
+                $data['eventDescriptioneError'] = "At least change the description!";
+            }
+
+            if($data['date'] == $this->eventModel->findEventById($event_id)->date)
+            {
+                $data['dateError'] = "At least change the date!";
+            }
+
+            if($data['time'] == $this->eventModel->findEventById($event_id)->time)
+            {
+                $data['timeError'] = "At least change the time!";
+            }
+
+            if($data['venue'] == $this->eventModel->findEventById($event_id)->venue)
+            {
+                $data['venueError'] = "At least change the venue!";
+            }
+
+            if (isset($_POST['noCollaborator']) && $_POST['noCollaborator'] == '0' && isset($_POST['selectedClients']) && !empty($_POST['selectedClients'])) {
+                // Handle the condition where 'No collaborator' is selected and clients are selected
+                $errorMessage = "Error: You've selected 'No collaborator' and collaborator(s) simultaneously. Please choose either 'No collaborator' or select collaborator(s), not both.";
+                echo $errorMessage;
+                $this->view('events/index',$data);
+            }
+            elseif(isset($_POST['noCollaborator']) && $_POST['noCollaborator'] == '0' && empty($_POST['selectedClients'])){
+                // Handle the condition where 'No collaborator'is selected and clients are not selected
+
+                // If previously have the client(s) selected, must be deleted from invitation table
+                if(!empty($selected_clients)){
+                    //prevoiusly with client(s), delete all
+                    $this->eventModel->deleteInvitations($event_id);
+                    $updateCollaboratorSuccess = true;
+                }
+
+                if ($updateCollaboratorSuccess ||
+                    empty(
+                    $data['eventNameError'] && 
+                    $data['categoryError'] &&
+                    $data['eventDescriptioneError'] &&
+                    $data['dateError'] &&
+                    $data['timeError'] &&
+                    $data['venueError'])
+                    ){
+                    
+                    if ($updateCollaboratorSuccess ||$this->eventModel->editEvent($data)){
+                        header("Location: " . URLROOT. "/events" );
+                    }
+                    else
+                    {
+                        die("Something went wrong :(");
+                    }
+                }
+                else
+                {
+                    $this->view('events/index', $data);
+                }  
+            }
+            elseif(!isset($_POST['noCollaborator']) && isset($_POST['selectedClients']) && !empty($_POST['selectedClients'])){
+                //Handle the condition where 'No collaborator' is not selected and client is selected
+
+                // situation 1: previously no client is selected, now client will be inserted
+                // situation 2: previously client is selected
+                if(empty($selected_clients)){
+                    if ($event_id) {
+                        foreach ($_POST['selectedClients'] as $client_id) {
+                            $invitation_Data = [
+                                'event_id' => $event_id,
+                                'client_id' => $client_id,
+                            ];
+                            if (!$this->eventModel->createInvitation($invitation_Data)) {
+                                die("Failed to create invitation");
+                            }
+                            else{
+                                $updateCollaboratorSuccess = true;
+                            }
+                        }
+                    }
+                }
+
+                else{
+                    $clientsToRemove = [];
+
+                    // Find clients that were previously associated with the event but are not selected in the form
+                    foreach ($selected_clients as $selected_each_client) {
+                        $found = false;
+
+                        foreach ($_POST['selectedClients'] as $client_id) {
+                            if ($selected_each_client == $client_id) {
+                                $found = true;
+                                break;
+                            }
+                        }
+
+                        if (!$found) {
+                            // Client was previously associated with the event but not found in the form, mark it for removal
+                            $clientsToRemove[] = $selected_each_client;
+                        }
+                    }
+
+                    // Remove invitations for clients that are no longer associated with the event
+                    if($clientsToRemove)
+                    {
+                        foreach ($clientsToRemove as $clientToRemove) {
+                            if (!$this->eventModel->deleteInvitationClient($event_id, $clientToRemove)) {
+                                die("Failed to delete invitation");
+                            }
+                            else{
+                                $updateCollaboratorSuccess = true;
+                            }
+                        }
+                    }
+
+
+                    $newClients = [];
+
+                    foreach ($_POST['selectedClients'] as $client_id) {
+                        $found = false;
+                        
+                        foreach ($selected_clients as $selected_each_client) {
+                            // Compare each client from the form with clients from the database
+                            if ($selected_each_client == $client_id) {
+                                $found = true;
+                                break;
+                            }
+                        }
+
+                        if (!$found) {
+                            // If the client from the form is not found in the database, add it to the newClients array
+                            $newClients[] = $client_id;
+                        }
+                    }
+                    // Now $newClients array contains only the clients that are not present in the database
+                    // You can use this array to create new invitations
+                    if($newClients)
+                    {
+                        foreach ($newClients as $newClient) {
+                            $invitation_Data = [
+                                'event_id' => $event_id,
+                                'client_id' => $newClient,
+                                
+                            ];
+                            if (!$this->eventModel->createInvitation($invitation_Data)) {
+                                die("Failed to create invitation");
+                            }
+                            else{
+                                $updateCollaboratorSuccess = true;
+                            }
+                        }
+                    }
+                    
+                }
+
+                    if ($updateCollaboratorSuccess ||
+                        empty(
+                        $data['eventNameError'] && 
+                        $data['categoryError'] &&
+                        $data['eventDescriptioneError'] &&
+                        $data['dateError'] &&
+                        $data['timeError'] &&
+                        $data['venueError'])){
+                        
+                        if ($updateCollaboratorSuccess || $this->eventModel->editEvent($data)){
+                            header("Location: " . URLROOT. "/events" );
+                        }
+                        else
+                        {
+                            die("Something went wrong :(");
+                        }
+                    }
+                    else
+                    {
+                        $this->view('events/index', $data);
+                    }
+            }
+        }
+        $this->view('events/index', $data);
+    }
+
+    public function delete_event($event_id)
+    {
+        $event = $this->eventModel->findEventById($event_id);
+        $invitationData[] = $this->eventModel->findInvitationById($event_id);
+        $data = 
+        [
+            'event' => $event,
+            'eventName' => '',
+            'category' => '',
+            'eventDescription' => '',
+            'date' => '',
+            'time' => '',
+            'venue' => '',
+        ];
+
+        
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        }
+
+        if($this->eventModel->deleteEvent($event_id) && $this->eventModel->deleteInvitations($event_id)){
+            header("Location: " . URLROOT . "/events");
         }
         else
         {
-            return false;
+            die('Something went wrong..');
         }
-    }
-
-    public function deleteInvitations($event_id){
-        $this->db->query('DELETE FROM invitation WHERE event_id = :event_id');
-        $this->db->bind(':event_id', $event_id);
-
-        if ($this->db->execute())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public function deleteInvitationClient($event_id, $clientToRemove){
-        $this->db->query('DELETE FROM invitation WHERE event_id = :event_id AND client_id = :client_id');
-        $this->db->bind(':event_id', $event_id);
-        $this->db->bind(':client_id', $clientToRemove);
-
-        if ($this->db->execute())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public function findStudentById($user_id){
-        //remark:
-        //retrieve the student info from table student
-        $this->db->query('SELECT * FROM student WHERE user_id = :user_id');
-        $this->db->bind(':user_id', $user_id);
-
-        $row_profile = $this->db->single();
-
-        return $row_profile;
-    }
-
-    public function createRegisterInfo($registerData){
-        $this->db->query ('INSERT INTO `registration` (`event_id`, `profile_id`, `dream`, `passion`, `hiddenTalent`, `presentStatus`, `institution`, `internshipYear`, `graduationYear`, `goal`, `archieveGoal`) 
-        VALUES (:event_id, :profile_id, :dream, :passion, :hiddenTalent, :presentStatus, :institution, :internshipYear, :graduationYear, :goal, :archieveGoal)');
         
-        $this->db->bind(':event_id', $registerData['event_id']);
-        $this->db->bind(':profile_id', $registerData['profile_id']);
-        $this->db->bind(':dream', $registerData['dream']);
-        $this->db->bind(':passion', $registerData['passion']);
-        $this->db->bind(':hiddenTalent', $registerData['hiddenTalent']);
-        $this->db->bind(':presentStatus', $registerData['presentStatus']);
-        $this->db->bind(':institution', $registerData['institution']);
-        $this->db->bind(':internshipYear', $registerData['internshipYear']);
-        $this->db->bind(':graduationYear', $registerData['graduationYear']);
-        $this->db->bind(':goal', $registerData['goal']);
-        $this->db->bind(':archieveGoal', $registerData['archieveGoal']);
+    }
 
-        if ($this->db->execute()){
-            return true;
-        } 
+    public function register_event($event_id)
+    {
+        $user_id = '';
+        $student = '';
+        $profile_id = '';
+        //for display option for checkboxes from 2 option tables
+        $option_skill = $this->eventModel->fetchAllSkill();
+        $option_software_skill = $this->eventModel->fetchAllSoftwareSkill();
+
+        if($event_id){
+            $event = $this->eventModel->findEventById($event_id);// Important to redirect to each event register form to check the event is available
+        }
         else{
-            return false;
+            die("Invalid. Event does not exist.");
         }
-    }
 
-    public function findRegisterInfo($profile_id){
-        $this->db->query ('SELECT * FROM registration WHERE profile_id = :profile_id ORDER BY register_id DESC LIMIT 1;');
+        if(isLoggedIn()){ 
+            
+            $user_id = $_SESSION['user_id'];
+            
+            $student = $this->eventModel->findStudentById($user_id); //To get data from student table
+            
+            //retrieve the data that already have in the system
+            if ($student) {
+                $profile_id = $student->profile_id;
+            }
+            
+            if ($profile_id) {
+                $latest_data_register = $this->eventModel->findRegisterInfo($profile_id);
 
-        $this->db->bind(':profile_id', $profile_id);
-
-        $row_profile = $this->db->single();
-
-        return $row_profile;
-    }
-
-    public function fetchAllSkill(){
-        $this->db->query('SELECT * FROM option_skill');
-
-        $result = $this->db->resultSet();
-
-        return $result;
-
-    }
-    
-    public function fetchAllSoftwareSkill(){
-        $this->db->query('SELECT * FROM option_software_skill');
-
-        $result = $this->db->resultSet();
-
-        return $result;
-
-    }
-
-    public function addSkills($skillData){
+                //for selected checkboxes
+                $selectedSkill = $this->eventModel->findSelectedSkillById($profile_id);
+                $selectedSoftSkill = $this->eventModel->findSelectedSoftSkillById($profile_id);
+            }
+            else{
+                die("Profile is not completed, cannot register for event");
+            }
+        }
         
-        $this->db->query('INSERT INTO `skill` (`skill_id`, `profile_id`) VALUES (:skill_id, :profile_id)');
-        $this->db->bind(':skill_id', $skillData['skill_id']);
-        $this->db->bind(':profile_id', $skillData['profile_id']);
+        $data = 
+        [
+            //data from student
+            'user_id' => $_SESSION['user_id'],
+            'student' => $student ?? '',
+            'option_skill' => $option_skill,
+            'option_software_skill' => $option_software_skill,
+            'selectedSkill' => $selectedSkill,
+            'selectedSoftSkill' => $selectedSoftSkill,
+            'name' => '',
+            'phoneNum' => '',
+            'email' => '',
+            'DOB' => '',
+            'course' => '',
+
+            //for registration 
+            'event' => $event ?? '',
+            'profile_id' => $profile_id ?? '',
+            'latest_data_register' => $latest_data_register ?? '',
+            'event_id' => $event_id ?? '',
+
+            //data for registration
+            'dream' => '',
+            'passion' => '',
+            'hiddenTalent' => '',
+            'presentStatus' => '',
+            'institution' => '',
+            
+            'internshipYear' => '',
+            'graduationYear' => '',
+            'goal' => '',
+            'archieveGoal' => '',
+        
+        ];
+
         
         
-        if ($this->db->execute()){
-            return true;
-        } 
+        
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = 
+            [
+                //data from student
+                'user_id' => $_SESSION['user_id'],
+                'student' => $student ?? '',
+                'option_skill' => $option_skill,
+                'option_software_skill' => $option_software_skill,
+                'selectedSkill' => $selectedSkill,
+                'selectedSoftSkill' => $selectedSoftSkill,
+                'name' => trim($_POST['name']),
+                'phoneNum' => trim($_POST['phoneNum']),
+                'email' => trim($_POST['email']),
+                'DOB' => trim($_POST['DOB']),
+                'course' => trim($_POST['course']),
+
+                //for registration
+                'event' => $event ?? '',
+                'profile_id' => $profile_id ?? '',
+                'latest_data_register' => $latest_data_register ?? '',
+                'event_id' => $event_id ?? '',
+
+                //data for registration
+                'dream' => trim($_POST['dream']),
+                'passion' => trim($_POST['passion']),
+                'hiddenTalent' => trim($_POST['hiddenTalent']),
+                'presentStatus' => trim($_POST['presentStatus']),
+                'institution' => trim($_POST['institution']),
+                
+                'internshipYear' => trim($_POST['internshipYear']),
+                'graduationYear' => trim($_POST['graduationYear']),
+                'goal' => trim($_POST['goal']),
+                'archieveGoal' => trim($_POST['archieveGoal']),
+
+                'dreamError' => '',
+                'passionError' => '',
+                'hiddenTalentError' => '',
+                'presentStatusError' => '',
+                'institutionError' => '',
+                
+                'internshipYearError' => '',
+                'graduationYearError' => '',
+                'goalError' => '',
+                'archieveGoalError' => '',
+                
+            ];
+
+            if(empty($data['dream'])){
+                $data['dreamError'] = '# Dream field cannot be empty';
+            }
+
+            if(empty($data['passion'])){
+                $data['passionError'] = '# Passion field cannot be empty';
+            }
+
+            if(empty($data['hiddenTalent'])){
+                $data['hiddenTalentError'] = '# Hidden talent field cannot be empty';
+            }
+
+            if(empty($data['presentStatus'])){
+                $data['presentStatusError'] = '# Status field cannot be empty';
+            }
+
+            if(empty($data['institution'])){
+                $data['institutionError'] = '# Institution field cannot be empty';
+            }
+
+            if(empty($data['internshipYear'])){
+                $data['internshipYearError'] = '# Internship year field cannot be empty';
+            }
+
+            if(empty($data['graduationYear'])){
+                $data['graduationYearError'] = '# Graduation year field cannot be empty';
+            }
+
+             if(empty($data['goal'])){
+                $data['goalError'] = '# Goal field cannot be empty';
+            }
+
+            if(empty($data['archieveGoal'])){
+                $data['archieveGoalError'] = '# Institution field cannot be empty';
+            }
+
+        //first time register registaion and both skills table empty
+        if(!$latest_data_register){
+            foreach ($_POST['selectedSkills'] as $skill_id) {
+                $skillData1 = [
+                    'skill_id' => $skill_id,
+                    'profile_id' => $profile_id,
+                ];
+                    if (!$this->eventModel->addSkills($skillData1)) {
+                        die("Failed to add skill");
+                    }
+            }
+
+            foreach ($_POST['selectedSoftSkills'] as $softwareSkill_id) {
+                $skillData2 = [
+                    'softwareSkill_id' => $softwareSkill_id,
+                    'profile_id' => $profile_id,
+                ];
+                    if (!$this->eventModel->addSoftwareSkills($skillData2)) {
+                        die("Failed to add software skill");
+                    }
+            }
+            if($this->eventModel->createRegisterInfo($data)){
+                        
+                header("Location: " . URLROOT . "/events/manage_registrationlist");
+            }
+            else{
+                die("Failed to fail to register event");
+            }
+        }
+
+        //Retrieve previous data, can edit the data, and new data created, skill can be deleted and 
         else{
-            return false;
+
+             $skillsToRemove = [];
+
+            // Find skills that were previously associated with the registration but are not selected in the form
+            foreach ($selectedSkill as $selected_each_skill) {
+                $found = false;
+
+                foreach ($_POST['selectedSkills'] as $skill_id) {
+                    if ($selected_each_skill == $skill_id) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if (!$found) {
+                    // Skill was previously associated with the event but not found in the form, mark it for removal
+                    $skillsToRemove[] = $selected_each_skill;
+                }
+            }
+
+            // Remove invitations for clients that are no longer associated with the event
+            if($skillsToRemove)
+            {
+                foreach ($skillsToRemove as $skillToRemove) {
+                    if (!$this->eventModel->deleteSkill($profile_id, $skillToRemove)) {
+                        die("Failed to delete skill");
+                    }
+                    else{
+                        $updateSkillSuccess = true;
+                    }
+                }
+            }
+
+            $softSkillsToRemove = [];
+
+            // Find skills that were previously associated with the registration but are not selected in the form
+            foreach ($selectedSoftSkill as $selected_each_softskill) {
+                $found = false;
+
+                foreach ($_POST['selectedSoftSkills'] as $softwareSkill_id) {
+                    if ($selected_each_softskill == $softwareSkill_id) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if (!$found) {
+                    // Skill was previously associated with the event but not found in the form, mark it for removal
+                    $softSkillsToRemove[] = $selected_each_softskill;
+                }
+            }
+
+            // Remove invitations for clients that are no longer associated with the event
+            if($softSkillsToRemove)
+            {
+                foreach ($softSkillsToRemove as $softSkillToRemove) {
+                    if (!$this->eventModel->deleteSoftSkill($profile_id, $softSkillToRemove)) {
+                        die("Failed to delete software skill");
+                    }
+                    else{
+                        $updateSoftSkillsuccess = true;
+                    }
+                }
+            }
+
+            $newSkills = [];
+
+            foreach ($_POST['selectedSkills'] as $skill_id) {
+                $found = false;
+                
+                foreach ($selectedSkill as $selected_each_skill) {
+                    // Compare each client from the form with clients from the database
+                    if ($selected_each_skill == $skill_id) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if (!$found) {
+                    // If the skill from the form is not found in the database, add it to the newSkills array
+                    $newSkills[] = $skill_id;
+                }
+            }
+            // Now $newClients array contains only the clients that are not present in the database
+            // You can use this array to create new invitations
+            if($newSkills)
+            {
+                foreach ($newSkills as $newSkill) {
+                    $skillData1 = [
+                        'skill_id' => $newSkill,
+                        'profile_id' => $profile_id,
+                    ];
+                    
+                    if (!$this->eventModel->addSkills($skillData1)) {
+                        die("Failed to add skill");
+                    }
+                    else{
+                        $updateSkillSuccess = true;
+                    }
+                }
+            }
+            
+            $newSoftSkills = [];
+
+            foreach ($_POST['selectedSoftSkills'] as $softwareSkill_id) {
+                $found = false;
+                
+                foreach ($selectedSoftSkill as $selected_each_softskill) {
+                    // Compare each client from the form with clients from the database
+                    if ($selected_each_softskill == $softwareSkill_id) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if (!$found) {
+                    // If the skill from the form is not found in the database, add it to the newSkills array
+                    $newSoftSkills[] = $softwareSkill_id;
+                }
+            }
+            // Now $newClients array contains only the clients that are not present in the database
+            // You can use this array to create new invitations
+            if($newSoftSkills)
+            {
+                foreach ($newSoftSkills as $newSoftSkill) {
+                    $skillData2 = [
+                        'softwareSkill_id' => $newSoftSkill,
+                        'profile_id' => $profile_id,
+                    ];
+                    
+                    if (!$this->eventModel->addSoftwareSkills($skillData2)) {
+                        die("Failed to add skill");
+                    }
+                    else{
+                        $updateSoftSkillsuccess = true;
+                    }
+                }
+            
+            
+            
+            }
+
+            if($this->eventModel->createRegisterInfo($data)){
+                header("Location: " . URLROOT . "/events/manage_registrationlist");
+            }
+            else{
+                die("Failed to fail to register event");
+            }
         }
-    }
-
-    public function addSoftwareSkills($skillData){
-        
-        $this->db->query('INSERT INTO `softwareskill` (`softwareSkill_id`, `profile_id`) VALUES (:softwareSkill_id, :profile_id)');
-        $this->db->bind(':softwareSkill_id', $skillData['softwareSkill_id']);
-        $this->db->bind(':profile_id', $skillData['profile_id']);
-        
-        
-        if ($this->db->execute()){
-            return true;
-        } 
-        else{
-            return false;
+                
+                    
+           
         }
+        $this->view('events/index', $data);
     }
 
-    public function findSkillById($profile_id){
-        $this->db->query('SELECT * FROM skill WHERE profile_id = :profile_id');
-        $this->db->bind(':profile_id', $profile_id);
-        $result = $this->db->resultSet();
-
-        return $result;
-    }
-
-    public function findSelectedSkillById($profile_id){
-        $result = $this->findSkillById($profile_id);
-        $skill_ids = array_column($result, 'skill_id');
-
-        return $skill_ids;
-    }
-
-    public function findSoftSkillById($profile_id){
-        $this->db->query('SELECT * FROM softwareskill WHERE profile_id = :profile_id');
-        $this->db->bind(':profile_id', $profile_id);
-        $result = $this->db->resultSet();
-
-        return $result;
-    }
-
-    public function findSelectedSoftSkillById($profile_id){
-        $result = $this->findSoftSkillById($profile_id);
-        $softwareSkill_ids = array_column($result, 'softwareSkill_id');
-
-        return $softwareSkill_ids;
-    }
-
-    public function searchEvent($searchTerm){
-
-        $this->db->query('SELECT * FROM events WHERE eventName LIKE :searchTerm');
-
-        $this->db->bind(':searchTerm', '%' . $searchTerm . '%');
-
-        $result = $this->db->resultSet();
-
-        return $result;
-       
-    }
-    
-
-    
-}
 
 
 
+}    
 ?>
