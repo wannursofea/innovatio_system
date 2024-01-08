@@ -19,12 +19,15 @@ class Pages extends Controller {
 
     public function edit_profile()
     {
+       
 
         //check for post from form
         if ($_SERVER['REQUEST_METHOD'] == 'POST') { //if server request open
 
             //sanitize post data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            
 
             // Check if file was uploaded without errors
             if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
@@ -42,7 +45,7 @@ class Pages extends Controller {
                     header("Location: " . URLROOT . "/pages/edit_profile");
                 }
 
-                $username = $_SESSION['email'];
+                $username = $_SESSION['username'];
                 $maxsize = 5 * 1024 * 1024;
                 if ($filesize > $maxsize){
                     $_SESSION['failed'] = "Error: File size is larger than the allowed limit.";
@@ -88,12 +91,15 @@ class Pages extends Controller {
 
 
                         'phoneNum' => trim($_POST['phoneNum']),
-                        'email' => trim($_POST['email']),
+                        'st_email' => trim($_POST['st_email']),
                         'name' => trim($_POST['name']),
                         'gender' => trim($_POST['gender']),
                         'race' => trim($_POST['race']),
                         'institution' => trim($_POST['institution']),
                         'address' => trim($_POST['address']),
+                        'course' => trim($_POST['course']),
+                        //'DOB' => trim($_POST['DOB']),
+                        'bio' => trim($_POST['bio']),
                         'image' => $location
     
                     ];
@@ -103,13 +109,16 @@ class Pages extends Controller {
                     $data = [
 
                         'phoneNum' => trim($_POST['phoneNum']),
-                        'email' => trim($_POST['email']),
+                        'st_email' => trim($_POST['st_email']),
                         'name' => trim($_POST['name']),
                         'gender' => trim($_POST['gender']),
                         'race' => trim($_POST['race']),
                         'institution' => trim($_POST['institution']),
                         'address' => trim($_POST['address']),
-                        'image' => $location
+                        'course' => trim($_POST['course']),
+                        //'DOB' => trim($_POST['DOB']),
+                        'bio' => trim($_POST['bio']),
+                        
                
                     ];
                 }
@@ -130,7 +139,7 @@ class Pages extends Controller {
         } // end of if statement 
 
         $studentProfile = $this->pageModel->studentProfile();
-
+        
         $data = [
             'studentProfile' => $studentProfile
         ];
