@@ -9,7 +9,7 @@
     </div>
     <div class="card-body">
 
-        <form action="<?php echo URLROOT; ?>/events/register_event/<?php echo $data['event']->event_id?>" method="POST">
+        <form action="<?php echo URLROOT; ?>/events/register_event/<?php echo $data['event']->event_id?>" method="POST" onsubmit="return validateForm()">
             <!--begin::Settings-->
             <div data-kt-stepper-element="content">
                 <!--begin::Wrapper-->
@@ -351,10 +351,20 @@
                                 </div>
                             <?php endif; ?>
                             <!-- Checkbox for "No collaborator" -->
-                            <div class="form-check form-check-custom form-check-solid mb-3">
-                                <input class="form-check-input h-20px w-20px" type="checkbox" id="noCollaborator" value="0" name="noCollaborator" />
-                                <label class="form-check-label fw-bold text-dark ms-2" for="noCollaborator">No collaborator</label>
-                            </div>
+
+                            <!-- Loop for each option -->
+                            <?php foreach ($data['option_skill'] as $optionSkill): ?>
+                                <?php
+                                // Check if the current collaborator is selected for this event
+                                $isChecked1 = in_array($optionSkill->skill_id, $data['selectedSkill']);
+                                ?>
+                                <div class="form-check form-check-custom form-check-solid mb-3">
+                                <input class="form-check-input h-20px w-20px" type="checkbox" id="<?php echo 'skill_id' . $optionSkill->skill_id; ?>" value="<?php echo $optionSkill->skill_id; ?>" name="selectedSkills[]" <?php echo $isChecked1 ? 'checked' : ''; ?>/>
+                                <label class="form-check-label fw-bold text-dark ms-2" for="<?php echo 'skill_id' . $optionSkill->skill_id; ?>"><?php echo $optionSkill->skillName; ?></label>
+                                
+                                    
+                                </div>
+                            <?php endforeach; ?>
                             
                             
                         </div>
@@ -379,7 +389,7 @@
 
                     
 
-                        <!--begin::Checkboxes-->
+                         <!--begin::Checkboxes-->
                         <div id="checkboxGroup" title="Please select at least one, either no collaborator or with collaborator(s)">
                             <?php if(isset($errorMessage)): ?>
                                 <div>
@@ -387,10 +397,18 @@
                                 </div>
                             <?php endif; ?>
                             <!-- Checkbox for "No collaborator" -->
-                            <div class="form-check form-check-custom form-check-solid mb-3">
-                                <input class="form-check-input h-20px w-20px" type="checkbox" id="noCollaborator" value="0" name="noCollaborator" />
-                                <label class="form-check-label fw-bold text-dark ms-2" for="noCollaborator">No collaborator</label>
-                            </div>
+
+                            <!-- Loop for each option -->
+                            <?php foreach ($data['option_software_skill'] as $optionSoftSkill): ?>
+                                <?php
+                                // Check if the current collaborator is selected for this event
+                                $isChecked2 = in_array($optionSoftSkill->softwareSkill_id, $data['selectedSoftSkill']);
+                                ?>
+                                <div class="form-check form-check-custom form-check-solid mb-3">
+                                <input class="form-check-input h-20px w-20px" type="checkbox" id="<?php echo 'softwareSkill_id' . $optionSoftSkill->softwareSkill_id; ?>" value="<?php echo $optionSoftSkill->softwareSkill_id; ?>" name="selectedSoftSkills[]" <?php echo $isChecked2 ? 'checked' : ''; ?>/>
+                                <label class="form-check-label fw-bold text-dark ms-2" for="<?php echo 'softwareSkill_id' . $optionSoftSkill->softwareSkill_id; ?>"><?php echo $optionSoftSkill->softwareSkillName; ?></label>
+                                </div>
+                            <?php endforeach; ?>
                             
                             
                         </div>
