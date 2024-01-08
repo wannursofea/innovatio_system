@@ -3,7 +3,14 @@ class Users extends Controller {
     public function __construct() {
         $this->userModel = $this->model('User');
     }
-
+    public function createUserSession($user) {
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['username'] = $user->username;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['userRole'] = $user->userRole;
+        header('location:' . URLROOT . '/pages/index');
+    }
+    
     public function register() {
         $data = [
             'username' => '',
@@ -144,12 +151,7 @@ class Users extends Controller {
         $this->view('users/login', $data);
     }
 
-    public function createUserSession($user) {
-        $_SESSION['user_id'] = $user->id;
-        $_SESSION['username'] = $user->username;
-        $_SESSION['email'] = $user->email;
-        header('location:' . URLROOT . '/pages/index');
-    }
+    
 
     public function logout() {
         unset($_SESSION['user_id']);
