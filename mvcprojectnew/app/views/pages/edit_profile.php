@@ -6,19 +6,18 @@
         </div>
     </div>
     <div class="card-body">
-
-                <?php
-                    foreach ($data['studentProfile'] as $studentProfile) :
-                                    ?>
-                                    <?php endforeach; ?>
+                
+                <?php foreach ($data['studentProfile'] as $studentProfile) :?>
+                <?php endforeach; ?>
+                
                                   
-                                    <form action="<?php echo URLROOT; ?>/pages/edit_profile" method="POST" class="form" enctype="multipart/form-data" id="kt_account_profile_details_form">
+<form action="<?php echo URLROOT; ?>/pages/edit_profile" method="POST" class="form" enctype="multipart/form-data" id="kt_account_profile_details_form">
     <div class="card-body border-top p-9">
         <!-- Avatar Section -->
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label fw-semibold fs-6">Avatar</label>
             <div class="col-lg-8">
-                <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('<?php echo URLROOT."/public/".$studentProfile->image; ?>')">
+                <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('<?php echo URLROOT ."/public/".$studentProfile->image; ?>')">
                     <div class="image-input-wrapper w-125px h-125px" style="background-image: url('<?php echo URLROOT."/public/".$studentProfile->image; ?>')"></div>
                     <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
                         <i class="ki-duotone ki-pencil fs-7"></i>
@@ -51,12 +50,20 @@
                 <input class="form-control form-control-lg form-control-solid" name="phoneNum" type="text" required value="<?php echo $studentProfile->phoneNum; ?>" />
             </div>
         </div>
-
+        
+        <!-- Date of Birth Section -->
+        <!--
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Date of Birth</label>
+            <div class="col-lg-8">
+                <input class="form-control form-control-lg form-control-solid" name="DOB" type="date" required value="<?php echo $studentProfile->DOB; ?>" />
+            </div>
+                    -->
         <!-- Email Address Section -->
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Email Address</label>
             <div class="col-lg-8">
-                <input class="form-control form-control-lg form-control-solid" name="email" type="text" readonly value="<?php echo $studentProfile->email; ?>" />
+                <input class="form-control form-control-lg form-control-solid" name="st_email" type="text" readonly value="<?php echo $studentProfile->st_email; ?>" />
             </div>
         </div>
 
@@ -77,7 +84,7 @@
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Race</label>
             <div class="col-lg-8">
                 <select class="form-select form-select-solid form-select-lg" name="race">
-                    <option value="<?php echo $studentProfile->st_race ?>"><?php echo $studentProfile->race ?></option>
+                    <option value="<?php echo $studentProfile->race ?>"><?php echo $studentProfile->race ?></option>
                     <option value="Malay">Malay</option>
                     <option value="Chinese">Chinese</option>
                     <option value="Indian">Indian</option>
