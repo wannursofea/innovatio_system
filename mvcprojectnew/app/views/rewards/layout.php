@@ -1,4 +1,3 @@
-	<!--begin::Content-->
     <div id="kt_app_content" class="app-content pt-10">
 								<!--begin::Content container-->
 								<div id="kt_app_content_container" class="app-container container-xxl">
@@ -24,11 +23,13 @@
                                     <?php //rule
                                         $mb_url = URLROOT. "/rewards/manage";
 										$bb_url = URLROOT . "/rewards/badge"; 
-										$cb_url = URLROOT . "/rewards/create"; 
+										$cb_url = URLROOT . "/rewards/create";
+										$ub_url = ''; 
 										
-										if (isset($data['badge']) && is_object($data['badge'])){
-											$ub_url = URLROOT . "/rewards/update".$data['badge']->badge_id; 
+										if (isset($data['badge']) && is_object($data['badge'])){ 
+										$ub_url = URLROOT . "/rewards/update/". $data['badge']->badge_id; 
 										}
+
 
                                         if($url == $mb_url){
                                             require 'manage.php';
@@ -39,7 +40,7 @@
 										}else if($url == $ub_url){
 											require 'update.php';
 										}else{
-
+											// require 'index.php';
 										}
 
 									?>

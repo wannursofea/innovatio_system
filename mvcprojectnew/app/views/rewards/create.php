@@ -8,6 +8,7 @@
         </div>
     </div>
 
+    
         <form action="<?php echo URLROOT; ?>/rewards/create" method="POST">
             <div class="mb-10">
                 <label for="exampleFormControlInput1" class="form-label">Gold Badge</label>

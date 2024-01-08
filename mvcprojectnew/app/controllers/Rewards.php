@@ -55,13 +55,34 @@ class Rewards extends Controller{
     }
     
     public function update($badge_id)
-    {
-        $badge = $this->rewardModel->findRewardsById($badge_id);
+    { echo "Update method is being executed.";
+        $badge = $this->rewardModel->findRewardById($badge_id);
 
+        
+        // $user_id = $_SESSION['user_id'];
+        // $student = $this->rewardModel->getStudentByUserId($user_id);
+        // $profile_id = '';
+
+        // if(!$student){
+        //     die("Student data not found");
+        // }
+
+        // else{
+        //     $profile_id = $student->profile_id;
+        //     if($profile_id){
+        //         $badge = $this->rewardModel->findRewardById($badge_id);
+        //     }
+        //     else{
+        //         die("Profile is not completed, cannot update this student badge data");
+        //     }
+        // }
 
         $data = 
         [
+            //data from the Student
+            'badge_id' => $badge_id,
             'badge' => $badge,
+            'name' => $badge->student_name,
             'goldBadge' => '',
             'silverBadge' => '',
             'bronzeBadge' => '',
@@ -75,6 +96,7 @@ class Rewards extends Controller{
             [
             'badge_id' => $badge_id,
             'badge' => $badge,
+            'name' => $badge->student_name,
             'user_id' => $_SESSION['user_id'],
             'goldBadge' => trim($_POST['goldBadge']),
             'silverBadge' => trim($_POST['silverBadge']),
@@ -84,7 +106,7 @@ class Rewards extends Controller{
         ];
 
             if ($data['goldBadge'] && $data['silverBadge'] && $data['bronzeBadge'] && $data['claimStatus'] && $data['dateAwarded']){
-                if ($this->rewardModel->updateRewarda($data)){
+                if ($this->rewardModel->updateReward($data)){
                     header("Location: " . URLROOT. "/rewards" );
                 }
                 else
@@ -101,17 +123,6 @@ class Rewards extends Controller{
         $this->view('rewards/index', $data);
     }
 
-
-    // public function s_badge(){
-    //     $Sbadge = $this->rewardModel->SmanageAllBadge();
-
-    //     $data = [
-    //         'Sbadge' => $Sbadge
-
-    //     ];
-
-    //     $this->view('rewards/badge', $data);
-    // }
 
 }
 ?>
