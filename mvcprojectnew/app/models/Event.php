@@ -227,8 +227,83 @@ class Event{
         return $row_profile;
     }
 
-    
+    public function fetchAllSkill(){
+        $this->db->query('SELECT * FROM option_skill');
 
+        $result = $this->db->resultSet();
+
+        return $result;
+
+    }
+    
+    public function fetchAllSoftwareSkill(){
+        $this->db->query('SELECT * FROM option_software_skill');
+
+        $result = $this->db->resultSet();
+
+        return $result;
+
+    }
+
+    public function addSkills($skillData){
+        
+        $this->db->query('INSERT INTO `skill` (`skill_id`, `profile_id`) VALUES (:skill_id, :profile_id)');
+        $this->db->bind(':skill_id', $skillData['skill_id']);
+        $this->db->bind(':profile_id', $skillData['profile_id']);
+        
+        
+        if ($this->db->execute()){
+            return true;
+        } 
+        else{
+            return false;
+        }
+    }
+
+    public function addSoftwareSkills($skillData){
+        
+        $this->db->query('INSERT INTO `softwareskill` (`softwareSkill_id`, `profile_id`) VALUES (:softwareSkill_id, :profile_id)');
+        $this->db->bind(':softwareSkill_id', $skillData['softwareSkill_id']);
+        $this->db->bind(':profile_id', $skillData['profile_id']);
+        
+        
+        if ($this->db->execute()){
+            return true;
+        } 
+        else{
+            return false;
+        }
+    }
+
+    public function findSkillById($profile_id){
+        $this->db->query('SELECT * FROM skill WHERE profile_id = :profile_id');
+        $this->db->bind(':profile_id', $profile_id);
+        $result = $this->db->resultSet();
+
+        return $result;
+    }
+
+    public function findSelectedSkillById($profile_id){
+        $result = $this->findSkillById($profile_id);
+        $skill_ids = array_column($result, 'skill_id');
+
+        return $skill_ids;
+    }
+
+    public function findSoftSkillById($profile_id){
+        $this->db->query('SELECT * FROM softwareskill WHERE profile_id = :profile_id');
+        $this->db->bind(':profile_id', $profile_id);
+        $result = $this->db->resultSet();
+
+        return $result;
+    }
+
+    public function findSelectedSoftSkillById($profile_id){
+        $result = $this->findSoftSkillById($profile_id);
+        $softwareSkill_ids = array_column($result, 'softwareSkill_id');
+
+        return $softwareSkill_ids;
+    }
 
     public function searchEvent($searchTerm){
 
