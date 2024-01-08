@@ -12,7 +12,7 @@ class Page
     public function studentProfile()
     {
 
-        $this->db->query("SELECT * FROM st_profile WHERE email = :email");
+        $this->db->query("SELECT * FROM st_profiles WHERE st_email = :email");
 
         $this->db->bind(':email', $_SESSION['email']);
 
@@ -67,9 +67,9 @@ class Page
  
         if (isset($data['image'])) {
 
-        $this->db->query("UPDATE st_profile 
-        SET email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
-        race = :race, institution  = :institution, address  = :address, image  = :image WHERE email   = :email;");
+        $this->db->query("UPDATE st_profiles 
+        SET st_email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
+        race = :race, institution  = :institution, address  = :address, bio = :bio, course = :course, image  = :image WHERE st_email = :email;");
 
         $this->db->bind(':email', $_SESSION['email']);
         $this->db->bind(':phoneNum', $data['phoneNum']);
@@ -78,13 +78,16 @@ class Page
         $this->db->bind(':race', $data['race']);
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':institution', $data['institution']);
+        $this->db->bind(':course', $data['course']);
+        //$this->db->bind(':DOB', $data['DOB']);
+        $this->db->bind(':bio', $data['bio']);
         $this->db->bind(':image', $data['image']);
 
         }else{
 
-        $this->db->query("UPDATE st_profile 
-        SET email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
-        race = :race, institution  = :institution, address  = :address, image  = :image WHERE email   = :email;");
+        $this->db->query("UPDATE st_profiles 
+        SET st_email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
+        race = :race, institution  = :institution, address  = :address, bio = :bio, course = :course, image  = :image WHERE st_email   = :email;");
 
         $this->db->bind(':email', $_SESSION['email']);
         $this->db->bind(':phoneNum', $data['phoneNum']);
@@ -93,7 +96,10 @@ class Page
         $this->db->bind(':race', $data['race']);
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':institution', $data['institution']);
-        $this->db->bind(':image', $data['image']);
+        $this->db->bind(':course', $data['course']);
+        //$this->db->bind(':DOB', $data['DOB']);
+        $this->db->bind(':bio', $data['bio']);
+        
             
         }
         
