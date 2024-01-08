@@ -223,7 +223,7 @@
                         <!--end::Label-->
                          <?php
                         // Assuming $selectedCategory contains the category retrieved from the database
-                        $selectedStatus = isset($data['latest_data_register']) ? $data['latest_data_register']->presentStatus : '';
+                        $selectedStatus = isset($data['latest_data_register']->presentStatus) ? $data['latest_data_register']->presentStatus : '';
                         ?>
                         <!--begin::Input-->
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select" name="presentStatus" required title="Please select your current status">
