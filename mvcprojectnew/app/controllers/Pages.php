@@ -98,7 +98,7 @@ class Pages extends Controller {
                         'institution' => trim($_POST['institution']),
                         'address' => trim($_POST['address']),
                         'course' => trim($_POST['course']),
-                        //'DOB' => trim($_POST['DOB']),
+                        'DOB' => trim($_POST['DOB']),
                         'bio' => trim($_POST['bio']),
                         'image' => $location
     
@@ -116,7 +116,7 @@ class Pages extends Controller {
                         'institution' => trim($_POST['institution']),
                         'address' => trim($_POST['address']),
                         'course' => trim($_POST['course']),
-                        //'DOB' => trim($_POST['DOB']),
+                        'DOB' => trim($_POST['DOB']),
                         'bio' => trim($_POST['bio']),
                         
                
