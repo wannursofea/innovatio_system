@@ -174,6 +174,37 @@
 										<!--end:Menu sub-->
 									</div>
 									<!--end:Menu item FOR REWARDNBADGE-->
+
+										<!--begin:Menu item-->
+										<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+										<!--begin:Menu link-->
+										<span class="menu-link">
+											<span class="menu-title">Resume</span>
+											<span class="menu-arrow d-lg-none"></span>
+										</span>
+										<!--end:Menu link-->
+										<!--begin:Menu sub-->
+										<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+											<!--begin:Menu item-->
+											<div class="menu-item">
+												<!--begin:Menu link-->
+												<a class="menu-link" href="<?php echo URLROOT; ?>/resumes/index" class="menu-link">
+													<span class="menu-icon">
+														<i class="ki-duotone ki-rocket fs-2">
+															<span class="path1"></span>
+															<span class="path2"></span>
+														</i>
+													</span>
+													<span class="menu-title">Edit Resume</span>
+												</a>
+												<!--end:Menu link-->
+											</div>
+											<!--end:Menu item-->
+					
+											
+										</div>
+										<!--end:Menu sub-->
+									</div>
 								</div>
 								<!--end::Menu-->
 							</div>
@@ -1033,8 +1064,14 @@
 										</div>
 										<!--end::Menu item-->
 										<!--begin::Menu item-->
+			
 										<div class="menu-item px-5">
-											<a href="authentication/layouts/corporate/sign-in.html" class="menu-link px-5">Sign Out</a>
+										
+                                            <?php if(isset($_SESSION['user_id'])) : ?>
+                                                    <a href="<?php echo URLROOT; ?>/users/logout" class="menu-link px-5">Log out</a>
+                                                <?php else : ?>
+                                                    <a href="<?php echo URLROOT; ?>/users/login" class="menu-link px-5">Login</a>
+                                                <?php endif; ?>
 										</div>
 										<!--end::Menu item-->
 									</div>
