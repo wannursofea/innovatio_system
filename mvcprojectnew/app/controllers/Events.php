@@ -801,22 +801,12 @@ class Events extends Controller
         //for display option for checkboxes from 2 option tables
         // $option_skill = $this->eventModel->fetchAllSkill();
         // $option_software_skill = $this->eventModel->fetchAllSoftwareSkill();
-
-        if($event_id){
-            $event = $this->eventModel->findEventById($event_id);// Important to redirect to each event register form to check the event is available
-        }
-        else{
-            die("Invalid. Event does not exist.");
-        }
-
-        $registers = $this->eventModel->findRegisterInfoByEventId($event_id);
-       
         $data = 
         [
-            'registers' => $registers, // To hold all the participants of one event
+            'registers' => '', // To hold all the participants of one event
 
             //data from student
-            'user_id' => $_SESSION['user_id'],
+            'user_id' => '',
             'student' => $student ?? '',
             
             // 'selectedSkill' => $selectedSkill,
@@ -846,7 +836,53 @@ class Events extends Controller
             'archieveGoal' => '',
         
         ];
+
+        if(isLoggedIn())
+        {    if($event_id){
+                $event = $this->eventModel->findEventById($event_id);// Important to redirect to each event register form to check the event is available
+            }
+            else{
+                die("Invalid. Event does not exist.");
+            }
+
+            $registers = $this->eventModel->findRegisterInfoByEventId($event_id);
         
+            $data = 
+            [
+                'registers' => $registers, // To hold all the participants of one event
+
+                //data from student
+                'user_id' => $_SESSION['user_id'],
+                'student' => $student ?? '',
+                
+                // 'selectedSkill' => $selectedSkill,
+                // 'selectedSoftSkill' => $selectedSoftSkill,
+                'name' => '',
+                'phoneNum' => '',
+                'email' => '',
+                'DOB' => '',
+                'course' => '',
+
+                //for registration 
+                'event' => $event ?? '',
+                'profile_id' => $profile_id ?? '',
+                // 'latest_data_register' => $latest_data_register ?? '',
+                'event_id' => $event_id ?? '',
+
+                //data for registration
+                'dream' => '',
+                'passion' => '',
+                'hiddenTalent' => '',
+                'presentStatus' => '',
+                'institution' => '',
+                
+                'internshipYear' => '',
+                'graduationYear' => '',
+                'goal' => '',
+                'archieveGoal' => '',
+            
+            ];
+        }    
         $this->view('events/index', $data);
     }
 
