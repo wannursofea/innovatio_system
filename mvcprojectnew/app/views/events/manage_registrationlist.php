@@ -51,7 +51,7 @@
                                 <!--end::Menu item-->
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="<?php echo URLROOT . "/events/feedback_event/".$event->event_id?>" class="menu-link btn btn-sm btn-light btn-warning text-white px-3">Feedback</a>
+                                    <a href="<?php echo $event->feedback;?>" class="menu-link btn btn-sm btn-light btn-warning text-white px-3">Feedback</a>
                                 </div>
                                 <!--end::Menu item-->
                                 
