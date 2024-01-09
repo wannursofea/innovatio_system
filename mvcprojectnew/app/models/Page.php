@@ -69,7 +69,7 @@ class Page
 
         $this->db->query("UPDATE st_profiles 
         SET st_email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
-        race = :race, institution  = :institution, address  = :address, bio = :bio, course = :course, image  = :image WHERE st_email = :email;");
+        race = :race, institution  = :institution, address  = :address, bio = :bio, DOB =:DOB, course = :course, image  = :image WHERE st_email = :email;");
 
         $this->db->bind(':email', $_SESSION['email']);
         $this->db->bind(':phoneNum', $data['phoneNum']);
@@ -79,7 +79,7 @@ class Page
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':institution', $data['institution']);
         $this->db->bind(':course', $data['course']);
-        //$this->db->bind(':DOB', $data['DOB']);
+        $this->db->bind(':DOB', $data['DOB']);
         $this->db->bind(':bio', $data['bio']);
         $this->db->bind(':image', $data['image']);
 
@@ -87,7 +87,7 @@ class Page
 
         $this->db->query("UPDATE st_profiles 
         SET st_email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
-        race = :race, institution  = :institution, address  = :address, bio = :bio, course = :course WHERE st_email  = :email;");
+        race = :race, institution  = :institution, address  = :address, bio = :bio, DOB =:DOB, course = :course WHERE st_email  = :email;");
 
         $this->db->bind(':email', $_SESSION['email']);
         $this->db->bind(':phoneNum', $data['phoneNum']);
@@ -97,7 +97,7 @@ class Page
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':institution', $data['institution']);
         $this->db->bind(':course', $data['course']);
-        //$this->db->bind(':DOB', $data['DOB']);
+        $this->db->bind(':DOB', $data['DOB']);
         $this->db->bind(':bio', $data['bio']);
         
             
