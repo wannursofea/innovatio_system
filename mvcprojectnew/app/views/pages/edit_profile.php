@@ -52,13 +52,13 @@
         </div>
         
         <!-- Date of Birth Section -->
-        <!--
+        
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Date of Birth</label>
             <div class="col-lg-8">
                 <input class="form-control form-control-lg form-control-solid" name="DOB" type="date" required value="<?php echo $studentProfile->DOB; ?>" />
             </div>
-                    -->
+        </div>
         <!-- Email Address Section -->
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Email Address</label>
