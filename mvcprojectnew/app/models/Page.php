@@ -87,7 +87,7 @@ class Page
 
         $this->db->query("UPDATE st_profiles 
         SET st_email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
-        race = :race, institution  = :institution, address  = :address, bio = :bio, course = :course, image  = :image WHERE st_email   = :email;");
+        race = :race, institution  = :institution, address  = :address, bio = :bio, course = :course WHERE st_email  = :email;");
 
         $this->db->bind(':email', $_SESSION['email']);
         $this->db->bind(':phoneNum', $data['phoneNum']);
