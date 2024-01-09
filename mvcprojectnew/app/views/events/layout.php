@@ -10,6 +10,7 @@
                                     <?php
                                     if(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS'] === 'on')
                                         $url = "https://";
+									
                                     else
                                         $url = "http://";
                                     
@@ -17,7 +18,6 @@
 
                                         $url .= $_SERVER['REQUEST_URI'];
 										
-
                                     ?>
                                      
                                     <?php
@@ -26,17 +26,18 @@
 									$m_url = URLROOT . "/events/mainpage_event";
 									$ve_url = URLROOT . "/events/view_event";
 									$m_regis_url = URLROOT . "/events/manage_registrationlist";
+									
 									$edit_url = '';
 									$r_url = '';
+									$p_list_url = '';
+									$v_m_url = '';
 
 									if(isset($data['event'])&& is_object($data['event'])){
 										$edit_url = URLROOT . "/events/edit_event/". $data['event']->event_id;
 										$r_url = URLROOT . "/events/register_event/". $data['event']->event_id;
+										$p_list_url =  URLROOT . "/events/participant_list/". $data['event']->event_id;
+										$v_m_url =  URLROOT . "/events/view_more/". $data['event']->event_id . "/" . $data['profile_id'];
 									}
-
-									// if(isset($data['event'])&& is_object($data['event'])){
-									// 	$edit_url = URLROOT . "/events/edit_event/". $data['event']->event_id;
-									// }
 
                                     if($url == $v_url){
 										
@@ -72,6 +73,14 @@
 									
 										require 'register_event.php';
 									}
+
+									else if($url == $p_list_url){
+										require 'participant_list.php';
+									} 
+
+									else if($url == $v_m_url){
+										require 'view_more.php' ;
+									} 
 
 						
                                     ?>
