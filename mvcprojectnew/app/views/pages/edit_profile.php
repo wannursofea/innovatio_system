@@ -100,6 +100,7 @@
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Institution of Higher Learning</label>
             <div class="col-lg-8">
                 <select class="form-select form-select-solid form-select-lg" name="institution">
+                    <option value="<?php echo $studentProfile->institution ?>"><?php echo $studentProfile->institution ?></option>
                     <option value="UTM">UTM</option>
                     <option value="UKM">UKM</option>
                     <option value="UM">UM</option>
