@@ -278,7 +278,7 @@
                         <!--end::Label-->
 
                         <!--begin::Input-->
-                        <input type="text" class="form-control form-control-solid" value="<?php echo isset($data['student']->course) ? $data['student']->course : ''; ?>" placeholder="e.g. Bachelor of Electrical Engineering,Bachelor of Software Engineering." name="course" required title="This field is non-editable. Please update it in your profile.">
+                        <input type="text" class="form-control form-control-solid" value="<?php echo isset($data['student']->course) ? $data['student']->course : ''; ?>" placeholder="e.g. Bachelor of Electrical Engineering,Bachelor of Software Engineering." name="course" required title="This field is non-editable. Please update it in your profile. "readonly>
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
