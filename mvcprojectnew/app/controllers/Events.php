@@ -12,16 +12,19 @@ class Events extends Controller
     {
 
         $events = $this->eventModel->manageAllEvents();
+
+        
        
         $data = 
         [
             'events' => $events,
-
         ];
+
         
 
         $this->view('events/index', $data);
     }
+
 
     public function create()
     {
@@ -33,6 +36,7 @@ class Events extends Controller
             'date' => '',
             'time' => '',
             'venue' => '',
+            'feedback' => '',
         ];
 
         $invitationData=
@@ -51,6 +55,7 @@ class Events extends Controller
             'date' => trim($_POST['date']),
             'time' => trim($_POST['time']),
             'venue' => trim($_POST['venue']),
+            'feedback' => trim($_POST['feedback']),
             
             ];
 
@@ -68,7 +73,8 @@ class Events extends Controller
                     $data['eventDescription'] && 
                     $data['date'] &&
                     $data['time'] &&
-                    $data['venue']){
+                    $data['venue']&&
+                    $data['feedback']){
 
                     $event_id = $this->eventModel->createEvent($data);
                     if ($event_id){
@@ -94,7 +100,8 @@ class Events extends Controller
                     $data['eventDescription'] && 
                     $data['date'] &&
                     $data['time'] &&
-                    $data['venue']){
+                    $data['venue'] &&
+                    $data['feedback']){
 
                     $event_id = $this->eventModel->createEvent($data);
                         if ($event_id) {
@@ -141,6 +148,7 @@ class Events extends Controller
             'date' => '',
             'time' => '',
             'venue' => '',
+            'feedback' => '',
         ];
 
         $invitationData[]=
@@ -164,12 +172,14 @@ class Events extends Controller
             'date' => trim($_POST['date']),
             'time' => trim($_POST['time']),
             'venue' => trim($_POST['venue']),
+            'feedback' => trim($_POST['feedback']),
             'eventNameError' => '',
             'categoryError' => '',
             'eventDescriptionError' => '',
             'dateError' => '',
             'timeError' => '',
             'venueError' => '',
+            'feedbackError' => '',
             //To hold the value of client from the form
             
             ];
@@ -196,6 +206,10 @@ class Events extends Controller
 
             if(empty($data['venue'])){
                 $data['venueError'] = 'The venue of an event cannot be empty';
+            }
+
+            if(empty($data['feedback'])){
+                $data['feedbackError'] = 'The feedback link of an event cannot be empty';
             }
 
             if($data['eventName'] == $this->eventModel->findEventById($event_id)->eventName)
@@ -228,6 +242,11 @@ class Events extends Controller
                 $data['venueError'] = "At least change the venue!";
             }
 
+            if($data['feedback'] == $this->eventModel->findEventById($event_id)->feedback)
+            {
+                $data['feedbackError'] = "At least change the feedback link!";
+            }
+
             if (isset($_POST['noCollaborator']) && $_POST['noCollaborator'] == '0' && isset($_POST['selectedClients']) && !empty($_POST['selectedClients'])) {
                 // Handle the condition where 'No collaborator' is selected and clients are selected
                 $errorMessage = "Error: You've selected 'No collaborator' and collaborator(s) simultaneously. Please choose either 'No collaborator' or select collaborator(s), not both.";
@@ -251,7 +270,8 @@ class Events extends Controller
                     $data['eventDescriptioneError'] &&
                     $data['dateError'] &&
                     $data['timeError'] &&
-                    $data['venueError'])
+                    $data['venueError'] &&
+                    $data['feedbackError'])
                     ){
                     
                     if ($updateCollaboratorSuccess ||$this->eventModel->editEvent($data)){
@@ -369,7 +389,8 @@ class Events extends Controller
                         $data['eventDescriptioneError'] &&
                         $data['dateError'] &&
                         $data['timeError'] &&
-                        $data['venueError'])){
+                        $data['venueError'] &&
+                        $data['feedbackError'])){
                         
                         if ($updateCollaboratorSuccess || $this->eventModel->editEvent($data)){
                             header("Location: " . URLROOT. "/events" );
@@ -447,6 +468,9 @@ class Events extends Controller
             
             if ($profile_id) {
                 $latest_data_register = $this->eventModel->findRegisterInfo($profile_id);
+                if($this->eventModel->checkRegisterStatus($profile_id, $event_id)){
+                    die("You already register this event");
+                }
 
                 //for selected checkboxes
                 $selectedSkill = $this->eventModel->findSelectedSkillById($profile_id);
@@ -456,7 +480,7 @@ class Events extends Controller
                 die("Profile is not completed, cannot register for event");
             }
         }
-        
+       
         $data = 
         [
             //data from student
@@ -753,6 +777,7 @@ class Events extends Controller
             
             }
 
+
             if($this->eventModel->createRegisterInfo($data)){
                 header("Location: " . URLROOT . "/events/manage_registrationlist");
             }
@@ -768,7 +793,145 @@ class Events extends Controller
     }
 
 
+    public function participant_list($event_id)
+    {
+        $user_id = '';
+        $student = '';
+        $profile_id = '';
+        //for display option for checkboxes from 2 option tables
+        // $option_skill = $this->eventModel->fetchAllSkill();
+        // $option_software_skill = $this->eventModel->fetchAllSoftwareSkill();
 
+        if($event_id){
+            $event = $this->eventModel->findEventById($event_id);// Important to redirect to each event register form to check the event is available
+        }
+        else{
+            die("Invalid. Event does not exist.");
+        }
+
+        $registers = $this->eventModel->findRegisterInfoByEventId($event_id);
+       
+        $data = 
+        [
+            'registers' => $registers, // To hold all the participants of one event
+
+            //data from student
+            'user_id' => $_SESSION['user_id'],
+            'student' => $student ?? '',
+            
+            // 'selectedSkill' => $selectedSkill,
+            // 'selectedSoftSkill' => $selectedSoftSkill,
+            'name' => '',
+            'phoneNum' => '',
+            'email' => '',
+            'DOB' => '',
+            'course' => '',
+
+            //for registration 
+            'event' => $event ?? '',
+            'profile_id' => $profile_id ?? '',
+            // 'latest_data_register' => $latest_data_register ?? '',
+            'event_id' => $event_id ?? '',
+
+            //data for registration
+            'dream' => '',
+            'passion' => '',
+            'hiddenTalent' => '',
+            'presentStatus' => '',
+            'institution' => '',
+            
+            'internshipYear' => '',
+            'graduationYear' => '',
+            'goal' => '',
+            'archieveGoal' => '',
+        
+        ];
+        
+        $this->view('events/index', $data);
+    }
+
+    public function view_more($event_id, $profileID)
+    {
+        $user_id = '';
+        $student = '';
+        $profile_id = '';
+        //for display option for checkboxes from 2 option tables
+        // $option_skill = $this->eventModel->fetchAllSkill();
+        // $option_software_skill = $this->eventModel->fetchAllSoftwareSkill();
+
+        if($event_id){
+            $event = $this->eventModel->findEventById($event_id);// Important to redirect to each event register form to check the event is available
+        }
+        else{
+            die("Invalid. Event does not exist.");
+        }
+
+        $registers = $this->eventModel->findRegisterInfoByEventId($event_id);
+
+        
+        // if(isLoggedIn()){ 
+            
+        //     $user_id = $_SESSION['user_id'];
+            
+        //     $student = $this->eventModel->findStudentById($user_id); //To get data from student table
+            
+        //     //retrieve the data that already have in the system
+        //     if ($student) {
+        //         $profile_id = $student->profile_id;
+        //     }
+            
+        //     if ($profile_id) {
+        //         $latest_data_register = $this->eventModel->findRegisterInfo($profile_id);
+                
+
+        //         //for selected checkboxes
+        //         $selectedSkill = $this->eventModel->findSelectedSkillById($profile_id);
+        //         $selectedSoftSkill = $this->eventModel->findSelectedSoftSkillById($profile_id);
+        //     }
+        //     else{
+        //         die("Profile is not completed, cannot register for event");
+        //     }
+        // }
+       
+        $data = 
+        [
+            'registers' => $registers, // To hold all the participants of one event
+
+
+            //data from student
+            'user_id' => $_SESSION['user_id'],
+            'student' => $student ?? '',
+            
+            // 'selectedSkill' => $selectedSkill,
+            // 'selectedSoftSkill' => $selectedSoftSkill,
+            'name' => '',
+            'phoneNum' => '',
+            'email' => '',
+            'DOB' => '',
+            'course' => '',
+
+            //for registration 
+            'event' => $event ?? '',
+            'profile_id' => $profileID,
+            // 'latest_data_register' => $latest_data_register ?? '',
+            'event_id' => $event_id ?? '',
+
+            //data for registration
+            'dream' => '',
+            'passion' => '',
+            'hiddenTalent' => '',
+            'presentStatus' => '',
+            'institution' => '',
+            
+            'internshipYear' => '',
+            'graduationYear' => '',
+            'goal' => '',
+            'archieveGoal' => '',
+        
+        ];
+        
+        $this->view('events/index', $data);
+    }
 
 }    
 ?>
