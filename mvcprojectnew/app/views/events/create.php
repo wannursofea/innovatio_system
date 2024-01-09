@@ -229,6 +229,25 @@
                     </div>
                     <!--end::Input group-->
                     
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-8">
+                        <!--begin::Label-->
+                        <label for="website" class="d-flex align-items-center fs-6 fw-semibold form-label mb-2">
+                            <span class="required">Feedback Form Link</span>
+                            <span class="ms-1" data-bs-toggle="tooltip" title="Paste the link of feedback form here">
+                                <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                </i>
+                            </span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="url" id="website" name="feedback" class="form-control form-control-solid" placeholder="Paste the link of feedback form here" required title="Please paste the link of feedback form here"/>
+                        <!--end::Input-->
+                    </div>
+                    <!--end::Input group-->
 
                     <button type="submit" id="submitButton" class="btn btn-lg btn-primary font-weight-bold">Submit</button>
                 </div>
