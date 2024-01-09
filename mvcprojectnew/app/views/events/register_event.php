@@ -340,35 +340,20 @@
                             </span>
                         </label>
                         <!--end::Label-->
-
-                    
-
-                        <!--begin::Checkboxes-->
-                        <div id="checkboxGroup" title="Please select at least one, either no collaborator or with collaborator(s)">
-                            <?php if(isset($errorMessage)): ?>
-                                <div>
-                                    <?php echo $errorMessage; ?>
-                                </div>
-                            <?php endif; ?>
-                            <!-- Checkbox for "No collaborator" -->
-
-                            <!-- Loop for each option -->
+                        <!--begin::Select-->
+                        <select class="form-select mb-2" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" name="selectedSkills[]" required title="Please select at least one skill">
+                            <option></option>
                             <?php foreach ($data['option_skill'] as $optionSkill): ?>
                                 <?php
                                 // Check if the current collaborator is selected for this event
                                 $isChecked1 = in_array($optionSkill->skill_id, $data['selectedSkill']);
                                 ?>
-                                <div class="form-check form-check-custom form-check-solid mb-3">
-                                <input class="form-check-input h-20px w-20px" type="checkbox" id="<?php echo 'skill_id' . $optionSkill->skill_id; ?>" value="<?php echo $optionSkill->skill_id; ?>" name="selectedSkills[]" <?php echo $isChecked1 ? 'checked' : ''; ?>/>
-                                <label class="form-check-label fw-bold text-dark ms-2" for="<?php echo 'skill_id' . $optionSkill->skill_id; ?>"><?php echo $optionSkill->skillName; ?></label>
-                                
-                                    
-                                </div>
+                                <option value="<?php echo $optionSkill->skill_id; ?>" <?php echo $isChecked1 ? 'selected' : ''; ?>>
+                                    <?php echo $optionSkill->skillName; ?>
+                                </option>
                             <?php endforeach; ?>
-                            
-                            
-                        </div>
-                        <!--end::Checkboxes-->
+                        </select>                            
+                        <!--end::Select-->
                     </div>
                     <!--end::Input group-->
 
@@ -386,33 +371,20 @@
                             </span>
                         </label>
                         <!--end::Label-->
-
-                    
-
-                         <!--begin::Checkboxes-->
-                        <div id="checkboxGroup" title="Please select at least one, either no collaborator or with collaborator(s)">
-                            <?php if(isset($errorMessage)): ?>
-                                <div>
-                                    <?php echo $errorMessage; ?>
-                                </div>
-                            <?php endif; ?>
-                            <!-- Checkbox for "No collaborator" -->
-
-                            <!-- Loop for each option -->
+                        <!--begin::Select-->
+                        <select class="form-select mb-2" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" name="selectedSoftSkills[]" required title="Please select at least one platform">
+                            <option></option>
                             <?php foreach ($data['option_software_skill'] as $optionSoftSkill): ?>
                                 <?php
                                 // Check if the current collaborator is selected for this event
                                 $isChecked2 = in_array($optionSoftSkill->softwareSkill_id, $data['selectedSoftSkill']);
                                 ?>
-                                <div class="form-check form-check-custom form-check-solid mb-3">
-                                <input class="form-check-input h-20px w-20px" type="checkbox" id="<?php echo 'softwareSkill_id' . $optionSoftSkill->softwareSkill_id; ?>" value="<?php echo $optionSoftSkill->softwareSkill_id; ?>" name="selectedSoftSkills[]" <?php echo $isChecked2 ? 'checked' : ''; ?>/>
-                                <label class="form-check-label fw-bold text-dark ms-2" for="<?php echo 'softwareSkill_id' . $optionSoftSkill->softwareSkill_id; ?>"><?php echo $optionSoftSkill->softwareSkillName; ?></label>
-                                </div>
+                                <option value="<?php echo $optionSoftSkill->softwareSkill_id; ?>" <?php echo $isChecked2 ? 'selected' : ''; ?>>
+                                    <?php echo $optionSoftSkill->softwareSkillName; ?>
+                                </option>
                             <?php endforeach; ?>
-                            
-                            
-                        </div>
-                        <!--end::Checkboxes-->
+                        </select>
+                        <!--end::Select-->
                     </div>
                     <!--end::Input group-->
 
