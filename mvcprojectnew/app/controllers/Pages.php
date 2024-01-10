@@ -91,12 +91,13 @@ class Pages extends Controller {
 
 
                         'phoneNum' => trim($_POST['phoneNum']),
-                        'st_email' => trim($_POST['st_email']),
+                        'email' => trim($_POST['email']),
                         'name' => trim($_POST['name']),
                         'gender' => trim($_POST['gender']),
                         'race' => trim($_POST['race']),
-                        'institution' => trim($_POST['institution']),
-                        'address' => trim($_POST['address']),
+                        'education' => trim($_POST['education']),
+                        'city' => trim($_POST['city']),
+                        'country' => trim($_POST['country']),
                         'course' => trim($_POST['course']),
                         'DOB' => trim($_POST['DOB']),
                         'bio' => trim($_POST['bio']),
@@ -109,12 +110,13 @@ class Pages extends Controller {
                     $data = [
 
                         'phoneNum' => trim($_POST['phoneNum']),
-                        'st_email' => trim($_POST['st_email']),
+                        'email' => trim($_POST['email']),
                         'name' => trim($_POST['name']),
                         'gender' => trim($_POST['gender']),
                         'race' => trim($_POST['race']),
-                        'institution' => trim($_POST['institution']),
-                        'address' => trim($_POST['address']),
+                        'education' => trim($_POST['education']),
+                        'city' => trim($_POST['city']),
+                        'country' => trim($_POST['country']),
                         'course' => trim($_POST['course']),
                         'DOB' => trim($_POST['DOB']),
                         'bio' => trim($_POST['bio']),
