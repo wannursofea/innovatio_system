@@ -63,7 +63,7 @@
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Email Address</label>
             <div class="col-lg-8">
-                <input class="form-control form-control-lg form-control-solid" name="st_email" type="text" readonly value="<?php echo $studentProfile->st_email; ?>" />
+                <input class="form-control form-control-lg form-control-solid" name="email" type="text" readonly value="<?php echo $studentProfile->email; ?>" />
             </div>
         </div>
 
