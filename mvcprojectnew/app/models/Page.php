@@ -12,7 +12,7 @@ class Page
     public function studentProfile()
     {
 
-        $this->db->query("SELECT * FROM student WHERE st_email = :email");
+        $this->db->query("SELECT * FROM student WHERE email = :email");
 
         $this->db->bind(':email', $_SESSION['email']);
 
@@ -68,8 +68,8 @@ class Page
         if (isset($data['image'])) {
 
         $this->db->query("UPDATE student 
-        SET st_email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
-        race = :race, education  = :education, city  = :city, country = :country, bio = :bio, DOB =:DOB, course = :course, image  = :image WHERE st_email = :email;");
+        SET email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
+        race = :race, education  = :education, city  = :city, country = :country, bio = :bio, DOB =:DOB, course = :course, image  = :image WHERE email = :email;");
 
         $this->db->bind(':email', $_SESSION['email']);
         $this->db->bind(':phoneNum', $data['phoneNum']);
@@ -87,8 +87,8 @@ class Page
         }else{
 
         $this->db->query("UPDATE student 
-        SET st_email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
-        race = :race, education  = :education, city  = :city, country = :country, bio = :bio, DOB =:DOB, course = :course WHERE st_email  = :email;");
+        SET email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
+        race = :race, education  = :education, city  = :city, country = :country, bio = :bio, DOB =:DOB, course = :course WHERE email  = :email;");
 
         $this->db->bind(':email', $_SESSION['email']);
         $this->db->bind(':phoneNum', $data['phoneNum']);
