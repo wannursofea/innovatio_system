@@ -63,7 +63,7 @@
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-semibold fs-6">Email Address</label>
             <div class="col-lg-8">
-                <input class="form-control form-control-lg form-control-solid" name="st_email" type="text" readonly value="<?php echo $studentProfile->st_email; ?>" />
+                <input class="form-control form-control-lg form-control-solid" name="email" type="text" readonly value="<?php echo $studentProfile->email; ?>" />
             </div>
         </div>
 
@@ -95,12 +95,12 @@
             </div>
         </div>
 
-        <!-- Institution of Higher Learning Section -->
+        <!-- Education Section -->
         <div class="row mb-6">
-            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Institution of Higher Learning</label>
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Education</label>
             <div class="col-lg-8">
-                <select class="form-select form-select-solid form-select-lg" name="institution">
-                    <option value="<?php echo $studentProfile->institution ?>"><?php echo $studentProfile->institution ?></option>
+                <select class="form-select form-select-solid form-select-lg" name="education">
+                    <option value="<?php echo $studentProfile->education ?>"><?php echo $studentProfile->education ?></option>
                     <option value="UTM">UTM</option>
                     <option value="UKM">UKM</option>
                     <option value="UM">UM</option>
@@ -134,11 +134,19 @@
             </div>
         </div>
 
-        <!-- Address Section -->
+        <!-- City Section -->
         <div class="row mb-6">
-            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Address</label>
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">City</label>
             <div class="col-lg-8">
-                <textarea class="form-control form-control-solid" name="address" rows="3" required><?php echo $studentProfile->address ?></textarea>
+                <textarea class="form-control form-control-solid" name="city" rows="3" required value><?php echo $studentProfile->city ?></textarea>
+            </div>
+        </div>
+
+        <!-- Country Section -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Country</label>
+            <div class="col-lg-8">
+                <textarea class="form-control form-control-solid" name="country" rows="3" required value><?php echo $studentProfile->country ?></textarea>
             </div>
         </div>
 

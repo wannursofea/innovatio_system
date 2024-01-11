@@ -29,16 +29,16 @@
                  if ($url == $e_url) {
                      //page edit user
  
-                     if ($_SESSION['user_role'] == "Student") {
+                     if ($_SESSION['userRole'] == "Student") {
 
                          require 'edit_profile.php';
 
-                     } else if ($_SESSION['user_role'] == "Admin"){
+                     } else if ($_SESSION['userRole'] == "Admin"){
 
                         
                      }
  
-                     else if ($_SESSION['user_role']== "Partner") {
+                     else if ($_SESSION['userRole']== "Partner") {
                             
                         require 'edit_profile.php';
                  }
