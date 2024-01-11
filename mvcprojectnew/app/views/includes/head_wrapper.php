@@ -841,19 +841,19 @@
 												<!--end::Avatar-->
 												<!--begin::Username-->
 												<div class="d-flex flex-column">
-    												<div class="fw-bold d-flex align-items-center fs-5">
-        											<a href="/user" class="text-decoration-none">
-            											<?php echo $_SESSION['username']; ?>
-        											</a>
-        											<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span>
-    												</div>
-    												<a href="mailto:<?php echo $_SESSION['email']; ?>" class="fw-semibold text-muted text-hover-primary fs-7">
-        											<?php echo $_SESSION['email']; ?>
-    												</a>
+    											<div class="fw-bold d-flex align-items-center fs-5">
+        										<a href="/user" class="text-decoration-none">
+            										<?php echo $_SESSION['username']; ?>
+        										</a>
+        										<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span>
+    											</div>
+    											<a href="mailto:<?php echo $_SESSION['email']; ?>" class="fw-semibold text-muted text-hover-primary fs-7">
+        										<?php echo $_SESSION['email']; ?>
+    											</a>
 												</div>
 												<!--end::Username-->
 											</div>
-										</div>
+										</div>							
 										<!--end::Menu item-->
 										<!--begin::Menu separator-->
 										<div class="separator my-2"></div>
