@@ -43,6 +43,15 @@ class Event{
         return $count;
     }
 
+    public function countEventByCategory($category) {
+    $this->db->query('SELECT COUNT(*) as count FROM events WHERE category = :category');
+    $this->db->bind(':category', $category);
+
+    $row = $this->db->single();
+
+    return $row->count;
+    }
+
     public function findInvitationById($event_id){
         //remark:
         //use for function findSelectedClientsById and editInvitation and delete_event 
@@ -64,9 +73,16 @@ class Event{
         return $client_ids;
     }
 
+    public function getClientById($client_id){
+        $this->db->query('SELECT * FROM partnerclient WHERE client_id = :client_id');
+        $this->db->bind(':client_id', $client_id);
+
+        return $this->db->single();
+    }
+
     public function createEvent($data){
-        $this->db->query('INSERT INTO events (`eventName`, `category`, `eventDescription`, `date`, `time`, `venue`, `user_id`, `feedback`) 
-        VALUES (:eventName, :category, :eventDescription, :date, :time, :venue, :user_id, :feedback)');
+        $this->db->query('INSERT INTO events (`eventName`, `category`, `eventDescription`, `date`, `time`, `venue`, `user_id`, `feedback`, `filepath`) 
+        VALUES (:eventName, :category, :eventDescription, :date, :time, :venue, :user_id, :feedback, :filepath)');
         
         $this->db->bind(':eventName', $data['eventName']);
         $this->db->bind(':category', $data['category']);
@@ -76,6 +92,7 @@ class Event{
         $this->db->bind(':venue', $data['venue']);
         $this->db->bind(':user_id', $data['user_id']);
         $this->db->bind(':feedback', $data['feedback']);
+        $this->db->bind(':filepath', $data['filepath']);
         
         if ($this->db->execute()){
             return $this->db->lastInsertId();
@@ -85,8 +102,8 @@ class Event{
         }
     }
 
-    public function editEvent($data){
-        $this->db->query('UPDATE events SET event_id = :event_id, eventName = :eventName, category = :category, eventDescription = eventDescription, date = :date, time = :time, venue = :venue, user_id = :user_id, feedback = :feedback WHERE event_id = :event_id');
+    public function editEvent($data) {
+        $this->db->query('UPDATE events SET eventName = :eventName, category = :category, eventDescription = :eventDescription, date = :date, time = :time, venue = :venue, user_id = :user_id, feedback = :feedback, filepath = :filepath WHERE event_id = :event_id');
 
         $this->db->bind(':event_id', $data['event_id']);
         $this->db->bind(':eventName', $data['eventName']);
@@ -96,15 +113,17 @@ class Event{
         $this->db->bind(':time', $data['time']);
         $this->db->bind(':venue', $data['venue']);
         $this->db->bind(':user_id', $data['user_id']);
-         $this->db->bind(':feedback', $data['feedback']);
+        $this->db->bind(':feedback', $data['feedback']);
+        $this->db->bind(':filepath', $data['filepath']);
 
-        if ($this->db->execute()){
+        if ($this->db->execute()) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
+
+
 
     public function createInvitation($invitationData){
         $invitationData['invitation_date'] = date('Y-m-d');
@@ -254,6 +273,22 @@ class Event{
         
     }
 
+    public function checkRegisterByStuEve($profile_id, $event_id){
+        $this->db->query ('SELECT * FROM registration WHERE profile_id = :profile_id AND event_id = :event_id;');
+
+        $this->db->bind(':profile_id', $profile_id);
+        $this->db->bind(':event_id', $event_id);
+        $row = $this->db->single();
+
+        if($row){
+            return $row;
+        }
+        else{
+            return false;
+        }
+        
+    }
+
     public function findRegisterInfo($profile_id){
         $this->db->query ('SELECT * FROM registration WHERE profile_id = :profile_id ORDER BY register_id DESC LIMIT 1;');
 
@@ -324,6 +359,13 @@ class Event{
 
         return $skill_ids;
     }
+    public function findSelectedSkillOptionById($skill_id){
+        $this->db->query('SELECT * FROM option_skill WHERE skill_id = :skill_id');
+        $this->db->bind(':skill_id', $skill_id);
+        $result = $this->db->single();
+
+        return $result;
+    }
 
     public function findSoftSkillById($profile_id){
         $this->db->query('SELECT * FROM softwareskill WHERE profile_id = :profile_id');
@@ -338,6 +380,14 @@ class Event{
         $softwareSkill_ids = array_column($result, 'softwareSkill_id');
 
         return $softwareSkill_ids;
+    }
+
+    public function findSelectedSoftSkillOptionById($softwareSkill_id){
+        $this->db->query('SELECT * FROM option_software_skill WHERE softwareSkill_id = :softwareSkill_id');
+        $this->db->bind(':softwareSkill_id', $softwareSkill_id);
+        $result = $this->db->single();
+        
+        return $result;
     }
 
     public function findRegisterInfoByEventId($event_id){

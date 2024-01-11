@@ -30,6 +30,7 @@ class Events extends Controller
     {
         $data = 
         [
+            'profile_id' => '',
             'eventName' => '',
             'category' => '',
             'eventDescription' => '',
@@ -37,17 +38,41 @@ class Events extends Controller
             'time' => '',
             'venue' => '',
             'feedback' => '',
+            'filepath' => '',
         ];
 
         $invitationData=
         [
             'client_id'=> '',
         ];
+        $filepath = '';
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            
+            
+
+            // Check if an image has been uploaded
+        if (!empty($_FILES['image_event']) && $_FILES['image_event']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = "uploads/";
+            $fileName = $_FILES['image_event']['name'];
+            $targetFilePath = $uploadDir . $fileName;
+
+            // Move the uploaded file to the target directory
+            if (move_uploaded_file($_FILES['image_event']['tmp_name'], $targetFilePath)) {
+                // Store the file path in the event data
+                $filepath = "uploads/" . $fileName;
+            } else {
+                die("File upload failed");
+            }
+        } else {
+            // If no image is uploaded, set an empty path
+            $filepath = '';
+        }
+
             $data = 
             [
+            'profile_id' => '',
             'user_id' => $_SESSION['user_id'],
             'eventName' => trim($_POST['eventName']),
             'category' => trim($_POST['category']),
@@ -56,6 +81,7 @@ class Events extends Controller
             'time' => trim($_POST['time']),
             'venue' => trim($_POST['venue']),
             'feedback' => trim($_POST['feedback']),
+            'filepath' => $filepath,
             
             ];
 
@@ -77,6 +103,7 @@ class Events extends Controller
                     $data['feedback']){
 
                     $event_id = $this->eventModel->createEvent($data);
+                    
                     if ($event_id){
                         header("Location: " . URLROOT. "/events" );
                     }
@@ -139,7 +166,8 @@ class Events extends Controller
         }
         
         $data = 
-        [
+        [   
+            'profile_id' => '',
             'event' => $event,
             'selected_clients' => $selected_clients,// IMPORTANT: for showing collaborator selected previously
             'eventName' => '',
@@ -149,6 +177,8 @@ class Events extends Controller
             'time' => '',
             'venue' => '',
             'feedback' => '',
+            'filepath' => '',
+            
         ];
 
         $invitationData[]=
@@ -157,11 +187,37 @@ class Events extends Controller
             'client_id'=> '',
         ];
 
+        $filepath = '';
+
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            if (!empty($_FILES['image_event']) && $_FILES['image_event']['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = "uploads/";
+                $fileName = $_FILES['image_event']['name'];
+                $targetFilePath = $uploadDir . $fileName;
+
+                // Move the uploaded file to the target directory
+                if (move_uploaded_file($_FILES['image_event']['tmp_name'], $targetFilePath)) {
+                    // Store the new file path in the event data
+                    $filepath = "uploads/" . $fileName;
+
+                    // If the event had a previous image, delete it
+                    if (!empty($data['event']->filepath)) {
+                        die("gggggg");
+                        unlink($data['event']->filepath);
+                    }
+                } else {
+                    die("File upload failed");
+                }
+            } else {
+                // If no new image is uploaded, keep the existing image path
+                $filepath = $data['event']->filepath;
+            }
+
             //To obtain data event from edit form
             $data = 
             [
+            'profile_id' => '',
             'event_id' => $event_id,
             'event' => $event,
             'selected_clients' => $selected_clients,// IMPORTANT: for showing collaborator selected previously
@@ -173,6 +229,7 @@ class Events extends Controller
             'time' => trim($_POST['time']),
             'venue' => trim($_POST['venue']),
             'feedback' => trim($_POST['feedback']),
+            'filepath' => $filepath,
             'eventNameError' => '',
             'categoryError' => '',
             'eventDescriptionError' => '',
@@ -415,6 +472,7 @@ class Events extends Controller
         $invitationData[] = $this->eventModel->findInvitationById($event_id);
         $data = 
         [
+            'profile_id' => '',
             'event' => $event,
             'eventName' => '',
             'category' => '',
@@ -886,25 +944,31 @@ class Events extends Controller
         $this->view('events/index', $data);
     }
 
-    public function view_more($event_id, $profileID)
+    public function view_more($event_id, $profile_id)
     {
         $user_id = '';
         $student = '';
-        $profile_id = '';
+        
         //for display option for checkboxes from 2 option tables
         // $option_skill = $this->eventModel->fetchAllSkill();
         // $option_software_skill = $this->eventModel->fetchAllSoftwareSkill();
 
         if($event_id){
             $event = $this->eventModel->findEventById($event_id);// Important to redirect to each event register form to check the event is available
-        }
-        else{
-            die("Invalid. Event does not exist.");
+        
+            if (!$event) {
+                die("Invalid. Event does not exist.");
+            }
+        } else {
+            die("Invalid. Event ID is missing.");
         }
 
         $registers = $this->eventModel->findRegisterInfoByEventId($event_id);
+        $student = $this->eventModel->findStudentByProfileId($profile_id);
+        $stuInEveRegister = $this->eventModel->checkRegisterByStuEve($profile_id, $event_id);
+        $selectedSkill = $this->eventModel->findSelectedSkillById($profile_id);
+        $selectedSoftSkill = $this->eventModel->findSelectedSoftSkillById($profile_id);
 
-        
         // if(isLoggedIn()){ 
             
         //     $user_id = $_SESSION['user_id'];
@@ -921,8 +985,7 @@ class Events extends Controller
                 
 
         //         //for selected checkboxes
-        //         $selectedSkill = $this->eventModel->findSelectedSkillById($profile_id);
-        //         $selectedSoftSkill = $this->eventModel->findSelectedSoftSkillById($profile_id);
+       
         //     }
         //     else{
         //         die("Profile is not completed, cannot register for event");
@@ -932,14 +995,13 @@ class Events extends Controller
         $data = 
         [
             'registers' => $registers, // To hold all the participants of one event
-
-
             //data from student
             'user_id' => $_SESSION['user_id'],
             'student' => $student ?? '',
-            
-            // 'selectedSkill' => $selectedSkill,
-            // 'selectedSoftSkill' => $selectedSoftSkill,
+            'stuInEveRegister' => $stuInEveRegister,
+            'selectedSkill' => $selectedSkill,
+            'selectedSoftSkill' => $selectedSoftSkill,
+
             'name' => '',
             'phoneNum' => '',
             'email' => '',
@@ -948,7 +1010,7 @@ class Events extends Controller
 
             //for registration 
             'event' => $event ?? '',
-            'profile_id' => $profileID,
+            'profile_id' => $profile_id,
             // 'latest_data_register' => $latest_data_register ?? '',
             'event_id' => $event_id ?? '',
 
@@ -969,5 +1031,94 @@ class Events extends Controller
         $this->view('events/index', $data);
     }
 
+    public function view_event($event_id)
+    {
+        $user_id = '';
+        $student = '';
+        $profile_id = '';
+        
+        //for display option for checkboxes from 2 option tables
+        // $option_skill = $this->eventModel->fetchAllSkill();
+        // $option_software_skill = $this->eventModel->fetchAllSoftwareSkill();
+
+        if($event_id){
+            $event = $this->eventModel->findEventById($event_id);// Important to redirect to each event register form to check the event is available
+        
+            if (!$event) {
+                die("Invalid. Event does not exist.");
+            }
+        } else {
+            die("Invalid. Event ID is missing.");
+        }
+
+        $registers = $this->eventModel->findRegisterInfoByEventId($event_id);
+        $selected_clients = $this->eventModel->findSelectedClientsById($event_id); // To obtain the client_id(s) of the collaborator(s) of THIS event
+        // $student = $this->eventModel->findStudentByProfileId($profile_id);
+        // $stuInEveRegister = $this->eventModel->checkRegisterByStuEve($profile_id, $event_id);
+        // $selectedSkill = $this->eventModel->findSelectedSkillById($profile_id);
+        // $selectedSoftSkill = $this->eventModel->findSelectedSoftSkillById($profile_id);
+
+        // if(isLoggedIn()){ 
+            
+        //     $user_id = $_SESSION['user_id'];
+            
+        //     $student = $this->eventModel->findStudentById($user_id); //To get data from student table
+            
+        //     //retrieve the data that already have in the system
+        //     if ($student) {
+        //         $profile_id = $student->profile_id;
+        //     }
+            
+        //     if ($profile_id) {
+        //         $latest_data_register = $this->eventModel->findRegisterInfo($profile_id);
+                
+
+        //         //for selected checkboxes
+       
+        //     }
+        //     else{
+        //         die("Profile is not completed, cannot register for event");
+        //     }
+        // }
+       
+        $data = 
+        [
+            'registers' => $registers, // To hold all the participants of one event
+            //data from student
+            'user_id' => $_SESSION['user_id'],
+            'student' => $student ?? '',
+            'selected_clients' => $selected_clients ?? '',// IMPORTANT: for showing collaborator selected previously
+            // 'stuInEveRegister' => $stuInEveRegister,
+            // 'selectedSkill' => $selectedSkill,
+            // 'selectedSoftSkill' => $selectedSoftSkill,
+
+            'name' => '',
+            'phoneNum' => '',
+            'email' => '',
+            'DOB' => '',
+            'course' => '',
+
+            //for registration 
+            'event' => $event ?? '',
+            'profile_id' => $profile_id,
+            // 'latest_data_register' => $latest_data_register ?? '',
+            'event_id' => $event_id ?? '',
+
+            //data for registration
+            'dream' => '',
+            'passion' => '',
+            'hiddenTalent' => '',
+            'presentStatus' => '',
+            'institution' => '',
+            
+            'internshipYear' => '',
+            'graduationYear' => '',
+            'goal' => '',
+            'archieveGoal' => '',
+        
+        ];
+        
+        $this->view('events/index', $data);
+    }
 }    
 ?>
