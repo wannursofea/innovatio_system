@@ -167,4 +167,3 @@ class Users extends Controller {
         header('location:' . URLROOT . '/users/login');
     }
 }
-..
