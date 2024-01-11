@@ -12,77 +12,174 @@
 														<div class="mb-8">
 															<!--begin::Info-->
 															<div class="d-flex flex-wrap mb-6">
-																<!--begin::Item-->
-																<div class="me-9 my-1">
-																	<!--begin::Icon-->
-																	<i class="ki-duotone ki-element-11 text-primary fs-2 me-1">
-																		<span class="path1"></span>
-																		<span class="path2"></span>
-																		<span class="path3"></span>
-																		<span class="path4"></span>
-																	</i>
-																	<!--end::Icon-->
-																	<!--begin::Label-->
-																	<span class="fw-bold text-gray-500">06 April 2021</span>
-																	<!--end::Label-->
-																</div>
-																<!--end::Item-->
 																
-																<!--begin::Item-->
-																<div class="my-1">
-																	<!--begin::Icon-->
-																	<i class="ki-duotone ki-message-text-2 text-primary fs-2 me-1">
-																		<span class="path1"></span>
-																		<span class="path2"></span>
-																		<span class="path3"></span>
-																	</i>
-																	<!--end::Icon-->
-																	<!--begin::Label-->
-																	<span class="fw-bold text-gray-500">24 Comments</span>
-																	<!--end::Label-->
-																</div>
-																<!--end::Item-->
+																
+																
 															</div>
 															<!--end::Info-->
 															<!--begin::Title-->
-															<a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold">Admin Panel - How To Get Started Tutorial. Create a customizable SaaS Based applications and solutions 
-															<span class="fw-bold text-muted fs-5 ps-1">5 mins read</span></a>
+															<h2 class= "fw-bold my-2"><?php echo $data['event']->eventName?>
+															
 															<!--end::Title-->
+															<?php if (!empty($data['event']->filepath)) : ?>
 															<!--begin::Container-->
 															<div class="overlay mt-8">
 																<!--begin::Image-->
-																<div class="bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-350px" style="background-image:url('assets/media/stock/1600x800/img-1.jpg')"></div>
+																<div class="bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-350px" style="background-image: url('<?php echo URLROOT . "/public/" . $data['event']->filepath; ?>'); background-size: cover;"></div>
 																<!--end::Image-->
-																<!--begin::Links-->
-																<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-																	<a href="pages/about.html" class="btn btn-primary">About Us</a>
-																	<a href="pages/careers/apply.html" class="btn btn-light-primary ms-3">Join Us</a>
-																</div>
-																<!--end::Links-->
 															</div>
 															<!--end::Container-->
+															<?php endif; ?>
 														</div>
 														<!--end::Wrapper-->
 														<!--begin::Description-->
 														<div class="fs-5 fw-semibold text-gray-600">
-															<!--begin::Text-->
-															<p class="mb-8">First, a disclaimer – the entire process of writing a blog post often takes more than a couple of hours, even if you can type eighty words per minute and your writing skills are sharp. From the seed of the idea to finally hitting “Publish,” you might spend several days or maybe even a week “writing” a blog post, but it’s important to spend those vital hours planning your post and even thinking about 
-															<a href="pages/blog/post.html" class="link-primary pe-1">Your Post</a>(yes, thinking counts as working if you’re a blogger) before you actually write it.</p>
-															<!--end::Text-->
-															<!--begin::Text-->
-															<p class="mb-8">There’s an old maxim that states, 
-															<span class="text-gray-800 pe-1">“No fun for the writer, no fun for the reader.”</span>No matter what industry you’re working in, as a blogger, you should live and die by this statement.</p>
-															<!--end::Text-->
-															<!--begin::Text-->
-															<p class="mb-8">Before you do any of the following steps, be sure to pick a topic that actually interests you. Nothing – and 
-															<a href="pages/blog/home.html" class="link-primary pe-1">I mean NOTHING</a>– will kill a blog post more effectively than a lack of enthusiasm from the writer. You can tell when a writer is bored by their subject, and it’s so cringe-worthy it’s a little embarrassing.</p>
-															<!--end::Text-->
-															<!--begin::Text-->
-															<p class="mb-17">I can hear your objections already. “But Dan, I have to blog for a cardboard box manufacturing company.” I feel your pain, I really do. During the course of my career, I’ve written content for dozens of clients in some less-than-thrilling industries (such as financial regulatory compliance and corporate housing), but the hallmark of a professional blogger is the ability to write well about any topic, no matter how dry it may be. Blogging is a lot easier, however, if you can muster at least a little enthusiasm for the topic at hand.</p>
-															<!--end::Text-->
 
-                                                            <a href="<?php echo URLROOT;?>/events/register_event" class="btn btn-primary">Register Now</a>
-															<a href="pages/careers/apply.html" class="btn btn-light-primary ms-3">Join Us</a>
+
+
+
+															<!--begin::details View-->
+															<div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
+																<!--begin::Card header-->
+																<div class="card-header cursor-pointer">
+																	<!--begin::Card title-->
+																	<div class="card-title m-0">
+																		<h3 class="fw-bold m-0">Event Details</h3>
+																	</div>
+																	<!--end::Card title-->
+																</div>
+																<!--begin::Card header-->
+																<!--begin::Card body-->
+																<div class="card-body p-9">
+																	<!--begin::Row-->
+
+																	<!--begin::Input group-->
+																	<div class="row mb-7">
+																		<!--begin::Label-->
+																		<label class="col-lg-4 fw-semibold text-muted">Category</label>
+																		<!--end::Label-->
+																		<!--begin::Col-->
+																		<div class="col-lg-8 d-flex align-items-center">
+																			<span class="fw-bold fs-6 text-gray-800 me-2"><?php echo $data['event']->category;?></span>
+																		</div>
+																		<!--end::Col-->
+																	</div>
+																	<!--end::Input group-->
+
+
+
+																	<div class="row mb-7">
+																		<!--begin::Label-->
+																		<label class="col-lg-4 fw-semibold text-muted">Venue</label>
+																		<!--end::Label-->
+																		<!--begin::Col-->
+																		<div class="col-lg-8">
+																			<span class="fw-bold fs-6 text-gray-800"><?php echo $data['event']->venue;?></span>
+																		</div>
+																		<!--end::Col-->
+																	</div>
+																	<!--end::Row-->
+																	
+																	<!--begin::Input group-->
+																	<div class="row mb-7">
+																		<!--begin::Label-->
+																		<label class="col-lg-4 fw-semibold text-muted">Date</label>
+																		<!--end::Label-->
+																		<!--begin::Col-->
+																		<div class="col-lg-8 d-flex align-items-center">
+																			<span class="fw-bold fs-6 text-gray-800 me-2"><?php echo $data['event']->date;?></span>
+																		</div>
+																		<!--end::Col-->
+																	</div>
+																	<!--end::Input group-->
+																	<!--begin::Input group-->
+																	<div class="row mb-7">
+																		<!--begin::Label-->
+																		<label class="col-lg-4 fw-semibold text-muted">Time</label>
+																		<!--end::Label-->
+																		<!--begin::Col-->
+																		<div class="col-lg-8">
+																			<a href="#" class="fw-semibold fs-6 text-gray-800 text-hover-primary"><?php echo $data['event']->time;?></a>
+																		</div>
+																		<!--end::Col-->
+																	</div>
+																	<!--end::Input group-->
+																	
+																	
+																	<!--begin::Text-->
+																		<p class="mb-8"><?php echo $data['event']->eventDescription;?></p>
+																	<!--end::Text-->
+
+
+																	<?php if (!empty($data['selected_clients'])): ?>
+																	<!--begin::Input group-->
+																	<div class="row mb-10">
+																		<!--begin::Label-->
+																		<label class="col-lg-4 fw-semibold text-muted">Collaborator</label>
+																		<!--begin::Label-->
+																		<!--begin::Section-->
+																				<div class="m-0">
+																					<!--begin::Heading-->
+																					<div class="d-flex align-items-center collapsible py-3 toggle mb-0" data-bs-toggle="collapse" data-bs-target="#kt_job_1_1">
+																						<!--begin::Icon-->
+																						<div class="btn btn-sm btn-icon mw-20px btn-active-color-primary me-5">
+																							<i class="ki-duotone ki-minus-square toggle-on text-primary fs-1">
+																								<span class="path1"></span>
+																								<span class="path2"></span>
+																							</i>
+																							<i class="ki-duotone ki-plus-square toggle-off fs-1">
+																								<span class="path1"></span>
+																								<span class="path2"></span>
+																								<span class="path3"></span>
+																							</i>
+																						</div>
+																						<!--end::Icon-->
+																						<!--begin::Title-->
+																						<h4 class="text-gray-700 fw-bold cursor-pointer mb-0">List of Collaborator(s)</h4>
+																						<!--end::Title-->
+																					</div>
+																					<!--end::Heading-->
+																					<!--begin::Body-->
+																					<div id="kt_job_1_1" class="collapse show fs-6 ms-1">
+
+
+																						<?php foreach ($data['selected_clients'] as $selectedClient): ?>
+    																						<?php $clientData = $this->eventModel->getClientById($selectedClient); ?>
+																							<!--begin::Item-->
+																							<div class="mb-4">
+																								<!--begin::Item-->
+																								<div class="d-flex align-items-center ps-10 mb-n1">
+																									<!--begin::Bullet-->
+																									<span class="bullet me-3"></span>
+																									<!--end::Bullet-->
+																									<!--begin::Label-->
+																									<div class="text-gray-600 fw-semibold fs-6"><?php echo $clientData->companyName; ?></div>
+																									<!--end::Label-->
+																								</div>
+																								<!--end::Item-->
+																							</div>
+																							<!--end::Item-->
+
+																						<?php endforeach; ?>
+
+
+																					</div>
+																					<!--end::Content-->
+																					<!--begin::Separator-->
+																					<div class="separator separator-dashed"></div>
+																					<!--end::Separator-->
+																				</div>
+																				<!--end::Section-->
+																	</div>
+																	<!--end::Input group-->
+																	<?php endif; ?>
+																</div>
+																<!--end::Card body-->
+															</div>
+															<!--end::details View-->
+
+                                                            <a href="<?php echo URLROOT . "/events/register_event/".$data['event']->event_id?>" class="btn btn-primary">Register Now</a>
+															
 														</div>
 														<!--end::Description-->
 														<!--begin::Block-->
@@ -155,80 +252,67 @@
 												<!--end::Content-->
 												<!--begin::Sidebar-->
 												<div class="flex-column flex-lg-row-auto w-100 w-xl-300px mb-10">
-													<!--begin::Search Event-->
-													<div class="mb-16">
-														<h4 class="text-gray-900 mb-7">Search Event</h4>
-														<!--begin::Input group-->
-														<div class="position-relative">
-															<i class="ki-duotone ki-magnifier fs-3 text-gray-500 position-absolute top-50 translate-middle ms-6">
-																<span class="path1"></span>
-																<span class="path2"></span>
-															</i>
-															<input type="text" class="form-control form-control-solid ps-10" name="search" value="" placeholder="Search" />
-														</div>
-														<!--end::Input group-->
-													</div>
-													<!--end::Search Event-->
+													
 													<!--begin::Catigories-->
 													<div class="mb-16">
 														<h4 class="text-gray-900 mb-7">Categories</h4>
 														<!--begin::Item-->
 														<div class="d-flex flex-stack fw-semibold fs-5 text-muted mb-4">
 															<!--begin::Text-->
-															<a href="#" class="text-muted text-hover-primary pe-2">SaaS Solutions</a>
+															<a href="#" class="text-muted text-hover-primary pe-2">Program/Activities</a>
 															<!--end::Text-->
 															<!--begin::Number-->
-															<div class="m-0">24</div>
+															<div class="m-0"><?php echo $this->eventModel->countEventByCategory('Program/Activities');?></div>
 															<!--end::Number-->
 														</div>
 														<!--end::Item-->
 														<!--begin::Item-->
 														<div class="d-flex flex-stack fw-semibold fs-5 text-muted mb-4">
 															<!--begin::Text-->
-															<a href="#" class="text-muted text-hover-primary pe-2">Company News</a>
+															<a href="#" class="text-muted text-hover-primary pe-2">Competition/Scholarship</a>
 															<!--end::Text-->
 															<!--begin::Number-->
-															<div class="m-0">152</div>
+															<div class="m-0"><?php echo $this->eventModel->countEventByCategory('Competition/Scholarship');?></div>
 															<!--end::Number-->
 														</div>
 														<!--end::Item-->
 														<!--begin::Item-->
 														<div class="d-flex flex-stack fw-semibold fs-5 text-muted mb-4">
 															<!--begin::Text-->
-															<a href="#" class="text-muted text-hover-primary pe-2">Events & Activities</a>
+															<a href="#" class="text-muted text-hover-primary pe-2">Bootcamp/Workshop</a>
 															<!--end::Text-->
 															<!--begin::Number-->
-															<div class="m-0">52</div>
+															<div class="m-0"><?php echo $this->eventModel->countEventByCategory('Bootcamp/Workshop');?></div>
 															<!--end::Number-->
 														</div>
 														<!--end::Item-->
 														<!--begin::Item-->
 														<div class="d-flex flex-stack fw-semibold fs-5 text-muted mb-4">
 															<!--begin::Text-->
-															<a href="#" class="text-muted text-hover-primary pe-2">Support Related</a>
+															<a href="#" class="text-muted text-hover-primary pe-2">Part Time</a>
 															<!--end::Text-->
 															<!--begin::Number-->
-															<div class="m-0">305</div>
+															<div class="m-0"><?php echo $this->eventModel->countEventByCategory('Part Time');?></div>
 															<!--end::Number-->
 														</div>
 														<!--end::Item-->
 														<!--begin::Item-->
 														<div class="d-flex flex-stack fw-semibold fs-5 text-muted mb-4">
 															<!--begin::Text-->
-															<a href="#" class="text-muted text-hover-primary pe-2">Innovations</a>
+															<a href="#" class="text-muted text-hover-primary pe-2">Volunteering</a>
 															<!--end::Text-->
 															<!--begin::Number-->
-															<div class="m-0">70</div>
+															<div class="m-0"><?php echo $this->eventModel->countEventByCategory('Volunteering');?></div>
 															<!--end::Number-->
 														</div>
 														<!--end::Item-->
 														<!--begin::Item-->
 														<div class="d-flex flex-stack fw-semibold fs-5 text-muted">
 															<!--begin::Text-->
-															<a href="#" class="text-muted text-hover-primary pe-2">Product Updates</a>
+															<a href="#" class="text-muted text-hover-primary pe-2">Internship</a>
 															<!--end::Text-->
 															<!--begin::Number-->
-															<div class="m-0">585</div>
+															<div class="m-0"><?php echo $this->eventModel->countEventByCategory('Internship');?></div>
 															<!--end::Number-->
 														</div>
 														<!--end::Item-->
@@ -303,282 +387,8 @@
 												<!--end::Sidebar-->
 											</div>
 											<!--end::Layout-->
-											<!--begin::Section-->
-											<div class="mb-17">
-												<!--begin::Content-->
-												<div class="d-flex flex-stack mb-5">
-													<!--begin::Title-->
-													<h3 class="text-gray-900">Video Tutorials</h3>
-													<!--end::Title-->
-													<!--begin::Link-->
-													<a href="#" class="fs-6 fw-semibold link-primary">View All Videos</a>
-													<!--end::Link-->
-												</div>
-												<!--end::Content-->
-												<!--begin::Separator-->
-												<div class="separator separator-dashed mb-9"></div>
-												<!--end::Separator-->
-												<!--begin::Row-->
-												<div class="row g-10">
-													<!--begin::Col-->
-													<div class="col-md-4">
-														<!--begin::Feature post-->
-														<div class="card-xl-stretch me-md-6">
-															<!--begin::Image-->
-															<a class="d-block bgi-no-repeat bgi-size-cover bgi-position-center card-rounded position-relative min-h-175px mb-5" style="background-image:url('assets/media/stock/600x400/img-73.jpg')" data-fslightbox="lightbox-video-tutorials" href="https://www.youtube.com/embed/btornGtLwIo">
-																<img src="assets/media/svg/misc/video-play.svg" class="position-absolute top-50 start-50 translate-middle" alt="" />
-															</a>
-															<!--end::Image-->
-															<!--begin::Body-->
-															<div class="m-0">
-																<!--begin::Title-->
-																<a href="pages/user-profile/overview.html" class="fs-4 text-gray-900 fw-bold text-hover-primary text-gray-900 lh-base">Admin Panel - How To Started the Dashboard Tutorial</a>
-																<!--end::Title-->
-																<!--begin::Text-->
-																<div class="fw-semibold fs-5 text-gray-600 text-gray-900 my-4">We’ve been focused on making a the from also not been afraid to and step away been focused create eye</div>
-																<!--end::Text-->
-																<!--begin::Content-->
-																<div class="fs-6 fw-bold">
-																	<!--begin::Author-->
-																	<a href="pages/user-profile/overview.html" class="text-gray-700 text-hover-primary">Jane Miller</a>
-																	<!--end::Author-->
-																	<!--begin::Date-->
-																	<span class="text-muted">on Mar 21 2021</span>
-																	<!--end::Date-->
-																</div>
-																<!--end::Content-->
-															</div>
-															<!--end::Body-->
-														</div>
-														<!--end::Feature post-->
-													</div>
-													<!--end::Col-->
-													<!--begin::Col-->
-													<div class="col-md-4">
-														<!--begin::Feature post-->
-														<div class="card-xl-stretch mx-md-3">
-															<!--begin::Image-->
-															<a class="d-block bgi-no-repeat bgi-size-cover bgi-position-center card-rounded position-relative min-h-175px mb-5" style="background-image:url('assets/media/stock/600x400/img-74.jpg')" data-fslightbox="lightbox-video-tutorials" href="https://www.youtube.com/embed/btornGtLwIo">
-																<img src="assets/media/svg/misc/video-play.svg" class="position-absolute top-50 start-50 translate-middle" alt="" />
-															</a>
-															<!--end::Image-->
-															<!--begin::Body-->
-															<div class="m-0">
-																<!--begin::Title-->
-																<a href="pages/user-profile/overview.html" class="fs-4 text-gray-900 fw-bold text-hover-primary text-gray-900 lh-base">Admin Panel - How To Started the Dashboard Tutorial</a>
-																<!--end::Title-->
-																<!--begin::Text-->
-																<div class="fw-semibold fs-5 text-gray-600 text-gray-900 my-4">We’ve been focused on making the from v4 to v5 but we have also not been afraid to step away been focused</div>
-																<!--end::Text-->
-																<!--begin::Content-->
-																<div class="fs-6 fw-bold">
-																	<!--begin::Author-->
-																	<a href="pages/user-profile/overview.html" class="text-gray-700 text-hover-primary">Cris Morgan</a>
-																	<!--end::Author-->
-																	<!--begin::Date-->
-																	<span class="text-muted">on Apr 14 2021</span>
-																	<!--end::Date-->
-																</div>
-																<!--end::Content-->
-															</div>
-															<!--end::Body-->
-														</div>
-														<!--end::Feature post-->
-													</div>
-													<!--end::Col-->
-													<!--begin::Col-->
-													<div class="col-md-4">
-														<!--begin::Feature post-->
-														<div class="card-xl-stretch ms-md-6">
-															<!--begin::Image-->
-															<a class="d-block bgi-no-repeat bgi-size-cover bgi-position-center card-rounded position-relative min-h-175px mb-5" style="background-image:url('assets/media/stock/600x400/img-47.jpg')" data-fslightbox="lightbox-video-tutorials" href="https://www.youtube.com/embed/TWdDZYNqlg4">
-																<img src="assets/media/svg/misc/video-play.svg" class="position-absolute top-50 start-50 translate-middle" alt="" />
-															</a>
-															<!--end::Image-->
-															<!--begin::Body-->
-															<div class="m-0">
-																<!--begin::Title-->
-																<a href="pages/user-profile/overview.html" class="fs-4 text-gray-900 fw-bold text-hover-primary text-gray-900 lh-base">Admin Panel - How To Started the Dashboard Tutorial</a>
-																<!--end::Title-->
-																<!--begin::Text-->
-																<div class="fw-semibold fs-5 text-gray-600 text-gray-900 my-4">We’ve been focused on making the from v4 to v5 but we’ve also not been afraid to step away been focused</div>
-																<!--end::Text-->
-																<!--begin::Content-->
-																<div class="fs-6 fw-bold">
-																	<!--begin::Author-->
-																	<a href="pages/user-profile/overview.html" class="text-gray-700 text-hover-primary">Carles Nilson</a>
-																	<!--end::Author-->
-																	<!--begin::Date-->
-																	<span class="text-muted">on May 14 2021</span>
-																	<!--end::Date-->
-																</div>
-																<!--end::Content-->
-															</div>
-															<!--end::Body-->
-														</div>
-														<!--end::Feature post-->
-													</div>
-													<!--end::Col-->
-												</div>
-												<!--end::Row-->
-											</div>
-											<!--end::Section-->
-											<!--begin::Section-->
-											<div class="mb-17">
-												<!--begin::Content-->
-												<div class="d-flex flex-stack mb-5">
-													<!--begin::Title-->
-													<h3 class="text-gray-900">Hottest Bundles</h3>
-													<!--end::Title-->
-													<!--begin::Link-->
-													<a href="#" class="fs-6 fw-semibold link-primary">View All Offers</a>
-													<!--end::Link-->
-												</div>
-												<!--end::Content-->
-												<!--begin::Separator-->
-												<div class="separator separator-dashed mb-9"></div>
-												<!--end::Separator-->
-												<!--begin::Row-->
-												<div class="row g-10">
-													<!--begin::Col-->
-													<div class="col-md-4">
-														<!--begin::Hot sales post-->
-														<div class="card-xl-stretch me-md-6">
-															<!--begin::Overlay-->
-															<a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="assets/media/stock/600x400/img-23.jpg">
-																<!--begin::Image-->
-																<div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px" style="background-image:url('assets/media/stock/600x400/img-23.jpg')"></div>
-																<!--end::Image-->
-																<!--begin::Action-->
-																<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-																	<i class="ki-duotone ki-eye fs-2x text-white">
-																		<span class="path1"></span>
-																		<span class="path2"></span>
-																		<span class="path3"></span>
-																	</i>
-																</div>
-																<!--end::Action-->
-															</a>
-															<!--end::Overlay-->
-															<!--begin::Body-->
-															<div class="mt-5">
-																<!--begin::Title-->
-																<a href="#" class="fs-4 text-gray-900 fw-bold text-hover-primary text-gray-900 lh-base">25 Products Mega Bundle with 50% off discount amazing</a>
-																<!--end::Title-->
-																<!--begin::Text-->
-																<div class="fw-semibold fs-5 text-gray-600 text-gray-900 mt-3">We’ve been focused on making a the from also not been eye</div>
-																<!--end::Text-->
-																<!--begin::Text-->
-																<div class="fs-6 fw-bold mt-5 d-flex flex-stack">
-																	<!--begin::Label-->
-																	<span class="badge border border-dashed fs-2 fw-bold text-gray-900 p-2">
-																	<span class="fs-6 fw-semibold text-gray-500">$</span>28</span>
-																	<!--end::Label-->
-																	<!--begin::Action-->
-																	<a href="#" class="btn btn-sm btn-primary">Purchase</a>
-																	<!--end::Action-->
-																</div>
-																<!--end::Text-->
-															</div>
-															<!--end::Body-->
-														</div>
-														<!--end::Hot sales post-->
-													</div>
-													<!--end::Col-->
-													<!--begin::Col-->
-													<div class="col-md-4">
-														<!--begin::Hot sales post-->
-														<div class="card-xl-stretch mx-md-3">
-															<!--begin::Overlay-->
-															<a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="assets/media/stock/600x600/img-14.jpg">
-																<!--begin::Image-->
-																<div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px" style="background-image:url('assets/media/stock/600x600/img-14.jpg')"></div>
-																<!--end::Image-->
-																<!--begin::Action-->
-																<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-																	<i class="ki-duotone ki-eye fs-2x text-white">
-																		<span class="path1"></span>
-																		<span class="path2"></span>
-																		<span class="path3"></span>
-																	</i>
-																</div>
-																<!--end::Action-->
-															</a>
-															<!--end::Overlay-->
-															<!--begin::Body-->
-															<div class="mt-5">
-																<!--begin::Title-->
-																<a href="#" class="fs-4 text-gray-900 fw-bold text-hover-primary text-gray-900 lh-base">25 Products Mega Bundle with 50% off discount amazing</a>
-																<!--end::Title-->
-																<!--begin::Text-->
-																<div class="fw-semibold fs-5 text-gray-600 text-gray-900 mt-3">We’ve been focused on making a the from also not been eye</div>
-																<!--end::Text-->
-																<!--begin::Text-->
-																<div class="fs-6 fw-bold mt-5 d-flex flex-stack">
-																	<!--begin::Label-->
-																	<span class="badge border border-dashed fs-2 fw-bold text-gray-900 p-2">
-																	<span class="fs-6 fw-semibold text-gray-500">$</span>27</span>
-																	<!--end::Label-->
-																	<!--begin::Action-->
-																	<a href="#" class="btn btn-sm btn-primary">Purchase</a>
-																	<!--end::Action-->
-																</div>
-																<!--end::Text-->
-															</div>
-															<!--end::Body-->
-														</div>
-														<!--end::Hot sales post-->
-													</div>
-													<!--end::Col-->
-													<!--begin::Col-->
-													<div class="col-md-4">
-														<!--begin::Hot sales post-->
-														<div class="card-xl-stretch ms-md-6">
-															<!--begin::Overlay-->
-															<a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="assets/media/stock/600x400/img-71.jpg">
-																<!--begin::Image-->
-																<div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px" style="background-image:url('assets/media/stock/600x400/img-71.jpg')"></div>
-																<!--end::Image-->
-																<!--begin::Action-->
-																<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-																	<i class="ki-duotone ki-eye fs-2x text-white">
-																		<span class="path1"></span>
-																		<span class="path2"></span>
-																		<span class="path3"></span>
-																	</i>
-																</div>
-																<!--end::Action-->
-															</a>
-															<!--end::Overlay-->
-															<!--begin::Body-->
-															<div class="mt-5">
-																<!--begin::Title-->
-																<a href="#" class="fs-4 text-gray-900 fw-bold text-hover-primary text-gray-900 lh-base">25 Products Mega Bundle with 50% off discount amazing</a>
-																<!--end::Title-->
-																<!--begin::Text-->
-																<div class="fw-semibold fs-5 text-gray-600 text-gray-900 mt-3">We’ve been focused on making a the from also not been eye</div>
-																<!--end::Text-->
-																<!--begin::Text-->
-																<div class="fs-6 fw-bold mt-5 d-flex flex-stack">
-																	<!--begin::Label-->
-																	<span class="badge border border-dashed fs-2 fw-bold text-gray-900 p-2">
-																	<span class="fs-6 fw-semibold text-gray-500">$</span>25</span>
-																	<!--end::Label-->
-																	<!--begin::Action-->
-																	<a href="#" class="btn btn-sm btn-primary">Purchase</a>
-																	<!--end::Action-->
-																</div>
-																<!--end::Text-->
-															</div>
-															<!--end::Body-->
-														</div>
-														<!--end::Hot sales post-->
-													</div>
-													<!--end::Col-->
-												</div>
-												<!--end::Row-->
-											</div>
-											<!--end::Section-->
+											
+
 										</div>
 										<!--end::Body-->
 									</div>

@@ -25,25 +25,57 @@
                     
                     <!--begin::Input group-->
                     <div class="fv-row mb-8">
-                        <!--begin::Dropzone-->
-                        <div class="dropzone" id="kt_modal_create_project_settings_logo">
-                            <!--begin::Message-->
-                            <div class="dz-message needsclick">
-                                <!--begin::Icon-->
-                                <i class="ki-duotone ki-file-up fs-3hx text-primary">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>
-                                <!--end::Icon-->
-                                <!--begin::Info-->
-                                <div class="ms-4">
-                                    <h3 class="dfs-3 fw-bold text-gray-900 mb-1">Drop files here or click to upload picture.</h3>
-                                    <span class="fw-semibold fs-4 text-muted">Upload up to 10 files</span>
-                                </div>
-                                <!--end::Info-->
+                        <!--begin::Image placeholder-->
+                            <style>
+                                .image-input-placeholder {
+                                    background-image: url('assets/media/svg/files/blank-image.svg');
+                                }
+
+                                [data-bs-theme="dark"] .image-input-placeholder {
+                                    background-image: url('assets/media/svg/files/blank-image-dark.svg');
+                                }
+                            </style>
+                            <!--end::Image placeholder-->
+                            <!--begin::Image input-->
+                            <div class="image-input image-input-outline image-input-placeholder image-input-empty image-input-empty" data-kt-image-input="true">
+                                <!--begin::Preview existing avatar-->
+                                 <?php
+                                $backgroundImage = $data['event']->filepath ? URLROOT . "/public/" . $data['event']->filepath : '';
+                                ?>
+                                <div class="image-input-wrapper w-300px h-300px" style="background-image: url('<?php echo URLROOT . "/public/" . ($data['event']->filepath ? $data['event']->filepath : ''); ?>')"></div>
+                                <!--end::Preview existing avatar-->
+                                <!--begin::Edit-->
+                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change image">
+                                    <i class="ki-duotone ki-pencil fs-7">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                    <!--begin::Inputs-->
+                                    <input type="file" name="image_event" accept=".png, .jpg, .jpeg" />
+                                    <input type="hidden" name="image_event_remove" />
+                                    <!--end::Inputs-->
+                                </label>
+                                <!--end::Edit-->
+                                <!--begin::Cancel-->
+                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel image">
+                                    <i class="ki-duotone ki-cross fs-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </span>
+                                <!--end::Cancel-->
+                                <!--begin::Remove-->
+                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove image">
+                                    <i class="ki-duotone ki-cross fs-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </span>
+                                <!--end::Remove-->
                             </div>
+                            <!--end::Image input-->
                         </div>
-                        <!--end::Dropzone-->
+                        <!--end::Image input wrapper-->
                     </div>
                     <!--end::Input group-->
 

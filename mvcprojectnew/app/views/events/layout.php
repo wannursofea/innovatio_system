@@ -24,18 +24,25 @@
                                     $v_url = URLROOT . "/events";
 									$c_url = URLROOT . "/events/create";
 									$m_url = URLROOT . "/events/mainpage_event";
-									$ve_url = URLROOT . "/events/view_event";
 									$m_regis_url = URLROOT . "/events/manage_registrationlist";
 									
 									$edit_url = '';
+									$ve_url = '';
 									$r_url = '';
 									$p_list_url = '';
 									$v_m_url = '';
-
+									
 									if(isset($data['event'])&& is_object($data['event'])){
 										$edit_url = URLROOT . "/events/edit_event/". $data['event']->event_id;
 										$r_url = URLROOT . "/events/register_event/". $data['event']->event_id;
 										$p_list_url =  URLROOT . "/events/participant_list/". $data['event']->event_id;
+										$ve_url = URLROOT . "/events/view_event/" . $data['event']->event_id;
+
+										
+										
+									}
+									if(isset($data['event'])&& is_object($data['event'])&& $data['profile_id'])
+									{
 										$v_m_url =  URLROOT . "/events/view_more/". $data['event']->event_id . "/" . $data['profile_id'];
 									}
 
@@ -82,7 +89,7 @@
 										require 'view_more.php' ;
 									} 
 
-						
+									
                                     ?>
                             
                     
