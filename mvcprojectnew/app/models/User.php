@@ -32,24 +32,25 @@ class User {
 
         //insert value for user registration
         //insert value for profile detail
-        if ($data['user_role'] == "Student") {
+        if ($data['userRole'] == "Student") {
 
             //student users and profile
-            $this->db->query("INSERT INTO user (username, email, password, user_role, datetime_register, user_reg_status) 
-            VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status);
+            $this->db->query("INSERT INTO user (username, email, password, userRole, datetime_register, user_reg_status) 
+            VALUES(:username, :email, :password, :userRole, :datetime_register, :user_reg_status);
             
-            INSERT INTO st_profiles (phoneNum, st_email, name, gender, race, institution, address, course, bio, image) 
-            VALUES(:phoneNum, :st_email, :name, :gender, :race, :institution, :address , :course , :bio , :image );");
+            INSERT INTO student (phoneNum, email, name, gender, race, education, city, country ,course, bio, image,DOB) 
+            VALUES(:phoneNum, :email, :name, :gender, :race, :education, :city, :country , :course , :bio , :image ,:DOB);");
 
             //Bind values for st_profiles table
             $phoneNum = "";
             $name = "";
             $gender = "";
             $race = "";
-            $institution = "";
-            $address = "";
+            $education = "";
+            $city = "";
+            $country = "";
             $course = "";
-            //$DOB = "";
+            $DOB = "";
             $bio = "";
             $image = "";
 
@@ -60,10 +61,11 @@ class User {
             $this->db->bind(':name', $name);
             $this->db->bind(':gender', $gender);
             $this->db->bind(':race', $race);
-            $this->db->bind(':institution', $institution);
-            $this->db->bind(':address', $address);
+            $this->db->bind(':education', $education);
+            $this->db->bind(':city', $city);
+            $this->db->bind(':country', $country);
             $this->db->bind(':course', $course);
-            //$this->db->bind(':DOB', $DOB);
+            $this->db->bind(':DOB', $DOB);
             $this->db->bind(':bio', $bio);
             $this->db->bind(':image', $image);
       
@@ -71,14 +73,14 @@ class User {
             $this->db->bind(':username', $data['username']);
             $this->db->bind(':email', $data['email']);
             $this->db->bind(':password', $data['password']);
-            $this->db->bind(':user_role', $data['user_role']);
+            $this->db->bind(':userRole', $data['userRole']);
             $this->db->bind(':datetime_register', $user_datetime);
             $this->db->bind(':user_reg_status', $user_reg_status);
 
-        } elseif ($data['user_role'] == "Partner") {
+        } elseif ($data['userRole'] == "Partner") {
           //student users and profile
-          $this->db->query("INSERT INTO user (username, email, password, user_role, datetime_register, user_reg_status) 
-          VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status);
+          $this->db->query("INSERT INTO user (username, email, password, userRole, datetime_register, user_reg_status) 
+          VALUES(:username, :email, :password, userRole, :datetime_register, :user_reg_status);
           
           INSERT INTO partnerclient (companyName, companyDesc, city, country, officeNum, pc_email) 
           VALUES(:companyName :companyDesc :city :country :officeNum :pc_email );");
@@ -104,7 +106,7 @@ class User {
           $this->db->bind(':username', $data['username']);
           $this->db->bind(':email', $data['email']);
           $this->db->bind(':password', $data['password']);
-          $this->db->bind(':user_role', $data['user_role']);
+          $this->db->bind(':userRole', $data['userRole']);
           $this->db->bind(':datetime_register', $user_datetime);
           $this->db->bind(':user_reg_status', $user_reg_status);
 
@@ -154,5 +156,22 @@ class User {
         } else {
             return false;
         }
+    }
+
+    public function getUserImage($email,$role){
+        if ($role=='Student'){
+            $this->db->query('SELECT st_image FROM student WHERE st_email-:email');
+        }
+        elseif ($role=='Partner'){
+            $this->db->query('SELECT pr_image FROM partnerclient WHERE pr_email-:email');
+        }
+
+        else {
+            return null;
+        }
+
+        $this->db->single();
+
+        return $row ? ($role == 'Student'? $row->st_image : $row->pr_image) :null;
     }
 }

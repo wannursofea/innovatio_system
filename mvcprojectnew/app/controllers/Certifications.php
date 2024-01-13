@@ -18,45 +18,54 @@ class Certifications extends Controller
     }
 
     public function create()
-    {
-        if (!isLoggedIn()){
-            header("Location: " . URLROOT. "/certifications" );
-        }
+{
+    if (!isLoggedIn()) {
+        header("Location: " . URLROOT. "/certifications" );
+     
+    }
 
-        $data = 
-        [
-            'certName' => '',
-            'validity' => ''
-        ];
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            $data = 
-            [
-            'user_id' => $_SESSION['user_id'],
+    $student = $this->certificationModel->studentProfile();
+    
+    // Initialize profile_id to a default value
+    $profile_id = '';
+
+    if (count($student) > 0) {
+        $student = $student[0];
+        $profile_id = $student->profile_id;
+    }
+
+    $data = [
+        'profile_id' => $profile_id,
+        'certName' => '',
+        'validity' => ''
+    ];
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        $data = [
+            'email' => $_SESSION['email'],
             'certName' => trim($_POST['certName']),
             'validity' => trim($_POST['validity']),
+            'profile_id' => $profile_id
+        ];
 
-            ];
-
-
-            if ($data['certName'] && $data['validity']){
-                if ($this->certificationModel->addCertification($data)){
-                    header("Location: " . URLROOT. "/certifications" );
-                }
-                else
-                {
-                    die("Something went wrong :(");
-                }
+        if ($data['certName'] && $data['validity']) {
+            if ($this->certificationModel->addCertification($data)) {
+                header("Location: " . URLROOT. "/certifications" );
+                exit; // Always exit after redirect
+            } else {
+                die("Something went wrong :(");
             }
-            else
-            {
-                $this->view('certifications/index', $data);
-            }
+        } else {
+            $this->view('certifications/index', $data);
         }
-
-        $this->view('certifications/index', $data);
     }
+
+    $this->view('certifications/index', $data);
+}
+
+    
 
     public function update($certification_id)
     {
@@ -65,7 +74,7 @@ class Certifications extends Controller
         if(!isLoggedIn()) {
             header("Location: " . URLROOT . "/certifications");
         }
-        elseif($certification->user_id != $_SESSION['user_id'])
+        elseif($certification->email != $_SESSION['email'])
         {
             header("Location: " . URLROOT . "/certifications");
 
@@ -73,7 +82,7 @@ class Certifications extends Controller
 
         $data = 
         [
-            'certifications' => $certifications,
+            'certifications' => $certification,
             'certName' => '',
             'validity' => '',
             'certNameError' => '',
@@ -85,8 +94,8 @@ class Certifications extends Controller
             $data = 
             [
             'certification_id' => $certification_id,
-            'certifications' => $certifications,
-            'user_id' => $_SESSION['user_id'],
+            'certifications' => $certification,
+            'email' => $_SESSION['email'],
             'certName' => trim($_POST['certName']),
             'validity' => trim($_POST['validity']),
             'certNameError' => '',
@@ -137,7 +146,7 @@ class Certifications extends Controller
         if(!isLoggedIn()) {
             header("Location: " . URLROOT . "/certifications");
         }
-        elseif($certification->user_id != $_SESSION['user_id'])
+        elseif($certifications->email != $_SESSION['email'])
         {
             header("Location: " . URLROOT . "/certifications");
 
