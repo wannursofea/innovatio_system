@@ -31,6 +31,12 @@ class Users extends Controller {
             'companyName' => '',
             'officeNum' => '',
 
+            'city' => '',
+            'country' => '',
+            'education' => '',
+            'bio' => '',
+            'image' => '',
+
             'usernameError' => '',
             'emailError' => '',
             'passwordError' => '',
@@ -63,6 +69,12 @@ class Users extends Controller {
                 'race' => trim($_POST['race'])??'',
                 'phoneNum' => trim($_POST['phoneNum'])??'',
                 'course' => trim($_POST['course'])??'',
+
+                'city' => '',
+                'country' => '',
+                'education' => '',
+                'bio' => '',
+                'image' => '',
 
                 'usernameError' => '',
                 'emailError' => '',
@@ -289,7 +301,7 @@ class Users extends Controller {
         $token = $_GET["token"];
         $token_hash = hash("sha256", $token);
 
-        
+
         $this->view('users/new_password');
     }
     public function logout() {

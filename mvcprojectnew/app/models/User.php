@@ -12,21 +12,38 @@ class User {
         date_default_timezone_set("Asia/Taipei");
         $user_datetime = date('Y-m-d H:i:s');
         $user_reg_status = "active";
-
+        $user_id ="";
         //insert value for user registration
         //insert value for profile detail
         if ($data['user_role'] == "Student") {
             
             //student users and profile
             $this->db->query("INSERT INTO user (username, email, password, user_role, datetime_register, user_reg_status) 
-            VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status);
+            VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status)");
+            // $this->db->query("INSERT INTO user (username, email, password, user_role, datetime_register, user_reg_status) 
+            // VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status);
+
+             //Bind values for users table
+            $this->db->bind(':username', $data['username']);
+            $this->db->bind(':email', $data['email']);
+            $this->db->bind(':password', $data['password']);
+            $this->db->bind(':user_role', $data['user_role']);
+            $this->db->bind(':datetime_register', $user_datetime);
+            $this->db->bind(':user_reg_status', $user_reg_status);
+
+            if($this->db->execute()){
+                $user_id = $this->db->lastInsertId();
+            }
             
-            INSERT INTO student (DOB, phoneNum, email, name, gender, race, education, course, bio, image, country, city) 
-            VALUES(:DOB, :phoneNum, :email, :name, :gender, :race, :education , :course , :bio , :image, :country, :city);");
+            $this->db->query("INSERT INTO student (user_id, DOB, phoneNum, email, name, gender, race, education, course, bio, image, country, city) 
+            VALUES(:user_id, :DOB, :phoneNum, :email, :name, :gender, :race, :education , :course , :bio , :image, :country, :city);");
+
+            //Bind values for st_profiles table
+            
 
          //Bind values for st_profiles table
-
-            $this->db->bind(':email', $_SESSION['email']);
+            $this->db->bind(':user_id', $user_id);
+            $this->db->bind(':email', $data['email']);
             $this->db->bind(':phoneNum', $data['phoneNum']);
             $this->db->bind(':name', $data['name']);
             $this->db->bind(':gender', $data['gender']);
@@ -39,21 +56,30 @@ class User {
             $this->db->bind(':bio', $data['bio']);
             $this->db->bind(':image', $data['image']);
       
-            //Bind values for users table
-            $this->db->bind(':username', $data['username']);
-            $this->db->bind(':email', $data['email']);
-            $this->db->bind(':password', $data['password']);
-            $this->db->bind(':user_role', $data['user_role']);
-            $this->db->bind(':datetime_register', $user_datetime);
-            $this->db->bind(':user_reg_status', $user_reg_status);
+           $this->db->execute();
+
+            
 
         } elseif ($data['user_role'] == "Partner") {
           //student users and profile
           $this->db->query("INSERT INTO user (username, email, password, user_role, datetime_register, user_reg_status) 
-          VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status);
+          VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status);");
         
-          INSERT INTO partnerclient (companyName, companyDescription, city, country, officeNum, email) 
-          VALUES(:companyName, :companyDescription, :city, :country, :officeNum, :email );");
+
+        //Bind values for users table
+          $this->db->bind(':username', $data['username']);
+          $this->db->bind(':email', $data['email']);
+          $this->db->bind(':password', $data['password']);
+          $this->db->bind(':user_role', $data['user_role']);
+          $this->db->bind(':datetime_register', $user_datetime);
+          $this->db->bind(':user_reg_status', $user_reg_status);
+
+          if($this->db->execute()){
+            $user_id = $this->db->lastInsertId();
+        }
+
+          $this->db->query("INSERT INTO partnerclient (user_id, companyName, companyDescription, city, country, officeNum, email) 
+          VALUES(:user_id, :companyName, :companyDescription, :city, :country, :officeNum, :email );");
 
           //Bind values for partnerclient table
           $companyName = $data['companyName']??'';
@@ -63,7 +89,8 @@ class User {
           $officeNum = $data['officeNum']??'';
           
           
-          //Bind values for partnerclient table
+            //Bind values for partnerclient table
+            $this->db->bind(':user_id', $user_id);
            $this->db->bind(':companyName', $companyName);
            $this->db->bind(':companyDescription', $companyDescription);
            $this->db->bind(':city', $city);
@@ -72,14 +99,8 @@ class User {
            $this->db->bind(':email', $data['email']);
 
 
-          //Bind values for users table
-          $this->db->bind(':username', $data['username']);
-          $this->db->bind(':email', $data['email']);
-          $this->db->bind(':password', $data['password']);
-          $this->db->bind(':user_role', $data['user_role']);
-          $this->db->bind(':datetime_register', $user_datetime);
-          $this->db->bind(':user_reg_status', $user_reg_status);
-
+    
+          $this->db->execute();
 
         } else {
            
