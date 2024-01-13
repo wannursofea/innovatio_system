@@ -97,9 +97,9 @@ class Users extends Controller {
     public function login() {
         $data = [
             'title' => 'Login page',
-            'username' => '',
+            'email' => '',
             'password' => '',
-            'usernameError' => '',
+            'emailError' => '',
             'passwordError' => ''
         ];
 
@@ -109,14 +109,14 @@ class Users extends Controller {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
-                'username' => trim($_POST['username']),
+                'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
-                'usernameError' => '',
+                'emailError' => '',
                 'passwordError' => '',
             ];
-            //Validate username
-            if (empty($data['username'])) {
-                $data['usernameError'] = 'Please enter a username.';
+            //Validate email
+            if (empty($data['email'])) {
+                $data['emailError'] = 'Please enter a email.';
             }
 
             //Validate password
@@ -125,13 +125,13 @@ class Users extends Controller {
             }
 
             //Check if all errors are empty
-            if (empty($data['usernameError']) && empty($data['passwordError'])) {
-                $loggedInUser = $this->userModel->login($data['username'], $data['password']);
+            if (empty($data['emailError']) && empty($data['passwordError'])) {
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
 
                 if ($loggedInUser) {
                     $this->createUserSession($loggedInUser);
                 } else {
-                    $data['passwordError'] = 'Password or username is incorrect. Please try again.';
+                    $data['passwordError'] = 'Password or email is incorrect. Please try again.';
 
                     $this->view('users/login', $data);
                 }

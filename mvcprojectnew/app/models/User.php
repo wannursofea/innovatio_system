@@ -121,11 +121,11 @@ class User {
         }
     }
 
-    public function login($username, $password) {
-        $this->db->query('SELECT * FROM user WHERE username = :username');
+    public function login($email, $password) {
+        $this->db->query('SELECT * FROM user WHERE email = :email');
 
         //Bind value
-        $this->db->bind(':username', $username);
+        $this->db->bind(':email', $email);
 
         $row = $this->db->single();
 
