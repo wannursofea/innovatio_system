@@ -5,23 +5,6 @@ class User {
         $this->db = new Database;
     }
 
-    // public function register($data) {
-    //     $this->db->query('INSERT INTO users (username, email, password) VALUES(:username, :email, :password)');
-
-    //     //Bind values
-    //     $this->db->bind(':username', $data['username']);
-    //     $this->db->bind(':email', $data['email']);
-    //     $this->db->bind(':password', $data['password']);
-
-    //     //Execute function
-    //     if ($this->db->execute()) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
-
     public function register($data)
     {
 
@@ -32,14 +15,24 @@ class User {
 
         //insert value for user registration
         //insert value for profile detail
+<<<<<<< Updated upstream
         if ($data['userRole'] == "Student") {
 
+=======
+        if ($data['user_role'] == "Student") {
+            
+>>>>>>> Stashed changes
             //student users and profile
             $this->db->query("INSERT INTO user (username, email, password, userRole, datetime_register, user_reg_status) 
             VALUES(:username, :email, :password, :userRole, :datetime_register, :user_reg_status);
             
+<<<<<<< Updated upstream
             INSERT INTO student (phoneNum, email, name, gender, race, education, city, country ,course, bio, image,DOB) 
             VALUES(:phoneNum, :email, :name, :gender, :race, :education, :city, :country , :course , :bio , :image ,:DOB);");
+=======
+            INSERT INTO student (DOB, phoneNum, email, name, gender, race, education, course, bio, image, country, city) 
+            VALUES(:DOB, :phoneNum, :email, :name, :gender, :race, :education , :course , :bio , :image, :country, :city);");
+>>>>>>> Stashed changes
 
             //Bind values for st_profiles table
             $phoneNum = "";
@@ -56,6 +49,7 @@ class User {
 
          //Bind values for st_profiles table
 
+<<<<<<< Updated upstream
             $this->db->bind(':phoneNum', $phoneNum);
             $this->db->bind(':st_email', $data['email']);
             $this->db->bind(':name', $name);
@@ -68,6 +62,20 @@ class User {
             $this->db->bind(':DOB', $DOB);
             $this->db->bind(':bio', $bio);
             $this->db->bind(':image', $image);
+=======
+            $this->db->bind(':email', $_SESSION['email']);
+            $this->db->bind(':phoneNum', $data['phoneNum']);
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':gender', $data['gender']);
+            $this->db->bind(':race', $data['race']);
+            $this->db->bind(':city', $data['city']);
+            $this->db->bind(':country', $data['country']);
+            $this->db->bind(':education', $data['education']);
+            $this->db->bind(':course', $data['course']);
+            $this->db->bind(':DOB', $data['DOB']);
+            $this->db->bind(':bio', $data['bio']);
+            $this->db->bind(':image', $data['image']);
+>>>>>>> Stashed changes
       
             //Bind values for users table
             $this->db->bind(':username', $data['username']);
@@ -79,27 +87,35 @@ class User {
 
         } elseif ($data['userRole'] == "Partner") {
           //student users and profile
+<<<<<<< Updated upstream
           $this->db->query("INSERT INTO user (username, email, password, userRole, datetime_register, user_reg_status) 
           VALUES(:username, :email, :password, userRole, :datetime_register, :user_reg_status);
           
           INSERT INTO partnerclient (companyName, companyDesc, city, country, officeNum, pc_email) 
           VALUES(:companyName :companyDesc :city :country :officeNum :pc_email );");
+=======
+          $this->db->query("INSERT INTO user (username, email, password, user_role, datetime_register, user_reg_status) 
+          VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status);
+        
+          INSERT INTO partnerclient (companyName, companyDescription, city, country, officeNum, email) 
+          VALUES(:companyName, :companyDescription, :city, :country, :officeNum, :email );");
+>>>>>>> Stashed changes
 
           //Bind values for partnerclient table
-          $companyName = "";
-          $companyDesc = "";
+          $companyName = $data['companyName']??'';
+          $companyDescription = "";
           $city = "";
           $country = "";
-          $officeNum = "";
+          $officeNum = $data['officeNum']??'';
           
           
           //Bind values for partnerclient table
            $this->db->bind(':companyName', $companyName);
-           $this->db->bind(':companyDesc', $companyDesc);
+           $this->db->bind(':companyDescription', $companyDescription);
            $this->db->bind(':city', $city);
            $this->db->bind(':country', $country);
            $this->db->bind(':officeNum', $officeNum);
-           $this->db->bind(':pc_email', $data['email']);
+           $this->db->bind(':email', $data['email']);
 
 
           //Bind values for users table
@@ -123,6 +139,10 @@ class User {
         }
     }
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     public function login($email, $password) {
         $this->db->query('SELECT * FROM user WHERE email = :email');
 
@@ -142,6 +162,70 @@ class User {
         return false; // User not found or authentication failed
     }
 
+    public function getUserImage($email, $role) {
+        if($role == 'Student')
+        {
+            $this->db->query('SELECT image FROM student WHERE email = :email');
+        }
+        elseif($role == 'Partner')
+        {
+            $this->db->query('SELECT pr_image FROM partnerclient WHERE email = :email');
+        }
+        else{
+            return null;
+        }
+
+        //Bind value
+        $this->db->bind(':email', $email);
+
+        $row = $this->db->single();
+
+        return $row ? ($role == 'Student' ? $row->image : $row->pr_image) : null;
+    }
+
+    public function updateResetToken($data) {
+        //Prepared statement
+        require_once APPROOT . '/views/users/mailer.php';
+
+        $this->db->query('UPDATE user SET reset_token_hash = :reset_token_hash, reset_token_expired = :reset_token_expired WHERE email = :email');
+
+        //Email param will be binded with the email variable
+        $this->db->bind(':reset_token_hash', $data['resetTokenHash']);
+        $this->db->bind(':reset_token_expired', $data['resetTokenExpired']);
+        $this->db->bind(':email', $data['email']);
+        
+        //Check if email is already registered
+       if ($this->db->execute()) {
+            $mail = createMailerInstance();
+            $mail->setFrom("noreply@gmail.com");
+            $mail->addAddress($data['email']);
+            $mail->Subject = "Password Reset";
+            $mail->Body = <<<END
+
+            Click <a href="{URLROOT}/users/new_password.php?token={$data['token']}">here</a>
+            to reset your password.
+
+            END;
+
+            try{
+                $mail->send();
+            }catch(Exception $e){
+                echo "Message could not be sent. Mailer error: ($mail->ErrorInfo)";
+            }
+            
+        } 
+        echo "Message sent, please check your inbox. ";
+         
+    }
+
+    // public function getResetToken($reset_token_hash){
+    //     $this->db->query('SELECT * FROM user WHERE reset_token_hash = :reset_token_hash');
+
+    //     $this->db->bind(':reset_token_hash',$reset_token_hash);
+    //     $this->db->execute();
+        
+    // }
+
     //Find user by email. Email is passed in by the Controller.
     public function findUserByEmail($email) {
         //Prepared statement
@@ -149,13 +233,10 @@ class User {
 
         //Email param will be binded with the email variable
         $this->db->bind(':email', $email);
-
+        $this->db->execute();
         //Check if email is already registered
-        if($this->db->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->db->rowCount();
+         
     }
 
     public function getUserImage($email,$role){

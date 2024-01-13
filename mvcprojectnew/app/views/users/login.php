@@ -5,7 +5,11 @@
 
 <head>
     <base href="../../../" />
+<<<<<<< Updated upstream
     <title>Youth Ventures Asia</title>
+=======
+    <title>Youth Venture Database Management System - Sign In</title>
+>>>>>>> Stashed changes
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="<?php echo URLROOT ?>/public/img/yvlogoxbg.jpeg" />
     <!--begin::Fonts(mandatory for all pages)-->
@@ -61,6 +65,7 @@
                                 <h1 class="text-gray-900 fw-bolder mb-3">Register</h1>
                                 <!--end::Title-->
                                 <!--begin::Subtitle-->
+<<<<<<< Updated upstream
                                 <div class="text-gray-500 fw-semibold fs-6">Subscribe and be alone no more</div>
                                 <!--end::Subtitle=-->
                             </div>
@@ -70,11 +75,23 @@
                              <div class="fv-row mb-8">
                                 <!--begin::Username-->
                                 <input type="text" placeholder="username" name="username" autocomplete="off"
+=======
+                                <div class="text-gray-500 fw-semibold fs-6">Youth Venture Database Management System</div>
+                                <!--end::Subtitle=-->
+                            </div>
+                            <!--begin::Heading-->
+                         
+                       
+                            <!--begin::Input group=-->
+                            <div class="fv-row mb-8">
+                                <!--begin::Email-->
+                                <input type="email" placeholder="Email" name="email" autocomplete="off"
+>>>>>>> Stashed changes
                                     class="form-control bg-transparent" />
                                 <!--end::Username-->
                               
-                                     	<?php if($data['usernameError']!=""){?>
-                                    <span class="badge badge-danger"><?php echo $data['usernameError']; ?></span>
+                                    <?php if($data['emailError']!=""){?>
+                                    <span class="badge badge-danger"><?php echo $data['emailError']; ?></span>
 									<?php }?>
                              
                             </div>
@@ -99,6 +116,7 @@
 									<?php }?>
                                 <!--end::Password-->
                             </div>
+<<<<<<< Updated upstream
 
                             <div class="fv-row mb-3">
                                 <!--begin::Password-->
@@ -145,15 +163,56 @@
 <!--begin::Sign up-->
 <div class="text-gray-500 text-center fw-semibold fs-6">Register ready?
                                 <a href="<?php echo URLROOT; ?>/users/login" class="link-primary">Sign in</a>
+=======
+                            <!--end::Input group=-->
+                            <!--begin::Wrapper-->
+                            <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
+                                <div></div>
+                                <!--begin::Link-->
+                                <a href="<?php echo URLROOT; ?>/users/reset_password"
+                                    class="link-primary">Forgot Password ?</a>
+                                <!--end::Link-->
+                            </div>
+                            <!--end::Wrapper-->
+                            <!--begin::Submit button-->
+                            <div class="d-grid mb-10">
+                                <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
+                                    <!--begin::Indicator label-->
+                                    <span class="indicator-label">Sign In</span>
+                                    <!--end::Indicator label-->
+                                    <!--begin::Indicator progress-->
+                                    <span class="indicator-progress">Please wait...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                    <!--end::Indicator progress-->
+                                </button>
+                            </div>
+                            <!--end::Submit button-->
+                            <!--begin::Sign up-->
+                            <div class="text-gray-500 text-center fw-semibold fs-6">Not register yet?
+                                <a href="<?php echo URLROOT; ?>/users/register" class="link-primary">Sign up</a>
+>>>>>>> Stashed changes
                             </div>
                             <!--end::Sign up-->
 </div>
             <!--end::Body-->
             <!--begin::Aside-->
             <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2"
+<<<<<<< Updated upstream
                 style="background-image: url(<?php echo URLROOT ?>/public/img/introbgx.png">
                 <!--begin::Content-->
                 <div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
+=======
+                style="background-image: url(<?php echo URLROOT ?>/public/assets/media/YVlogin.jpeg)">
+                <!--begin::Content-->
+                <div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
+                    <!--begin::Logo-->
+                    <a href="index.html" class="mb-0 mb-lg-12">
+                        <img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/YVlogo.jpeg" class="h-60px h-lg-75px" />
+                    </a>
+                    <!--end::Logo-->
+                    
+                    
+>>>>>>> Stashed changes
                 </div>
                 <!--end::Content-->
             </div>
@@ -164,7 +223,7 @@
     <!--end::Root-->
     <!--begin::Javascript-->
     <script>
-    var hostUrl = "assets/";
+    var hostUrl = "<?php echo URLROOT ?>/public/assets/";
     </script>
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
     <script src="<?php echo URLROOT ?>/public/assets/plugins/global/plugins.bundle.js"></script>
