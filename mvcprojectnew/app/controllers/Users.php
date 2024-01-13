@@ -20,7 +20,7 @@ class Users extends Controller {
             'username' => '',
             'email' => '',
             'password' => '',
-            'userRole' => '',
+            'user_role' => '',
             'confirmPassword' => '',
             'name' => '',
             'DOB' => '',
@@ -55,9 +55,6 @@ class Users extends Controller {
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
                 'confirmPassword' => trim($_POST['confirmPassword']),
-<<<<<<< Updated upstream
-                'userRole' => trim($_POST['userRole']),
-=======
                 'user_role' => trim($_POST['user_role']),
                 
                 'name' => trim($_POST['name'])??'',
@@ -67,7 +64,6 @@ class Users extends Controller {
                 'phoneNum' => trim($_POST['phoneNum'])??'',
                 'course' => trim($_POST['course'])??'',
 
->>>>>>> Stashed changes
                 'usernameError' => '',
                 'emailError' => '',
                 'passwordError' => '',
@@ -206,8 +202,8 @@ class Users extends Controller {
             'title' => 'Login page',
             'email' => '',
             'password' => '',
-            'passwordError' => '',
-            'emailError' => ''
+            'usernameError' => '',
+            'passwordError' => ''
         ];
 
         //Check for post
@@ -218,18 +214,12 @@ class Users extends Controller {
             $data = [
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
-                'emailError' => '',
+                'usernameError' => '',
                 'passwordError' => '',
             ];
-<<<<<<< Updated upstream
-            //Validate email
-            if (empty($data['email'])) {
-                $data['emailError'] = 'Please enter a email.';
-=======
             //Validate username
             if (empty($data['email'])) {
                 $data['emailError'] = 'Please enter an email.';
->>>>>>> Stashed changes
             }
 
             //Validate password
@@ -261,14 +251,6 @@ class Users extends Controller {
         $this->view('users/login', $data);
     }
 
-<<<<<<< Updated upstream
-    public function createUserSession($user) {
-        $_SESSION['user_id'] = $user->id;
-        $_SESSION['username'] = $user->username;
-        $_SESSION['email'] = $user->email;
-        $_SESSION['userRole'] = $user->userRole;
-        header('location:' . URLROOT . '/pages/index');
-=======
     public function reset_password(){
         $token = bin2hex(random_bytes(16)); //64 character string
         $token_hash = hash("sha256", $token);
@@ -301,7 +283,6 @@ class Users extends Controller {
         }
 
         $this->view('users/reset_password');
->>>>>>> Stashed changes
     }
 
     public function new_password(){
@@ -315,12 +296,8 @@ class Users extends Controller {
         unset($_SESSION['user_id']);
         unset($_SESSION['username']);
         unset($_SESSION['email']);
-<<<<<<< Updated upstream
-        unset($_SESSION['userRole']);
-=======
         unset($_SESSION['user_role']);
         unset($_SESSION['user_image']);
->>>>>>> Stashed changes
         header('location:' . URLROOT . '/users/login');
     }
 }
