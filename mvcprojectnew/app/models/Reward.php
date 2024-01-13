@@ -2,38 +2,29 @@
 
 class Reward{
     private $db; //connect with db
-    private $table; // table name
-
     public function __construct(){
         $this->db = new Database; //$this->db new Database;
+    }
+
+    public function getProfileId(){
+        $this->db->query('SELECT profile_id FROM Student');
+
+        $profile_id = $this->db->single();
+
+        return $profile_id;
     }
 
 
     public function AmanageAllBadge(){
         $this->db->query(
-        'SELECT  s.*,b.*,u.*
+        'SELECT  s.*,b.*
         FROM
             Student s 
-        JOIN 
-            User u ON s.user_id = u.user_id
         JOIN
             RewardnBadge b ON b.profile_id = s.profile_id;'
         );
 
         $results = $this->db->resultSet();
-
-        return $results;
-    }
-
-    public function getStudentByUserId(){
-        $this->db->query(
-        'SELECT s.* 
-        FROM Student s
-        JOIN User u ON s.user_id = u.user_id
-        WHERE s.user_id = u.user_id;
-        ');
-
-        $results = $this->db->single();
 
         return $results;
     }
@@ -71,7 +62,6 @@ class Reward{
 
         $row = $this->db->single(); // return all the rows that have the user_id pass in
 
-            var_dump($row);
         return $row;
     }
 
@@ -95,6 +85,119 @@ class Reward{
         {
             return false;
         }
+    }
+   
+    public function findStudentById($user_id){
+        //remark:
+        //retrieve the student info from table student
+        $this->db->query('SELECT * FROM student WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $user_id);
+
+        $row_profile = $this->db->single();
+
+        return $row_profile;
+    }
+
+    public function initialReward($data){
+        $this->db->query('INSERT INTO `rewardnbadge` (`profile_id`, `goldBadge`, `silverBadge`, `bronzeBadge`, `claimStatus`, `dateAwarded`) VALUES (:profile_id , :goldBadge, :silverBadge, :bronzeBadge, NULL, NULL)');
+
+        $this->db->bind(':profile_id', $data['student']->profile_id);
+        $this->db->bind(':goldBadge', $data['goldBadge']);
+        $this->db->bind(':silverBadge', $data['silverBadge']);
+        $this->db->bind(':bronzeBadge', $data['bronzeBadge']);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function findExist($profile_id){
+        $this->db->query('SELECT * FROM rewardnbadge WHERE profile_id = :profile_id');
+
+        $this->db->bind(':profile_id', $profile_id);
+
+        $profile_exist = $this->db->single();
+
+        if($profile_exist){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public function findStudentInReward($profile_id){
+        $this->db->query('SELECT * FROM rewardnbadge WHERE profile_id = :profile_id');
+
+        $this->db->bind(':profile_id', $profile_id);
+
+        return $this->db->single();
+
+    }
+
+
+    public function getBadges($profile_id){
+        $this->db->query('SELECT goldBadge, silverBadge, bronzeBadge FROM rewardnbadge WHERE profile_id = :profile_id');
+
+        $this->db->bind(':profile_id', $profile_id);
+
+       return $this->db->resultSet();
+
+         
+    }
+
+    public function getCategory($event_id){
+        $this->db->query('SELECT category FROM events WHERE event_id = :event_id');
+        $this->db->bind(':event_id', $event_id);
+        $result = $this->db->single();
+
+        return $this->db->single();
+    }
+
+
+
+    //amik bilangan event satu2 student dh register
+    public function getRegisteredEvent($profile_id){
+        $this->db->query('SELECT event_id FROM registration WHERE profile_id = :profile_id');
+
+        $this->db->bind(':profile_id', $profile_id);
+
+        $result = $this->db->resultSet();
+        // $new_result = array_column($result, 'event_id');
+
+        return $result;
+        //return $new_result;
+    }
+
+
+    public function updateBadgeById($data, $profile_id)
+    {
+        $this->db->query('UPDATE RewardnBadge SET goldBadge = :goldBadge, silverBadge = :silverBadge, bronzeBadge = :bronzeBadge
+        WHERE profile_id = :profile_id');
+
+        $this->db->bind(':profile_id', $profile_id);
+        $this->db->bind(':goldBadge', $data['goldBadge']);
+        $this->db->bind(':silverBadge', $data['silverBadge']);
+        $this->db->bind(':bronzeBadge', $data['bronzeBadge']);
+
+        if ($this->db->execute())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function takeOnlyProfileId(){
+        $this->db->query('SELECT * FROM registration');
+
+        $results = $this->db->resultSet();
+
+        return $results;
     }
 
 }
