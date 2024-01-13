@@ -15,33 +15,22 @@ class User {
 
         //insert value for user registration
         //insert value for profile detail
-<<<<<<< Updated upstream
-        if ($data['userRole'] == "Student") {
-
-=======
         if ($data['user_role'] == "Student") {
             
->>>>>>> Stashed changes
             //student users and profile
-            $this->db->query("INSERT INTO user (username, email, password, userRole, datetime_register, user_reg_status) 
-            VALUES(:username, :email, :password, :userRole, :datetime_register, :user_reg_status);
+            $this->db->query("INSERT INTO user (username, email, password, user_role, datetime_register, user_reg_status) 
+            VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status);
             
-<<<<<<< Updated upstream
-            INSERT INTO student (phoneNum, email, name, gender, race, education, city, country ,course, bio, image,DOB) 
-            VALUES(:phoneNum, :email, :name, :gender, :race, :education, :city, :country , :course , :bio , :image ,:DOB);");
-=======
             INSERT INTO student (DOB, phoneNum, email, name, gender, race, education, course, bio, image, country, city) 
             VALUES(:DOB, :phoneNum, :email, :name, :gender, :race, :education , :course , :bio , :image, :country, :city);");
->>>>>>> Stashed changes
 
             //Bind values for st_profiles table
             $phoneNum = "";
             $name = "";
             $gender = "";
             $race = "";
-            $education = "";
-            $city = "";
-            $country = "";
+            $institution = "";
+            $address = "";
             $course = "";
             $DOB = "";
             $bio = "";
@@ -49,20 +38,6 @@ class User {
 
          //Bind values for st_profiles table
 
-<<<<<<< Updated upstream
-            $this->db->bind(':phoneNum', $phoneNum);
-            $this->db->bind(':st_email', $data['email']);
-            $this->db->bind(':name', $name);
-            $this->db->bind(':gender', $gender);
-            $this->db->bind(':race', $race);
-            $this->db->bind(':education', $education);
-            $this->db->bind(':city', $city);
-            $this->db->bind(':country', $country);
-            $this->db->bind(':course', $course);
-            $this->db->bind(':DOB', $DOB);
-            $this->db->bind(':bio', $bio);
-            $this->db->bind(':image', $image);
-=======
             $this->db->bind(':email', $_SESSION['email']);
             $this->db->bind(':phoneNum', $data['phoneNum']);
             $this->db->bind(':name', $data['name']);
@@ -75,31 +50,22 @@ class User {
             $this->db->bind(':DOB', $data['DOB']);
             $this->db->bind(':bio', $data['bio']);
             $this->db->bind(':image', $data['image']);
->>>>>>> Stashed changes
       
             //Bind values for users table
             $this->db->bind(':username', $data['username']);
             $this->db->bind(':email', $data['email']);
             $this->db->bind(':password', $data['password']);
-            $this->db->bind(':userRole', $data['userRole']);
+            $this->db->bind(':user_role', $data['user_role']);
             $this->db->bind(':datetime_register', $user_datetime);
             $this->db->bind(':user_reg_status', $user_reg_status);
 
-        } elseif ($data['userRole'] == "Partner") {
+        } elseif ($data['user_role'] == "Partner") {
           //student users and profile
-<<<<<<< Updated upstream
-          $this->db->query("INSERT INTO user (username, email, password, userRole, datetime_register, user_reg_status) 
-          VALUES(:username, :email, :password, userRole, :datetime_register, :user_reg_status);
-          
-          INSERT INTO partnerclient (companyName, companyDesc, city, country, officeNum, pc_email) 
-          VALUES(:companyName :companyDesc :city :country :officeNum :pc_email );");
-=======
           $this->db->query("INSERT INTO user (username, email, password, user_role, datetime_register, user_reg_status) 
           VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status);
         
           INSERT INTO partnerclient (companyName, companyDescription, city, country, officeNum, email) 
           VALUES(:companyName, :companyDescription, :city, :country, :officeNum, :email );");
->>>>>>> Stashed changes
 
           //Bind values for partnerclient table
           $companyName = $data['companyName']??'';
@@ -122,7 +88,7 @@ class User {
           $this->db->bind(':username', $data['username']);
           $this->db->bind(':email', $data['email']);
           $this->db->bind(':password', $data['password']);
-          $this->db->bind(':userRole', $data['userRole']);
+          $this->db->bind(':user_role', $data['user_role']);
           $this->db->bind(':datetime_register', $user_datetime);
           $this->db->bind(':user_reg_status', $user_reg_status);
 
@@ -139,10 +105,7 @@ class User {
         }
     }
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
     public function login($email, $password) {
         $this->db->query('SELECT * FROM user WHERE email = :email');
 
@@ -237,22 +200,5 @@ class User {
         //Check if email is already registered
         return $this->db->rowCount();
          
-    }
-
-    public function getUserImage($email,$role){
-        if ($role=='Student'){
-            $this->db->query('SELECT st_image FROM student WHERE st_email-:email');
-        }
-        elseif ($role=='Partner'){
-            $this->db->query('SELECT pr_image FROM partnerclient WHERE pr_email-:email');
-        }
-
-        else {
-            return null;
-        }
-
-        $this->db->single();
-
-        return $row ? ($role == 'Student'? $row->st_image : $row->pr_image) :null;
     }
 }
