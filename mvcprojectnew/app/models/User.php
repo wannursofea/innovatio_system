@@ -24,18 +24,6 @@ class User {
             INSERT INTO student (DOB, phoneNum, email, name, gender, race, education, course, bio, image, country, city) 
             VALUES(:DOB, :phoneNum, :email, :name, :gender, :race, :education , :course , :bio , :image, :country, :city);");
 
-            //Bind values for st_profiles table
-            $phoneNum = "";
-            $name = "";
-            $gender = "";
-            $race = "";
-            $institution = "";
-            $address = "";
-            $course = "";
-            $DOB = "";
-            $bio = "";
-            $image = "";
-
          //Bind values for st_profiles table
 
             $this->db->bind(':email', $_SESSION['email']);
