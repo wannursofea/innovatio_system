@@ -5,13 +5,9 @@
 
 <head>
     <base href="../../../" />
-<<<<<<< Updated upstream
-    <title>Youth Ventures Asia</title>
-=======
     <title>Youth Venture Database Management System - Sign In</title>
->>>>>>> Stashed changes
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="<?php echo URLROOT ?>/public/img/yvlogoxbg.jpeg" />
+    <link rel="shortcut icon" href="<?php echo URLROOT ?>/public/assets/media/logos/favicon.ico" />
     <!--begin::Fonts(mandatory for all pages)-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     <!--end::Fonts-->
@@ -58,24 +54,14 @@
                 <div class="d-flex flex-center flex-column flex-lg-row-fluid">
                     <!--begin::Wrapper-->
                     <div class="w-lg-500px p-10">
-                    <form action="<?php echo URLROOT; ?>/users/register" method ="POST">
+                        <!--begin::Form-->
+                        <form action="<?php echo URLROOT; ?>/users/login" method ="POST">
                             <!--begin::Heading-->
                             <div class="text-center mb-11">
                                 <!--begin::Title-->
-                                <h1 class="text-gray-900 fw-bolder mb-3">Register</h1>
+                                <h1 class="text-gray-900 fw-bolder mb-3">Sign In</h1>
                                 <!--end::Title-->
                                 <!--begin::Subtitle-->
-<<<<<<< Updated upstream
-                                <div class="text-gray-500 fw-semibold fs-6">Subscribe and be alone no more</div>
-                                <!--end::Subtitle=-->
-                            </div>
-                            <!--begin::Heading-->
-
-                             <!--begin::Input group=-->
-                             <div class="fv-row mb-8">
-                                <!--begin::Username-->
-                                <input type="text" placeholder="username" name="username" autocomplete="off"
-=======
                                 <div class="text-gray-500 fw-semibold fs-6">Youth Venture Database Management System</div>
                                 <!--end::Subtitle=-->
                             </div>
@@ -86,9 +72,8 @@
                             <div class="fv-row mb-8">
                                 <!--begin::Email-->
                                 <input type="email" placeholder="Email" name="email" autocomplete="off"
->>>>>>> Stashed changes
                                     class="form-control bg-transparent" />
-                                <!--end::Username-->
+                                <!--end::Email-->
                               
                                     <?php if($data['emailError']!=""){?>
                                     <span class="badge badge-danger"><?php echo $data['emailError']; ?></span>
@@ -96,74 +81,15 @@
                              
                             </div>
                             <!--end::Input group=-->
-
-                            <div class="fv-row mb-3">
-                                <!--begin::email-->
-                                <input type="email" placeholder="email" name="email" autocomplete="off"
-                                    class="form-control bg-transparent" />
-                                    <?php if($data['emailError']!=""){?>
-                                        <span class="badge badge-danger"><?php echo $data['emailError']; ?></span>
-									<?php }?>
-                                <!--end::Password-->
-                            </div>
-
                             <div class="fv-row mb-3">
                                 <!--begin::Password-->
-                                <input type="password" placeholder="password" name="password" autocomplete="off"
+                                <input type="password" placeholder="Password" name="password" autocomplete="off"
                                     class="form-control bg-transparent" />
                                     <?php if($data['passwordError']!=""){?>
                                         <span class="badge badge-danger"><?php echo $data['passwordError']; ?></span>
 									<?php }?>
                                 <!--end::Password-->
                             </div>
-<<<<<<< Updated upstream
-
-                            <div class="fv-row mb-3">
-                                <!--begin::Password-->
-                                <input type="password" placeholder="confirmPassword" name="confirmPassword" autocomplete="off"
-                                    class="form-control bg-transparent" />
-                                    <?php if($data['confirmPasswordError']!=""){?>
-                                        <span class="badge badge-danger"><?php echo $data['confirmPasswordError']; ?></span>
-									<?php }?>
-                                <!--end::Password-->
-                            </div>
-
-           
-            
-                            <div class="fv-row mb-3">
-                        <select name="userRole">
-                            <option value="Student">Student</option>
-                            <option value="Partner">Partner</option>
-                        </select>
-                        </div>
-
-
-
-             	<!--begin::Actions-->
-								<div class="d-grid mb-10">
-									<!--begin::Submit-->
-									<button id="kt_sign_up_submit" class="btn btn-primary" data-kt-translate="sign-up-submit">
-										<!--begin::Indicator label-->
-										<span class="indicator-label">Submit</span>
-										<!--end::Indicator label-->
-										<!--begin::Indicator progress-->
-										<span class="indicator-progress">Please wait... 
-										<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-										<!--end::Indicator progress-->
-									</button>
-									<!--end::Submit-->
-								</div>
-								<!--end::Actions-->
-
-           
-        </form>
-    </div>
-</div>
-
-<!--begin::Sign up-->
-<div class="text-gray-500 text-center fw-semibold fs-6">Register ready?
-                                <a href="<?php echo URLROOT; ?>/users/login" class="link-primary">Sign in</a>
-=======
                             <!--end::Input group=-->
                             <!--begin::Wrapper-->
                             <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
@@ -190,18 +116,19 @@
                             <!--begin::Sign up-->
                             <div class="text-gray-500 text-center fw-semibold fs-6">Not register yet?
                                 <a href="<?php echo URLROOT; ?>/users/register" class="link-primary">Sign up</a>
->>>>>>> Stashed changes
                             </div>
                             <!--end::Sign up-->
-</div>
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Wrapper-->
+                </div>
+                <!--end::Form-->
+         
+            </div>
             <!--end::Body-->
             <!--begin::Aside-->
             <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2"
-<<<<<<< Updated upstream
-                style="background-image: url(<?php echo URLROOT ?>/public/img/introbgx.png">
-                <!--begin::Content-->
-                <div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
-=======
                 style="background-image: url(<?php echo URLROOT ?>/public/assets/media/YVlogin.jpeg)">
                 <!--begin::Content-->
                 <div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
@@ -212,7 +139,6 @@
                     <!--end::Logo-->
                     
                     
->>>>>>> Stashed changes
                 </div>
                 <!--end::Content-->
             </div>
