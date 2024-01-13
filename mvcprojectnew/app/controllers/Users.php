@@ -11,7 +11,7 @@ class Users extends Controller {
             'username' => '',
             'email' => '',
             'password' => '',
-            'user_role' => '',
+            'userRole' => '',
             'confirmPassword' => '',
             'usernameError' => '',
             'emailError' => '',
@@ -29,7 +29,7 @@ class Users extends Controller {
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
                 'confirmPassword' => trim($_POST['confirmPassword']),
-                'user_role' => trim($_POST['user_role']),
+                'userRole' => trim($_POST['userRole']),
                 'usernameError' => '',
                 'emailError' => '',
                 'passwordError' => '',
@@ -97,10 +97,10 @@ class Users extends Controller {
     public function login() {
         $data = [
             'title' => 'Login page',
-            'username' => '',
+            'email' => '',
             'password' => '',
-            'usernameError' => '',
-            'passwordError' => ''
+            'passwordError' => '',
+            'emailError' => ''
         ];
 
         //Check for post
@@ -109,14 +109,14 @@ class Users extends Controller {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
-                'username' => trim($_POST['username']),
+                'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
-                'usernameError' => '',
+                'emailError' => '',
                 'passwordError' => '',
             ];
-            //Validate username
-            if (empty($data['username'])) {
-                $data['usernameError'] = 'Please enter a username.';
+            //Validate email
+            if (empty($data['email'])) {
+                $data['emailError'] = 'Please enter a email.';
             }
 
             //Validate password
@@ -125,8 +125,8 @@ class Users extends Controller {
             }
 
             //Check if all errors are empty
-            if (empty($data['usernameError']) && empty($data['passwordError'])) {
-                $loggedInUser = $this->userModel->login($data['username'], $data['password']);
+            if (empty($data['emailError']) && empty($data['passwordError'])) {
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
 
                 if ($loggedInUser) {
                     $this->createUserSession($loggedInUser);
@@ -139,9 +139,9 @@ class Users extends Controller {
 
         } else {
             $data = [
-                'username' => '',
+                'email' => '',
                 'password' => '',
-                'usernameError' => '',
+                'emailError' => '',
                 'passwordError' => ''
             ];
         }
@@ -152,7 +152,7 @@ class Users extends Controller {
         $_SESSION['user_id'] = $user->id;
         $_SESSION['username'] = $user->username;
         $_SESSION['email'] = $user->email;
-        $_SESSION['user_role'] = $user->user_role;
+        $_SESSION['userRole'] = $user->userRole;
         header('location:' . URLROOT . '/pages/index');
     }
 
@@ -163,7 +163,7 @@ class Users extends Controller {
         unset($_SESSION['user_id']);
         unset($_SESSION['username']);
         unset($_SESSION['email']);
-        unset($_SESSION['user_role']);
+        unset($_SESSION['userRole']);
         header('location:' . URLROOT . '/users/login');
     }
 }

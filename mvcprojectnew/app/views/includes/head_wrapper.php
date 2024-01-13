@@ -841,20 +841,26 @@
 												<!--end::Avatar-->
 												<!--begin::Username-->
 												<div class="d-flex flex-column">
-													<div class="fw-bold d-flex align-items-center fs-5">Max Smith 
-													<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span></div>
-													<a href="#" class="fw-semibold text-muted text-hover-primary fs-7">max@kt.com</a>
+    											<div class="fw-bold d-flex align-items-center fs-5">
+        										<a href="/user" class="text-decoration-none">
+            										<?php echo $_SESSION['username']; ?>
+        										</a>
+        										<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span>
+    											</div>
+    											<a href="mailto:<?php echo $_SESSION['email']; ?>" class="fw-semibold text-muted text-hover-primary fs-7">
+        										<?php echo $_SESSION['email']; ?>
+    											</a>
 												</div>
 												<!--end::Username-->
 											</div>
-										</div>
+										</div>							
 										<!--end::Menu item-->
 										<!--begin::Menu separator-->
 										<div class="separator my-2"></div>
 										<!--end::Menu separator-->
 										<!--begin::Menu item-->
 										<div class="menu-item px-5">
-											<a href="account/overview.html" class="menu-link px-5">My Profile</a>
+											<a href="pages/edit_profile" class="menu-link px-5">My Profile</a>
 										</div>
 										<!--end::Menu item-->
 										<!--begin::Menu item-->
