@@ -200,6 +200,21 @@
 												<!--end:Menu link-->
 											</div>
 											<!--end:Menu item-->
+
+											<div class="menu-item">
+												<!--begin:Menu link-->
+												<a class="menu-link" href="<?php echo URLROOT; ?>/resumes/edit_resumeview" class="menu-link">
+													<span class="menu-icon">
+														<i class="ki-duotone ki-rocket fs-2">
+															<span class="path1"></span>
+															<span class="path2"></span>
+														</i>
+													</span>
+													<span class="menu-title">Download Resume</span>
+												</a>
+												<!--end:Menu link-->
+											</div>
+											
 											<div class="menu-item">
 												<!--begin:Menu link-->
 												<a class="menu-link" href="<?php echo URLROOT; ?>/certifications" class="menu-link">

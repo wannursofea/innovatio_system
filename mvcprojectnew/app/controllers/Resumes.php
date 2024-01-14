@@ -46,4 +46,35 @@ public function edit_resume(){
     }        
 }
 
+public function edit_resumeview(){
+    $student = $this->resumeModel->studentProfile();
+    
+    if(count($student) > 0){
+        $student = $student[0];
+        $profile_id = $student->profile_id;
+        $xskills = $this->resumeModel->findSkillById($profile_id);
+        $softSkills = $this->resumeModel->findSoftSkillById($profile_id);
+        $certs = $this->resumeModel->findCertificationByProfileId($profile_id);
+        $exp = $this->resumeModel->findExperienceByProfileId($profile_id);
+        
+        $skills = [];
+        
+        foreach($xskills as $skill){
+            $skills[] = $this->resumeModel->findSelectedSkillOptionById($skill->skill_id);
+        }
+
+        $this->view('/resumes/index1', [
+            "page"          => "edit_resume", 
+            "s"             => $student, 
+            "skills"        => $skills,
+            "softSkills"    => $softSkills,
+            "certs"         => $certs,
+            "exp"           => $exp
+        ]);
+    }else{
+        
+        $this->view('/resumes/index1', ["page" => "user_not_found"]);
+    }        
+}
+
 }

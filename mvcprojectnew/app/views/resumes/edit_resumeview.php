@@ -2,11 +2,11 @@
 	<div id="kt_app_content_container" class="app-container container-xxl">
 		<div class="row g-5 g-xl-10">
 			<div class="col-md-12">
-			<button class="btn btn-sm btn-info" onclick="window.print()">
+				<button class="btn btn-sm btn-info" onclick="window.print()">
 					Download
 				</button><br /><br />
 			<?php
-			
+				// print_r($s);
 			?>
 			
 				<div class="row">
@@ -137,7 +137,6 @@
 	</div>
 </div>
 </div>
-<?php require APPROOT . '/views/includes/footer_app.php';?>
 </div>
 </div>
 </div>
