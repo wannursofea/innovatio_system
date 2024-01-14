@@ -56,7 +56,7 @@ class User {
             $this->db->bind(':bio', $data['bio']);
             $this->db->bind(':image', $data['image']);
       
-           $this->db->execute();
+           
 
             
 
@@ -97,10 +97,6 @@ class User {
            $this->db->bind(':country', $country);
            $this->db->bind(':officeNum', $officeNum);
            $this->db->bind(':email', $data['email']);
-
-
-    
-          $this->db->execute();
 
         } else {
            
@@ -162,8 +158,8 @@ class User {
         $this->db->query('UPDATE user SET reset_token_hash = :reset_token_hash, reset_token_expired = :reset_token_expired WHERE email = :email');
 
         //Email param will be binded with the email variable
-        $this->db->bind(':reset_token_hash', $data['resetTokenHash']);
-        $this->db->bind(':reset_token_expired', $data['resetTokenExpired']);
+        $this->db->bind(':reset_token_hash', $data['reset_token_hash']);
+        $this->db->bind(':reset_token_expired', $data['reset_token_expired']);
         $this->db->bind(':email', $data['email']);
         
         //Check if email is already registered
@@ -174,8 +170,8 @@ class User {
             $mail->Subject = "Password Reset";
             $mail->Body = <<<END
 
-            Click <a href="{URLROOT}/users/new_password.php?token={$data['token']}">here</a>
-            to reset your password.
+                Click <a href="{$data['URLROOT']}/users/new_password.php?token={$data['token']}">here</a>
+                to reset your password.
 
             END;
 
@@ -187,16 +183,35 @@ class User {
             
         } 
         echo "Message sent, please check your inbox. ";
+
          
     }
 
-    // public function getResetToken($reset_token_hash){
-    //     $this->db->query('SELECT * FROM user WHERE reset_token_hash = :reset_token_hash');
+    public function findByResetToken($reset_token_hash){
+        $this->db->query('SELECT * FROM user WHERE reset_token_hash = :reset_token_hash');
 
-    //     $this->db->bind(':reset_token_hash',$reset_token_hash);
-    //     $this->db->execute();
-        
-    // }
+        $this->db->bind(':reset_token_hash',$reset_token_hash);
+        $result = $this->db->single();
+        if($this->db->execute()){
+            return $result;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function updateNewPassword($data) {
+        $this->db->query('UPDATE user SET password = :password WHERE reset_token_hash = :reset_token_hash');
+        $this->db->bind(':password', $data['password']);
+        $this->db->bind(':reset_token_hash', $data['reset_token_hash']);
+
+        // Execute the query
+        if ($this->db->execute()) {
+            return true; // Password updated successfully
+        } else {
+            return false; // Error updating password
+        }
+    }
 
     //Find user by email. Email is passed in by the Controller.
     public function findUserByEmail($email) {
