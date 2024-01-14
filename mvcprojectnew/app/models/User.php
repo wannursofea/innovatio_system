@@ -225,4 +225,24 @@ class User {
         return $this->db->rowCount();
          
     }
+    public function getUserImage($email, $role) {
+        if ($role == 'Student') {
+            //Query to get student image
+            $this->db->query('SELECT image FROM student WHERE email= :email');
+ 
+        } elseif ($role == 'Partner') {
+            //Query to get partner image
+            $this->db->query('SELECT pc_image FROM partnerclient WHERE pc_email= :email');
+        }  else {
+            //Default case or handle other roles
+            return null;
+        } 
+        
+        // Bind the email parameter
+        $this->db->bind(':email', $email);
+
+        $row = $this->db->single();
+
+        return $row ? ($role == 'Student' ? $row->image : $row->pc_image) : null;
+    }
 }
