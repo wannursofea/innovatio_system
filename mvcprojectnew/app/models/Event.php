@@ -38,10 +38,27 @@ class Event{
     public function countEvent(){
         $this->db->query('SELECT * FROM events');
     
-        $count = $this->db->rowCount();
+        // Execute the query
+        $this->db->execute();
 
-        return $count;
+        // Get the row count
+        $rowCount = $this->db->rowCount();
+
+    return $rowCount;
     }
+
+     public function countRegister(){
+        $this->db->query('SELECT * FROM registration');
+    
+        // Execute the query
+        $this->db->execute();
+
+        // Get the row count
+        $rowCount = $this->db->rowCount();
+
+        return $rowCount;
+    }
+
 
     public function countEventByCategory($category) {
     $this->db->query('SELECT COUNT(*) as count FROM events WHERE category = :category');

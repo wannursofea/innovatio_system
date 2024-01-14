@@ -3,7 +3,7 @@
         <h3 class="card-title">View Event</h3>
    
         <div class="card-toolbar">
-            <?php if(isLoggedIn()): ?>
+            <?php if($_SESSION['user_role']=='Admin'):?>
             <a href="<?php echo URLROOT;?>/events/create" class="btn btn-light-primary">Create Event</a>
             <?php endif; ?>
         </div>
@@ -54,11 +54,13 @@
                                     <a href="<?php echo URLROOT . "/events/participant_list/". $event->event_id?>" class="menu-link btn btn-sm btn-light btn-warning text-white px-3">Participant</a>
                                 </div>
                                 <!--end::Menu item-->
+                                <?php if($_SESSION['user_role']=='Admin'):?>
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
                                     <a href="<?php echo URLROOT . "/events/edit_event/".$event->event_id?>" class="menu-link btn btn-sm btn-light btn-primary text-white px-3">Edit</a>
                                 </div>
                                 <!--end::Menu item-->
+                               
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
                                     <form action="<?php echo URLROOT . "/events/delete_event/" . $event->event_id ?>" method="POST" onsubmit="return confirm('Are you sure you want to delete this event?');">
@@ -68,6 +70,7 @@
                                    
                                 </div>
                                 <!--end::Menu item-->
+                                 <?php endif; ?>
                             </div>
                             <!--end::Menu-->
                         </td>

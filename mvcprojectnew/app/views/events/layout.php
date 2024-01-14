@@ -46,7 +46,57 @@
 										$v_m_url =  URLROOT . "/events/view_more/". $data['event']->event_id . "/" . $data['profile_id'];
 									}
 
-                                    if($url == $v_url){
+									if($_SESSION['user_role'] == 'Student'){
+										
+									if($url == $m_url){
+
+										require 'mainpage_event.php';
+									}
+
+									else if($url == $ve_url){
+
+										require 'view_event.php';
+									}
+
+									else if($url == $m_regis_url){
+
+										require 'manage_registrationlist.php';
+									}
+
+									else if($url == $r_url){
+									
+										require 'register_event.php';
+									}
+
+
+									}elseif($_SESSION['user_role'] == 'Partner'){
+
+										if($url == $v_url){
+										
+                                        require 'manage_eventlist.php';
+                                    }
+
+									else if($url == $m_url){
+
+										require 'mainpage_event.php';
+									}
+
+									else if($url == $ve_url){
+
+										require 'view_event.php';
+									}
+
+									else if($url == $p_list_url){
+										require 'participant_list.php';
+									} 
+
+									else if($url == $v_m_url){
+										require 'view_more.php' ;
+									} 
+
+									}
+									elseif($_SESSION['user_role'] == 'Admin'){
+										if($url == $v_url){
 										
                                         require 'manage_eventlist.php';
                                     }
@@ -87,8 +137,10 @@
 
 									else if($url == $v_m_url){
 										require 'view_more.php' ;
-									} 
 
+									} 
+									}
+                                    
 									
                                     ?>
                             

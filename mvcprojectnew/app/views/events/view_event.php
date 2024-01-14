@@ -177,9 +177,9 @@
 																<!--end::Card body-->
 															</div>
 															<!--end::details View-->
-
+															<?php if($_SESSION['user_role'] == 'Student'): ?>
                                                             <a href="<?php echo URLROOT . "/events/register_event/".$data['event']->event_id?>" class="btn btn-primary">Register Now</a>
-															
+															<?php endif; ?>
 														</div>
 														<!--end::Description-->
 														<!--begin::Block-->
