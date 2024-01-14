@@ -9,7 +9,7 @@
     </div>
     <div class="card-body">
 
-        <form action="<?php echo URLROOT; ?>/events/edit_event/<?php echo $data['event']->event_id?>" method="POST">
+        <form action="<?php echo URLROOT; ?>/events/edit_event/<?php echo $data['event']->event_id?>" method="POST" enctype="multipart/form-data">
             <!--begin::Settings-->
            
             <div data-kt-stepper-element="content">
@@ -23,29 +23,33 @@
                     </div>
                     <!--end::Heading-->
                     
+
                     <!--begin::Input group-->
                     <div class="fv-row mb-8">
-                        <!--begin::Image placeholder-->
-                            <style>
-                                .image-input-placeholder {
-                                    background-image: url('assets/media/svg/files/blank-image.svg');
-                                }
-
-                                [data-bs-theme="dark"] .image-input-placeholder {
-                                    background-image: url('assets/media/svg/files/blank-image-dark.svg');
-                                }
-                            </style>
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-semibold mb-3">
+                            <span>Upload Event Photo/Poster/Logo</span>
+                            <span class="ms-1" data-bs-toggle="tooltip" title="Allowed file types: png, jpg, jpeg.">
+                                <i class="ki-duotone ki-information fs-7">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                </i>
+                            </span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Image input wrapper-->
+                        <div class="mt-1">
+                            <!--begin::Image placeholder-->
+                            <style>.image-input-placeholder { background-image: url('assets/media/svg/files/blank-image.svg'); } [data-bs-theme="dark"] .image-input-placeholder { background-image: url('assets/media/svg/files/blank-image-dark.svg'); }</style>
                             <!--end::Image placeholder-->
                             <!--begin::Image input-->
-                            <div class="image-input image-input-outline image-input-placeholder image-input-empty image-input-empty" data-kt-image-input="true">
+                            <div class="image-input image-input-outline " data-kt-image-input="true" style="background-image: url('')">
                                 <!--begin::Preview existing avatar-->
-                                 <?php
-                                $backgroundImage = $data['event']->filepath ? URLROOT . "/public/" . $data['event']->filepath : '';
-                                ?>
-                                <div class="image-input-wrapper w-300px h-300px" style="background-image: url('<?php echo URLROOT . "/public/" . ($data['event']->filepath ? $data['event']->filepath : ''); ?>')"></div>
+                                <div class="image-input-wrapper w-300px h-300px" style="background-image: url('<?php echo URLROOT ."/public/". $data['event']->filepath; ?>')"></div>
                                 <!--end::Preview existing avatar-->
                                 <!--begin::Edit-->
-                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change image">
+                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
                                     <i class="ki-duotone ki-pencil fs-7">
                                         <span class="path1"></span>
                                         <span class="path2"></span>
@@ -57,7 +61,7 @@
                                 </label>
                                 <!--end::Edit-->
                                 <!--begin::Cancel-->
-                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel image">
+                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
                                     <i class="ki-duotone ki-cross fs-2">
                                         <span class="path1"></span>
                                         <span class="path2"></span>
@@ -65,7 +69,7 @@
                                 </span>
                                 <!--end::Cancel-->
                                 <!--begin::Remove-->
-                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove image">
+                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
                                     <i class="ki-duotone ki-cross fs-2">
                                         <span class="path1"></span>
                                         <span class="path2"></span>

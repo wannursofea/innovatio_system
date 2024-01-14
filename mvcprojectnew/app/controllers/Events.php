@@ -56,12 +56,17 @@ class Events extends Controller
         if (!empty($_FILES['image_event']) && $_FILES['image_event']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = "uploads/";
             $fileName = $_FILES['image_event']['name'];
-            $targetFilePath = $uploadDir . $fileName;
+
+            $fileExt = explode('.', $fileName);
+            $fileActualExt = strtolower(end($fileExt));
+            $fileNameNew = uniqid('', true) . "." . $fileActualExt;
+
+            $targetFilePath = $uploadDir . $fileNameNew;
 
             // Move the uploaded file to the target directory
             if (move_uploaded_file($_FILES['image_event']['tmp_name'], $targetFilePath)) {
                 // Store the file path in the event data
-                $filepath = "uploads/" . $fileName;
+                $filepath = "uploads/" . $fileNameNew;
             } else {
                 die("File upload failed");
             }
@@ -160,6 +165,7 @@ class Events extends Controller
         $selected_clients = $this->eventModel->findSelectedClientsById($event_id); // To obtain the client_id(s) of the collaborator(s) of THIS event
         
         $updateCollaboratorSuccess = false;
+     
         // !!!! this need to change related to admin
         if(!isLoggedIn()) {
             header("Location: " . URLROOT . "/events");
@@ -191,53 +197,56 @@ class Events extends Controller
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            if (!empty($_FILES['image_event']) && $_FILES['image_event']['error'] === UPLOAD_ERR_OK) {
+
+           
+            if (isset($_FILES['image_event']) && $_FILES['image_event']['error'] == 0) {
+                
                 $uploadDir = "uploads/";
                 $fileName = $_FILES['image_event']['name'];
-                $targetFilePath = $uploadDir . $fileName;
 
-                // Move the uploaded file to the target directory
-                if (move_uploaded_file($_FILES['image_event']['tmp_name'], $targetFilePath)) {
-                    // Store the new file path in the event data
-                    $filepath = "uploads/" . $fileName;
+                $fileExt = explode('.', $fileName);
+                $fileActualExt = strtolower(end($fileExt));
+                $fileNameNew = uniqid('', true) . "." . $fileActualExt;
 
-                    // If the event had a previous image, delete it
-                    if (!empty($data['event']->filepath)) {
-                        die("gggggg");
-                        unlink($data['event']->filepath);
+                $targetFilePath = $uploadDir . $fileNameNew;
+               
+                    // Move the uploaded file to the target directory
+                    if (move_uploaded_file($_FILES['image_event']['tmp_name'], $targetFilePath)) {
+                        // Store the new file path in the event data
+                        $filepath = "uploads/" . $fileNameNew;
                     }
-                } else {
-                    die("File upload failed");
-                }
-            } else {
+            } 
+            else {
                 // If no new image is uploaded, keep the existing image path
                 $filepath = $data['event']->filepath;
+                // die("nothing upload");
             }
 
             //To obtain data event from edit form
             $data = 
             [
-            'profile_id' => '',
-            'event_id' => $event_id,
-            'event' => $event,
-            'selected_clients' => $selected_clients,// IMPORTANT: for showing collaborator selected previously
-            'user_id' => $_SESSION['user_id'],
-            'eventName' => trim($_POST['eventName']),
-            'category' => trim($_POST['category']),
-            'eventDescription' => trim($_POST['eventDescription']),
-            'date' => trim($_POST['date']),
-            'time' => trim($_POST['time']),
-            'venue' => trim($_POST['venue']),
-            'feedback' => trim($_POST['feedback']),
-            'filepath' => $filepath,
-            'eventNameError' => '',
-            'categoryError' => '',
-            'eventDescriptionError' => '',
-            'dateError' => '',
-            'timeError' => '',
-            'venueError' => '',
-            'feedbackError' => '',
-            //To hold the value of client from the form
+                'profile_id' => '',
+                'event_id' => $event_id,
+                'event' => $event,
+                'selected_clients' => $selected_clients,// IMPORTANT: for showing collaborator selected previously
+                'user_id' => $_SESSION['user_id'],
+                'eventName' => trim($_POST['eventName']),
+                'category' => trim($_POST['category']),
+                'eventDescription' => trim($_POST['eventDescription']),
+                'date' => trim($_POST['date']),
+                'time' => trim($_POST['time']),
+                'venue' => trim($_POST['venue']),
+                'feedback' => trim($_POST['feedback']),
+                'filepath' => $filepath,
+                'eventNameError' => '',
+                'categoryError' => '',
+                'eventDescriptionError' => '',
+                'dateError' => '',
+                'timeError' => '',
+                'venueError' => '',
+                'feedbackError' => '',
+                'filepathError' => ''
+                //To hold the value of client from the form
             
             ];
 
@@ -304,6 +313,11 @@ class Events extends Controller
                 $data['feedbackError'] = "At least change the feedback link!";
             }
 
+            if($data['filepath'] == $this->eventModel->findEventById($event_id)->filepath)
+            {
+                $data['filepathError'] = "At least change the image link!";
+            }
+
             if (isset($_POST['noCollaborator']) && $_POST['noCollaborator'] == '0' && isset($_POST['selectedClients']) && !empty($_POST['selectedClients'])) {
                 // Handle the condition where 'No collaborator' is selected and clients are selected
                 $errorMessage = "Error: You've selected 'No collaborator' and collaborator(s) simultaneously. Please choose either 'No collaborator' or select collaborator(s), not both.";
@@ -328,7 +342,8 @@ class Events extends Controller
                     $data['dateError'] &&
                     $data['timeError'] &&
                     $data['venueError'] &&
-                    $data['feedbackError'])
+                    $data['feedbackError'] &&
+                    $data['filepathError'])
                     ){
                     
                     if ($updateCollaboratorSuccess ||$this->eventModel->editEvent($data)){
@@ -447,9 +462,10 @@ class Events extends Controller
                         $data['dateError'] &&
                         $data['timeError'] &&
                         $data['venueError'] &&
-                        $data['feedbackError'])){
+                        $data['feedbackError'] &&
+                        $data['filepathError'])){
                         
-                        if ($updateCollaboratorSuccess || $this->eventModel->editEvent($data)){
+                        if ($uploadImage || $updateCollaboratorSuccess || $this->eventModel->editEvent($data)){
                             header("Location: " . URLROOT. "/events" );
                         }
                         else
@@ -462,8 +478,10 @@ class Events extends Controller
                         $this->view('events/index', $data);
                     }
             }
+        
         }
         $this->view('events/index', $data);
+    
     }
 
     public function delete_event($event_id)

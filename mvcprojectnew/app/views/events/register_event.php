@@ -22,29 +22,7 @@
                     </div>
                     <!--end::Heading-->
                     
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-8">
-                        <!--begin::Dropzone-->
-                        <div class="dropzone" id="kt_modal_create_project_settings_logo">
-                            <!--begin::Message-->
-                            <div class="dz-message needsclick">
-                                <!--begin::Icon-->
-                                <i class="ki-duotone ki-file-up fs-3hx text-primary">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>,
-                                <!--end::Icon-->
-                                <!--begin::Info-->
-                                <div class="ms-4">
-                                    <h3 class="dfs-3 fw-bold text-gray-900 mb-1">Drop files here or click to upload your professional photo.</h3>
-                                    <span class="fw-semibold fs-4 text-muted">Upload professional profile photo.</span>
-                                </div>
-                                <!--end::Info-->
-                            </div>
-                        </div>
-                        <!--end::Dropzone-->
-                    </div>
-                    <!--end::Input group-->
+                    
 
 
 
