@@ -51,7 +51,7 @@
 					</div>
 					
 					<div class="col-4 text-center">
-						<img src="<?php echo URLROOT . "/public/" . $s->image; ?>" class="img img-fluid" />
+					<img src="<?php echo URLROOT . "/public/" . $s->image; ?>" class="img img-fluid" style="max-width: 50%; height: 50;" />
 
 					</div>
 				</div>

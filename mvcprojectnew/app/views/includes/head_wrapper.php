@@ -188,18 +188,46 @@
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
-												<a class="menu-link" href="<?php echo URLROOT; ?>/resumes/index" class="menu-link">
+												<a class="menu-link" href="<?php echo URLROOT; ?>/resumes/edit_resume" class="menu-link">
 													<span class="menu-icon">
 														<i class="ki-duotone ki-rocket fs-2">
 															<span class="path1"></span>
 															<span class="path2"></span>
 														</i>
 													</span>
-													<span class="menu-title">Edit Resume</span>
+													<span class="menu-title">View Resume</span>
 												</a>
 												<!--end:Menu link-->
 											</div>
 											<!--end:Menu item-->
+											<div class="menu-item">
+												<!--begin:Menu link-->
+												<a class="menu-link" href="<?php echo URLROOT; ?>/certifications" class="menu-link">
+													<span class="menu-icon">
+														<i class="ki-duotone ki-rocket fs-2">
+															<span class="path1"></span>
+															<span class="path2"></span>
+														</i>
+													</span>
+													<span class="menu-title">Manage Certificates</span>
+												</a>
+												<!--end:Menu link-->
+											</div>
+
+											<div class="menu-item">
+												<!--begin:Menu link-->
+												<a class="menu-link" href="<?php echo URLROOT; ?>/experiences" class="menu-link">
+													<span class="menu-icon">
+														<i class="ki-duotone ki-rocket fs-2">
+															<span class="path1"></span>
+															<span class="path2"></span>
+														</i>
+													</span>
+													<span class="menu-title">Manage Experiences</span>
+												</a>
+												<!--end:Menu link-->
+											</div>
+					
 					
 											
 										</div>
