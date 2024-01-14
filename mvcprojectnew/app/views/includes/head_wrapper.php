@@ -221,10 +221,10 @@
 													<span class="menu-icon">
 														<i class="ki-duotone ki-rocket fs-2">
 															<span class="path1"></span>
-															<span class="path2"></span>
+															<span class="path2"></span>Manage Certificates
 														</i>
 													</span>
-													<span class="menu-title">Manage Certificates</span>
+													<span class="menu-title"></span>
 												</a>
 												<!--end:Menu link-->
 											</div>
