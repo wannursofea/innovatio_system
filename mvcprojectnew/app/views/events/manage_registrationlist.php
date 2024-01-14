@@ -46,12 +46,17 @@
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-100px py-4" data-kt-menu="true">
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="<?php echo URLROOT . "/events/register_event/".$event->event_id?>" class="menu-link btn btn-sm btn-light btn-info text-white px-3">Register</a>
+                                    <a href="<?php echo URLROOT . "/events/view_event/". $event->event_id?>" class="menu-link btn btn-sm btn-light btn-info text-white px-3">View</a>
                                 </div>
                                 <!--end::Menu item-->
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="<?php echo $event->feedback;?>" class="menu-link btn btn-sm btn-light btn-warning text-white px-3">Feedback</a>
+                                    <a href="<?php echo URLROOT . "/events/register_event/".$event->event_id?>" class="menu-link btn btn-sm btn-light btn-warning text-white px-3">Register</a>
+                                </div>
+                                <!--end::Menu item-->
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-3">
+                                    <a href="<?php echo $event->feedback;?>" class="menu-link btn btn-sm btn-light btn-primary text-white px-3">Feedback</a>
                                 </div>
                                 <!--end::Menu item-->
                                 

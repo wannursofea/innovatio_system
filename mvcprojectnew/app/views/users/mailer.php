@@ -8,8 +8,8 @@ require_once APPROOT . '/PHPMailer/src/SMTP.php';
 
 function createMailerInstance() {
     $mail = new \PHPMailer\PHPMailer\PHPMailer();
-    $mail->SMTPDebug = \PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
-    $mail->SMTPDebug = 2;
+    //$mail->SMTPDebug = \PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
+    //$mail->SMTPDebug = 2;
     // $mail = new PHPMailer(true);
     // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
     $mail->isSMTP();
