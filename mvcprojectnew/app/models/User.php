@@ -130,27 +130,6 @@ class User {
         return false; // User not found or authentication failed
     }
 
-    public function getUserImage($email, $role) {
-        if($role == 'Student')
-        {
-            $this->db->query('SELECT image FROM student WHERE email = :email');
-        }
-        elseif($role == 'Partner')
-        {
-            $this->db->query('SELECT pr_image FROM partnerclient WHERE email = :email');
-        }
-        else{
-            return null;
-        }
-
-        //Bind value
-        $this->db->bind(':email', $email);
-
-        $row = $this->db->single();
-
-        return $row ? ($role == 'Student' ? $row->image : $row->pr_image) : null;
-    }
-
     public function updateResetToken($data) {
         //Prepared statement
         require_once APPROOT . '/views/users/mailer.php';
