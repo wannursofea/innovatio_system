@@ -1,17 +1,3 @@
-<?php
-    require APPROOT . '/views/includes/head_metronic.php';
-?>
-
- <?php
-    require APPROOT . '/views/includes/begin_app.php';
- ?>
-
-
-                        <!--begin::Content-->
-                        <div id="kt_app_content" class="app-content pt-10">
-                            <!--begin::Content container-->
-                            <div id="kt_app_content_container" class="app-container container-fluid">
-                                <!--begin::Row-->
 <!-- STUDENT DASHBOARD-->          
                                     <!--begin::row--> 
 									<div class="row gx-6 gx-xl-9">
@@ -45,7 +31,7 @@
                                                         </div>
                                                         <!-- begin::Button -->
                                                         <div class="d-flex justify-content-start px-1">
-                                                            <a href="<?php echo URLROOT . "/events/manage_registrationlist"?> "class="btn btn-light-primary">Join</a>
+                                                            <a href="<?php echo URLROOT . "/rewards/join/" . $_SESSION['user_id']?>" class="btn btn-light-primary">Join</a>
                                                         </div>
                                                         <!-- end::Button -->
                                                     </div>
@@ -255,19 +241,3 @@
 
 									</div>   
                                     <!--end::Row-->
-
-                            </div>
-                            <!--end::Content container-->
-                        </div>
-                        <!--end::Content-->
-                
-<?php
-    require APPROOT . '/views/includes/footer_app.php';
-?>
-
-
-
-<?php
-    require APPROOT . '/views/includes/footer_metronic.php';
- ?>
-
