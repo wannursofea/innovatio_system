@@ -1,228 +1,374 @@
 <?php
-class User {
-    private $db;
+class Users extends Controller {
+
+    private $userModel; 
     public function __construct() {
-        $this->db = new Database;
+        $this->userModel = $this->model('User');
     }
 
-    public function register($data)
-    {
+    public function createUserSession($user) {
+        $_SESSION['user_id'] = $user->user_id;
+        $_SESSION['username'] = $user->username;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['user_role'] = $user->user_role;
+        $_SESSION['user_image'] = $this->userModel->getUserImage($user->email, $user->user_role);
+        header('location:' . URLROOT . '/pages/index');
+    }
 
-        // Set timezone 
+    public function register() {
+        $data = [
+            'username' => '',
+            'email' => '',
+            'password' => '',
+            'user_role' => '',
+            'confirmPassword' => '',
+            'name' => '',
+            'DOB' => '',
+            'gender' => '',
+            'race' => '',
+            'phoneNum' => '',
+            'course' => '',
+            'companyName' => '',
+            'officeNum' => '',
+
+            'city' => '',
+            'country' => '',
+            'education' => '',
+            'bio' => '',
+            'image' => '',
+
+            'usernameError' => '',
+            'emailError' => '',
+            'passwordError' => '',
+            'confirmPasswordError' => '',
+            'nameError' => '',
+            'DOBError' => '',
+            'phoneNumError' => '',
+            'courseError' => '',
+            'companynameError' => '',
+            'officeNumError' => '',
+        ];
+
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        // Process form
+        // Sanitize POST data
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+
+            if ($_POST['user_role'] == "Student") {
+                $data = [
+                'username' => trim($_POST['username']),
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'confirmPassword' => trim($_POST['confirmPassword']),
+                'user_role' => trim($_POST['user_role']),
+                
+                'name' => trim($_POST['name'])??'',
+                'DOB' => trim($_POST['DOB'])??'',
+                'gender' => trim($_POST['gender'])??'',
+                'race' => trim($_POST['race'])??'',
+                'phoneNum' => trim($_POST['phoneNum'])??'',
+                'course' => trim($_POST['course'])??'',
+
+                'city' => '',
+                'country' => '',
+                'education' => '',
+                'bio' => '',
+                'image' => '',
+
+                'usernameError' => '',
+                'emailError' => '',
+                'passwordError' => '',
+                'confirmPasswordError' => '',
+
+                'nameError' => '',
+                'DOBError' => '',
+                'phoneNumError' => '',
+                'courseError' => '',
+
+                ];
+
+                if (empty($data['name'])) {
+                $data['nameError'] = 'Please enter name.';
+                }
+
+                if (empty($data['phoneNum'])) {
+                    $data['phoneNumError'] = 'Please enter contact number.';
+                }
+
+                if (empty($data['DOB'])) {
+                    $data['DOBError'] = 'Please enter date of birth.';
+                }
+
+                if (empty($data['course'])) {
+                    $data['courseError'] = 'Please enter current course.';
+                }
+
+            }elseif($_POST['user_role']== "Partner"){
+                 $data = [
+                'username' => trim($_POST['username']),
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'confirmPassword' => trim($_POST['confirmPassword']),
+                'user_role' => trim($_POST['user_role']),
+
+                'companyName' => trim($_POST['companyName'])??'',
+                'officeNum' => trim($_POST['officeNum'])??'',
+                
+                'usernameError' => '',
+                'emailError' => '',
+                'passwordError' => '',
+                'confirmPasswordError' => '',
+               
+                'companynameError' => '',
+                'officeNumError' => '',
+                ];
+
+                if (empty($data['companyName'])) {
+                        $data['companynameError'] = 'Please enter company name.';
+                }
+
+                if (empty($data['officeNum'])) {
+                    $data['officeError'] = 'Please enter office number.';
+                }
+            }
+
+
+            $nameValidation = "/^[a-zA-Z0-9]*$/";
+            $passwordValidation = "/^(.{0,7}|[^a-z]*|[^\d]*)$/i";
+
+            //Validate username on letters/numbers
+            if (empty($data['username'])) {
+                $data['usernameError'] = 'Please enter username.';
+            } elseif (!preg_match($nameValidation, $data['username'])) {
+                $data['usernameError'] = 'Name can only contain letters and numbers.';
+            }
+
+            //Validate email
+            if (empty($data['email'])) {
+                $data['emailError'] = 'Please enter email address.';
+            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $data['emailError'] = 'Please enter the correct format.';
+            } else {
+                //Check if email exists.
+                if ($this->userModel->findUserByEmail($data['email'])) {
+                $data['emailError'] = 'Email is already taken.';
+                }
+            }
+
+           // Validate password on length, numeric values,
+            if(empty($data['password'])){
+              $data['passwordError'] = 'Please enter password.';
+            } elseif(strlen($data['password']) < 8){
+              $data['passwordError'] = 'Password must be at least 8 characters';
+            } elseif (preg_match($passwordValidation, $data['password'])) {
+              $data['passwordError'] = 'Password must be have at least one numeric value.';
+            }
+
+            //Validate confirm password
+            if (empty($data['confirmPassword'])) {
+                $data['confirmPasswordError'] = 'Please enter password.';
+            } else {
+                if ($data['password'] != $data['confirmPassword']) {
+                $data['confirmPasswordError'] = 'Passwords do not match, please try again.';
+                }
+            }
+
+            // Make sure that errors are empty
+            if (empty($data['usernameError']) &&
+                empty($data['emailError']) && 
+                empty($data['passwordError']) && 
+                empty($data['confirmPasswordError'])&&
+                (
+                    (
+                    empty($data['nameError'])&&
+                    empty($data['phoneNumError'])&&
+                    empty($data['DOBError'])&&
+                    empty($data['courseError'])
+                    )
+                    ||
+                    (empty($data['companynameError'])&&
+                    empty($data['officeNumError'])
+                    )
+                )
+            ) {
+
+                // Hash password
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                //Register user from model function
+                if ($this->userModel->register($data)) {
+                    //Redirect to the login page
+                    header('location: ' . URLROOT . '/users/login');
+                } else {
+                    die('Something went wrong.');
+                }
+            }
+            else{
+
+            }
+           
+        }
+        $this->view('users/register', $data);
+    }
+
+    public function login() {
+        $data = [
+            'title' => 'Login page',
+            'email' => '',
+            'password' => '',
+            'usernameError' => '',
+            'passwordError' => ''
+        ];
+
+        //Check for post
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'usernameError' => '',
+                'passwordError' => '',
+            ];
+            //Validate username
+            if (empty($data['email'])) {
+                $data['emailError'] = 'Please enter an email.';
+            }
+
+            //Validate password
+            if (empty($data['password'])) {
+                $data['passwordError'] = 'Please enter a password.';
+            }
+
+            //Check if all errors are empty
+            if (empty($data['emailError']) && empty($data['passwordError'])) {
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+
+                if ($loggedInUser) {
+                    $this->createUserSession($loggedInUser);
+                } else {
+                    $data['passwordError'] = 'Password or email is incorrect. Please try again.';
+
+                    $this->view('users/login', $data);
+                }
+            }
+
+        } else {
+            $data = [
+                'email' => '',
+                'password' => '',
+                'emailError' => '',
+                'passwordError' => ''
+            ];
+        }
+        $this->view('users/login', $data);
+    }
+
+    public function reset_password(){
+        $token = bin2hex(random_bytes(16)); //64 character string
+        $token_hash = hash("sha256", $token);
         date_default_timezone_set("Asia/Taipei");
-        $user_datetime = date('Y-m-d H:i:s');
-        $user_reg_status = "active";
-        $user_id ="";
-        //insert value for user registration
-        //insert value for profile detail
-        if ($data['user_role'] == "Student") {
-            
-            //student users and profile
-            $this->db->query("INSERT INTO user (username, email, password, user_role, datetime_register, user_reg_status) 
-            VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status)");
-            // $this->db->query("INSERT INTO user (username, email, password, user_role, datetime_register, user_reg_status) 
-            // VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status);
+        $expiry = date('Y-m-d H:i:s',time() + 60 * 30);//only valid 30 min
 
-             //Bind values for users table
-            $this->db->bind(':username', $data['username']);
-            $this->db->bind(':email', $data['email']);
-            $this->db->bind(':password', $data['password']);
-            $this->db->bind(':user_role', $data['user_role']);
-            $this->db->bind(':datetime_register', $user_datetime);
-            $this->db->bind(':user_reg_status', $user_reg_status);
+        $data = [
+            'email' => '',
+            'resetTokenHash' => '',
+            'resetTokenExpired' => '',
+            'URLROOT' => URLROOT, 
+        ];
 
-            if($this->db->execute()){
-                $user_id = $this->db->lastInsertId();
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'email' => trim($_POST['email']),
+                'token' =>$token,
+                'reset_token_hash' => $token_hash,
+                'reset_token_expired' => $expiry,
+                'URLROOT' => URLROOT, 
+            ];
+
+            if($this->userModel->updateResetToken($data)){
+                $this->view('users/new_password',$data);
             }
-            
-            $this->db->query("INSERT INTO student (user_id, DOB, phoneNum, email, name, gender, race, education, course, bio, image, country, city) 
-            VALUES(:user_id, :DOB, :phoneNum, :email, :name, :gender, :race, :education , :course , :bio , :image, :country, :city);");
+        }
 
-            //Bind values for st_profiles table
-            
+        $this->view('users/reset_password',$data);
+    }
 
-         //Bind values for st_profiles table
-            $this->db->bind(':user_id', $user_id);
-            $this->db->bind(':email', $data['email']);
-            $this->db->bind(':phoneNum', $data['phoneNum']);
-            $this->db->bind(':name', $data['name']);
-            $this->db->bind(':gender', $data['gender']);
-            $this->db->bind(':race', $data['race']);
-            $this->db->bind(':city', $data['city']);
-            $this->db->bind(':country', $data['country']);
-            $this->db->bind(':education', $data['education']);
-            $this->db->bind(':course', $data['course']);
-            $this->db->bind(':DOB', $data['DOB']);
-            $this->db->bind(':bio', $data['bio']);
-            $this->db->bind(':image', $data['image']);
-      
-           
-
-            
-
-        } elseif ($data['user_role'] == "Partner") {
-          //student users and profile
-          $this->db->query("INSERT INTO user (username, email, password, user_role, datetime_register, user_reg_status) 
-          VALUES(:username, :email, :password, :user_role, :datetime_register, :user_reg_status);");
+    public function new_password($data){ 
         
+        $token = isset($_GET["token"]) ? $_GET["token"] : null;
+        $token_hash = hash("sha256", $token);
+        $this_user = $this->userModel->findByResetToken($token_hash);
 
-        //Bind values for users table
-          $this->db->bind(':username', $data['username']);
-          $this->db->bind(':email', $data['email']);
-          $this->db->bind(':password', $data['password']);
-          $this->db->bind(':user_role', $data['user_role']);
-          $this->db->bind(':datetime_register', $user_datetime);
-          $this->db->bind(':user_reg_status', $user_reg_status);
-
-          if($this->db->execute()){
-            $user_id = $this->db->lastInsertId();
-        }
-
-          $this->db->query("INSERT INTO partnerclient (user_id, companyName, companyDescription, city, country, officeNum, email) 
-          VALUES(:user_id, :companyName, :companyDescription, :city, :country, :officeNum, :email );");
-
-          //Bind values for partnerclient table
-          $companyName = $data['companyName']??'';
-          $companyDescription = "";
-          $city = "";
-          $country = "";
-          $officeNum = $data['officeNum']??'';
-          
-          
-            //Bind values for partnerclient table
-            $this->db->bind(':user_id', $user_id);
-           $this->db->bind(':companyName', $companyName);
-           $this->db->bind(':companyDescription', $companyDescription);
-           $this->db->bind(':city', $city);
-           $this->db->bind(':country', $country);
-           $this->db->bind(':officeNum', $officeNum);
-           $this->db->bind(':email', $data['email']);
-
-        } else {
-           
-        }
-
-        //execute function
-        if ($this->db->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    public function login($email, $password) {
-        $this->db->query('SELECT * FROM user WHERE email = :email');
-
-        //Bind value
-        $this->db->bind(':email', $email);
-
-        $row = $this->db->single();
-
-        if ($row) {
-            $hashedPassword = $row->password;
-    
-            if (password_verify($password, $hashedPassword)) {
-                return $row; // User authenticated successfully
-            }
-        }
-    
-        return false; // User not found or authentication failed
-    }
-
-    public function getUserImage($email, $role) {
-        if($role == 'Student')
-        {
-            $this->db->query('SELECT image FROM student WHERE email = :email');
-        }
-        elseif($role == 'Partner')
-        {
-            $this->db->query('SELECT pr_image FROM partnerclient WHERE email = :email');
-        }
-        else{
-            return null;
-        }
-
-        //Bind value
-        $this->db->bind(':email', $email);
-
-        $row = $this->db->single();
-
-        return $row ? ($role == 'Student' ? $row->image : $row->pr_image) : null;
-    }
-
-    public function updateResetToken($data) {
-        //Prepared statement
-        require_once APPROOT . '/views/users/mailer.php';
-
-        $this->db->query('UPDATE user SET reset_token_hash = :reset_token_hash, reset_token_expired = :reset_token_expired WHERE email = :email');
-
-        //Email param will be binded with the email variable
-        $this->db->bind(':reset_token_hash', $data['reset_token_hash']);
-        $this->db->bind(':reset_token_expired', $data['reset_token_expired']);
-        $this->db->bind(':email', $data['email']);
-        
-        //Check if email is already registered
-       if ($this->db->execute()) {
-            $mail = createMailerInstance();
-            $mail->setFrom("noreply@gmail.com");
-            $mail->addAddress($data['email']);
-            $mail->Subject = "Password Reset";
-            $mail->Body = <<<END
-
-                Click <a href="{$data['URLROOT']}/users/new_password.php?token={$data['token']}">here</a>
-                to reset your password.
-
-            END;
-
-            try{
-                $mail->send();
-            }catch(Exception $e){
-                echo "Message could not be sent. Mailer error: ($mail->ErrorInfo)";
-            }
-            
+        if ($this_user && strtotime($this_user->reset_token_expired) <= time()) {
+        // Token is valid, allow access to the new_password.php view
+            die("Invalid or expired token");
         } 
-        echo "Message sent, please check your inbox. ";
 
-         
-    }
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    public function findByResetToken($reset_token_hash){
-        $this->db->query('SELECT * FROM user WHERE reset_token_hash = :reset_token_hash');
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-        $this->db->bind(':reset_token_hash',$reset_token_hash);
-        $result = $this->db->single();
-        if($this->db->execute()){
-            return $result;
+            $data = [
+                'password' => trim($_POST['password']),
+                'confirmPassword' => trim($_POST['confirmPassword']),
+                'reset_token_hash' => $token_hash,
+                'passwordError' => '',
+                'confirmPasswordError' => '',
+            ];
+
+           
+            $passwordValidation = "/^(.{0,7}|[^a-z]*|[^\d]*)$/i";
+
+            if(empty($data['password'])){
+              $data['passwordError'] = 'Please enter password.';
+            } elseif(strlen($data['password']) < 8){
+              $data['passwordError'] = 'Password must be at least 8 characters';
+            } elseif (preg_match($passwordValidation, $data['password'])) {
+              $data['passwordError'] = 'Password must be have at least one numeric value.';
+            }
+
+            //Validate confirm password
+            if (empty($data['confirmPassword'])) {
+                $data['confirmPasswordError'] = 'Please enter password.';
+            } else {
+                if ($data['password'] != $data['confirmPassword']) {
+                $data['confirmPasswordError'] = 'Passwords do not match, please try again.';
+                }
+            }
+
+            if (empty($data['passwordError']) && 
+                empty($data['confirmPasswordError'])
+            ) {
+
+                // Hash password
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                
+                if ($this->userModel->updateNewPassword($data)) {
+                    header('location: ' . URLROOT . '/users/login');
+                } else {
+                    die('Something went wrong.');
+                }
+            }
+            else{
+                $this->view('users/new_password',$data);
+            }
+
         }
-        else{
-            return false;
-        }
+         $this->view('users/new_password', $data);
     }
-
-    public function updateNewPassword($data) {
-        $this->db->query('UPDATE user SET password = :password WHERE reset_token_hash = :reset_token_hash');
-        $this->db->bind(':password', $data['password']);
-        $this->db->bind(':reset_token_hash', $data['reset_token_hash']);
-
-        // Execute the query
-        if ($this->db->execute()) {
-            return true; // Password updated successfully
-        } else {
-            return false; // Error updating password
-        }
-    }
-
-    //Find user by email. Email is passed in by the Controller.
-    public function findUserByEmail($email) {
-        //Prepared statement
-        $this->db->query('SELECT * FROM user WHERE email = :email');
-
-        //Email param will be binded with the email variable
-        $this->db->bind(':email', $email);
-        $this->db->execute();
-        //Check if email is already registered
-        return $this->db->rowCount();
-         
+    public function logout() {
+        unset($_SESSION['user_id']);
+        unset($_SESSION['username']);
+        unset($_SESSION['email']);
+        unset($_SESSION['user_role']);
+        unset($_SESSION['user_image']);
+        header('location:' . URLROOT . '/users/login');
     }
 }
