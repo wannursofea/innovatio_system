@@ -12,8 +12,20 @@ class Page
     public function studentProfile()
     {
 
-        $this->db->query("SELECT * FROM student WHERE email = :email");
+        $this->db->query('SELECT * FROM student WHERE email = :email');
+       
+        $this->db->bind(':email', $_SESSION['email']);
 
+        $result = $this->db->resultSet();
+
+        return $result;
+    }
+
+    public function clientProfile()
+    {
+
+        $this->db->query('SELECT * FROM partnerclient WHERE email = :email');
+       
         $this->db->bind(':email', $_SESSION['email']);
 
         $result = $this->db->resultSet();
@@ -22,54 +34,15 @@ class Page
     }
 
 
-    // public function universitySelection()
-    // {
-
-    //     $this->db->query("SELECT * FROM uni_details");
-
-    //     $result = $this->db->resultSet();
-
-    //     return $result;
-    // }
-
-    // public function universitySelectionDetails()
-    // {
-
-    //     if ($_SESSION['user_role'] == "student") {
-
-    //     $user_code = $_SESSION['user_code'];
-
-    //     $this->db->query("SELECT * FROM uni_details
-    //     INNER JOIN st_profile ON uni_details.uni_code=st_profile.univ_code  WHERE st_code = :st_code");
-
-    //     $this->db->bind(':st_code', $user_code);
-
-    //     }elseif($_SESSION['user_role'] == "supervisor"){
-
-    //     $user_code = $_SESSION['user_code'];
-
-    //     $this->db->query("SELECT * FROM uni_details
-    //     INNER JOIN sv_profile ON uni_details.uni_code=sv_profile.univ_code  WHERE sv_code = :sv_code");
-
-    //     $this->db->bind(':sv_code', $user_code);
-
-    //     }
-
-    //     $result = $this->db->resultSet();
-
-    //     return $result;
-    // }
-
-
     public function updateStudentProfile($data)
     {
 
  
         if (isset($data['image'])) {
 
-        $this->db->query("UPDATE student 
+        $this->db->query("UPDATE student
         SET email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
-        race = :race, education  = :education, city  = :city, country = :country, bio = :bio, DOB =:DOB, course = :course, image  = :image WHERE email = :email;");
+        race = :race, education  = :education, city = :city, country = :country, bio = :bio, DOB =:DOB, course = :course, image  = :image WHERE email = :email;");
 
         $this->db->bind(':email', $_SESSION['email']);
         $this->db->bind(':phoneNum', $data['phoneNum']);
@@ -88,7 +61,7 @@ class Page
 
         $this->db->query("UPDATE student 
         SET email = :email, phoneNum = :phoneNum, name = :name, gender = :gender,
-        race = :race, education  = :education, city  = :city, country = :country, bio = :bio, DOB =:DOB, course = :course WHERE email  = :email;");
+        race = :race, education  = :education, city = :city, country = :country, bio = :bio, DOB =:DOB, course = :course WHERE email  = :email;");
 
         $this->db->bind(':email', $_SESSION['email']);
         $this->db->bind(':phoneNum', $data['phoneNum']);
@@ -113,5 +86,91 @@ class Page
         }
     }
 
+    public function updateClientProfile($data)
+    {
+
+        if (isset($data['pr_image'])) {
+
+        $this->db->query("UPDATE partnerclient
+        SET companyName = :companyName, companyDescription = :companyDescription, city = :city, country = :country,
+        officeNum = :officeNum, pr_image  = :pr_image WHERE email = :email;");
+
+
+
+
+        $this->db->bind(':email', $_SESSION['email']);
+        $this->db->bind(':companyName', $data['companyName']);
+        $this->db->bind(':companyDescription', $data['companyDescription']);
+        $this->db->bind(':city', $data['city']);
+        $this->db->bind(':country', $data['country']);
+        $this->db->bind(':officeNum', $data['officeNum']);
+        $this->db->bind(':pr_image', $data['pr_image']);
+
+        }else{
+
+        $this->db->query("UPDATE partnerclient 
+        SET companyName = :companyName, companyDescription = :companyDescription, city = :city, country = :country,
+        officeNum = :officeNum WHERE email = :email;");
+
+        $this->db->bind(':email', $_SESSION['email']);
+        $this->db->bind(':companyName', $data['companyName']);
+        $this->db->bind(':companyDescription', $data['companyDescription']);
+        $this->db->bind(':city', $data['city']);
+        $this->db->bind(':country', $data['country']);
+        $this->db->bind(':officeNum', $data['officeNum']);
+        
+            
+        }
+        
+        //execute function
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function findStudentById($user_id){
+        $this->db->query('SELECT * FROM student WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $user_id);
+
+        $row_profile = $this->db->single();
+
+        return $row_profile;
+    }
+
+    public function findPartnerById($user_id){
+        $this->db->query('SELECT * FROM partnerclient WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $user_id);
+
+        $row_profile = $this->db->single();
+
+        return $row_profile;
+    }
+
+
+    public function studentInfo($user_id){
+        $this->db->query('SELECT * FROM student WHERE user_id = :user_id');
+
+        $this->db->bind(':user_id', $user_id);
+
+        return $this->db->single();
+    }
+ 
+    public function badgeInfo($profile_id){
+        $this->db->query('SELECT * FROM rewardnbadge WHERE profile_id = :profile_id');
+
+        $this->db->bind(':profile_id', $profile_id);
+
+        return $this->db->single();
+    }
+
+    public function eventInfo(){
+        $this->db->query('SELECT * FROM events');
+
+        return $this->db->resultSet();
+    }
+
+    
  
 }

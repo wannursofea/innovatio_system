@@ -22,28 +22,36 @@
 
         <?php
                  
-                 $h_url = URLROOT .  "/"; //home_url
-                 $e_url = URLROOT . "/pages/edit_profile"; //edit_user_url
-   
+                $e_url = URLROOT . "/pages/edit_profile"; //edit_user_url
+                $i_url = URLROOT . "/pages/index";
+                $client_url = URLROOT . "/pages/edit_client";
  
-                 if ($url == $e_url) {
+                if ($url == $i_url) {
+                    require 'dashboard.php';
+                }
+                else if ($url == $e_url) {
                      //page edit user
  
-                     if ($_SESSION['userRole'] == "Student") {
+                     if ($_SESSION['user_role'] == "Student") {
 
                          require 'edit_profile.php';
 
-                     } else if ($_SESSION['userRole'] == "Admin"){
+                     } else if ($_SESSION['user_role'] == "Admin"){
 
                         
                      }
  
-                     else if ($_SESSION['userRole']== "Partner") {
+                     else if ($_SESSION['user_role']== "Partner") {
                             
-                        require 'edit_profile.php';
+                        // require 'edit_profile.php';
                  }
 
+                }else if ($url == $client_url) {
+                    if ($_SESSION['user_role'] == "Partner") {
+                        require 'edit_client.php';
+                    }
                 }
+
 
                     ?>
 

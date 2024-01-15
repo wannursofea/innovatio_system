@@ -114,6 +114,8 @@
 										</div>
 										<!--end::col -->
 
+
+                                        
                                         <!-- FOR PROFILE -->
                                         <!--begin::col-->
                                         <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-5 mb-md-5 mb-xl-10">
