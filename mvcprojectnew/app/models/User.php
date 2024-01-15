@@ -130,6 +130,7 @@ class User {
         return false; // User not found or authentication failed
     }
 
+
     public function updateResetToken($data) {
         //Prepared statement
         require_once APPROOT . '/views/users/mailer.php';
@@ -204,6 +205,7 @@ class User {
         return $this->db->rowCount();
          
     }
+
     public function getUserImage($email, $role) {
         if ($role == 'Student') {
             //Query to get student image
@@ -212,16 +214,23 @@ class User {
         } elseif ($role == 'Partner') {
             //Query to get partner image
             $this->db->query('SELECT pr_image FROM partnerclient WHERE email= :email');
+<<<<<<< HEAD
         }  else {
             //Default case or handle other roles
+=======
+        }  else if($role == 'Admin'){
+            $this->db->query('SELECT image FROM yvadmin WHERE email= :email');
+        } else {
+>>>>>>> 18131f09dbd31afaaa2421fc5f015d480e57a641
             return null;
-        } 
+        }
         
         // Bind the email parameter
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
 
-        return $row ? ($role == 'Student' ? $row->image : $row->pr_image) : null;
+        return $row ? ($role == 'Student' ? $row->image : $row->image) : null;
     }
 }
+
