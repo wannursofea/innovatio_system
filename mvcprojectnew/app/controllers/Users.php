@@ -217,7 +217,7 @@ class Users extends Controller {
             'title' => 'Login page',
             'email' => '',
             'password' => '',
-            'usernameError' => '',
+            'eamilError' => '',
             'passwordError' => ''
         ];
 
@@ -229,7 +229,7 @@ class Users extends Controller {
             $data = [
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
-                'usernameError' => '',
+                'emailError' => '',
                 'passwordError' => '',
             ];
             //Validate username
@@ -241,6 +241,9 @@ class Users extends Controller {
             if (empty($data['password'])) {
                 $data['passwordError'] = 'Please enter a password.';
             }
+            if (!$this->userModel->findUserByEmail($data['email'])) {
+            $data['emailError'] = 'Email not found.';
+            }
 
             //Check if all errors are empty
             if (empty($data['emailError']) && empty($data['passwordError'])) {
@@ -250,7 +253,7 @@ class Users extends Controller {
                     $this->createUserSession($loggedInUser);
                 } else {
                     $data['passwordError'] = 'Password or email is incorrect. Please try again.';
-
+                    
                     $this->view('users/login', $data);
                 }
             }
