@@ -214,14 +214,9 @@ class User {
         } elseif ($role == 'Partner') {
             //Query to get partner image
             $this->db->query('SELECT pr_image FROM partnerclient WHERE email= :email');
-<<<<<<< HEAD
-        }  else {
-            //Default case or handle other roles
-=======
         }  else if($role == 'Admin'){
             $this->db->query('SELECT image FROM yvadmin WHERE email= :email');
         } else {
->>>>>>> 18131f09dbd31afaaa2421fc5f015d480e57a641
             return null;
         }
         
