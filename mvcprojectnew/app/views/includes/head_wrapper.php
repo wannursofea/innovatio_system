@@ -7,7 +7,7 @@
 
 
 								<!--begin:Menu item FOR EVENT-->
-								<?php if (isset($_SESSION['user_role']) && (($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Student'))) : ?>
+								<?php if (isset($_SESSION['user_role']) && (($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Student' || $_SESSION['user_role'] == 'Partner'))) : ?>
 								<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" data-kt-app-menu-placement="bottom" class="menu-item menu-lg-down-accordion me-0 me-lg-2">
 										<!--begin:Menu link-->
 										<span class="menu-link">
@@ -56,7 +56,7 @@
 																		<!--end:Menu item-->
 
 																		<!--begin:Menu item-->
-																		<?php if ($_SESSION['user_role'] == 'Admin') : ?>
+																		<?php if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Partner') : ?>
 																		<div class="menu-item p-0 m-0">
 																			<!--begin:Menu link-->
 																			<a href="<?php echo URLROOT; ?>/events" class="menu-link">
@@ -213,6 +213,7 @@
 									<!--end:Menu item FOR REWARDNBADGE-->
 									
 									<!--begin:Menu item FOR RESUME-->
+									<?php if (isset($_SESSION['user_role']) && (($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Student'))) : ?>
 									<?//php if (isset($_SESSION['user_role']) && ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Student')) : ?>
 									<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" data-kt-app-menu-placement="bottom" class="menu-item menu-lg-down-accordion me-0 me-lg-2">
 										<!--begin:Menu link-->
@@ -313,6 +314,7 @@
 										<!--end:Menu sub-->
 									</div>
 									<?//php endif; ?>
+									<?php endif; ?>
 									<!--end:Menu item FOR RESUME-->
 									
 
