@@ -1,32 +1,3 @@
-<?php 
-        
-        if(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS'] === 'on')
-            $url = "https://";
-        
-        else
-            $url = "http://";
-        
-            $url .= $_SERVER['HTTP_HOST'];
-
-            $url .= $_SERVER['REQUEST_URI'];
-
-            $reset_url = '';
-
-        if(isset($data['token'])&& is_object($data['token'])){
-			$reset_url = URLROOT . "/users/new_password.php?token={$data['token']}";
-        }
-        
-        $token = $_GET["token"];
-        $token_hash = hash("sha256", $token);
-        $this_user = $this->userModel->findByResetToken($token_hash);
-
-        if ($this_user && strtotime($this_user->reset_token_expired) <= time()) {
-            die("Invalid or expired token");
-        } 
-        if($url == $reset_url){	
-            require 'new_password.php';
-        }
-?>
 <!DOCTYPE html>
 <html lang="en">
 	<!--begin::Head-->
@@ -43,7 +14,7 @@
 		<meta property="og:url" content="https://keenthemes.com/metronic" />
 		<meta property="og:site_name" content="Metronic by Keenthemes" />
 		<link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-		<link rel="shortcut icon" href="<?php echo URLROOT ?>/public/assets/media/logos/favicon.ico" />
+		<link rel="shortcut icon" href="<?php echo URLROOT ?>/public/assets/media/YVlogo.jpeg" />
 		<!--begin::Fonts(mandatory for all pages)-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<!--end::Fonts-->
@@ -62,12 +33,7 @@
 		<div class="d-flex flex-column flex-root" id="kt_app_root">
 			<!--begin::Authentication - New password -->
 			<div class="d-flex flex-column flex-lg-row flex-column-fluid">
-				<!--begin::Logo-->
-				<a href="index.html" class="d-block d-lg-none mx-auto py-20">
-					<img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/logos/default.svg" class="theme-light-show h-25px" />
-					<img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/logos/default-dark.svg" class="theme-dark-show h-25px" />
-				</a>
-				<!--end::Logo-->
+				
 				<!--begin::Aside-->
 				<div class="d-flex flex-column flex-column-fluid flex-center w-lg-50 p-10">
 					<!--begin::Wrapper-->
@@ -92,7 +58,7 @@
 						<!--begin::Body-->
 						<div class="py-20">
 							<!--begin::Form-->
-							<form class="form w-100" novalidate="novalidate" id="kt_new_password_form" data-kt-redirect-url="authentication/layouts/fancy/sign-in.html" method="POST" action="<?php echo URLROOT; ?>/users/new_password.php?token=<?php echo $_GET['token']; ?>">
+							<form class="form w-100" novalidate="novalidate" id="kt_new_password_form" data-kt-redirect-url="authentication/layouts/fancy/sign-in.html" method="POST" action="<?php echo URLROOT; ?>/users/new_password">
 								<!--begin::Heading-->
 								<div class="text-start mb-10">
 									<!--begin::Title-->
@@ -138,41 +104,20 @@
 								<!--end::Input group=-->
 								<!--begin::Actions-->
 								<div class="d-flex flex-stack">
+									<input type="hidden" name="token" value="<?php echo htmlspecialchars($_GET['token']); ?>">
 									<!--begin::Link-->
                                         <button type="submit" class="btn btn-primary " data-kt-translate="new-password-submit">
 											Submit
 										</button>
 									
-										<!--begin::Indicator label-->
-										<span class="indicator-label">Submit</span>
-										<!--end::Indicator label-->
+										
 										<!--begin::Indicator progress-->
 										<span class="indicator-progress">Please wait... 
 										<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
 										<!--end::Indicator progress-->
 									</button>
 									<!--end::Link-->
-									<!--begin::Social-->
-									<div class="d-flex align-items-center">
-										<div class="text-gray-500 fw-semibold fs-6 me-6" data-kt-translate="general-or">Or</div>
-										<!--begin::Symbol-->
-										<a href="#" class="symbol symbol-circle symbol-45px w-45px bg-light me-3">
-											<img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/svg/brand-logos/google-icon.svg" class="p-4" />
-										</a>
-										<!--end::Symbol-->
-										<!--begin::Symbol-->
-										<a href="#" class="symbol symbol-circle symbol-45px w-45px bg-light me-3">
-											<img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/svg/brand-logos/facebook-3.svg" class="p-4" />
-										</a>
-										<!--end::Symbol-->
-										<!--begin::Symbol-->
-										<a href="#" class="symbol symbol-circle symbol-45px w-45px bg-light">
-											<img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/svg/brand-logos/apple-black.svg" class="theme-light-show p-4" />
-											<img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/svg/brand-logos/apple-black-dark.svg" class="theme-dark-show p-4" />
-										</a>
-										<!--end::Symbol-->
-									</div>
-									<!--end::Social-->
+									
 								</div>
 								<!--end::Actions-->
 							</form>
@@ -189,7 +134,7 @@
 				</div>
 				<!--end::Aside-->
 				<!--begin::Body-->
-				<div class="d-none d-lg-flex flex-lg-row-fluid w-50 bgi-size-cover bgi-position-y-center bgi-position-x-start bgi-no-repeat" style="background-image: url(<?php echo URLROOT ?>/public/assets/media/auth/bg11.png)"></div>
+				<div class="d-none d-lg-flex flex-lg-row-fluid w-50 bgi-size-cover bgi-position-y-center bgi-position-x-start bgi-no-repeat" style="background-image: url(<?php echo URLROOT ?>/public/assets/media/YVlogin.jpeg)"></div>
 				<!--begin::Body-->
 			</div>
 			<!--end::Authentication - New password-->

@@ -6,6 +6,13 @@ class Users extends Controller {
         $this->userModel = $this->model('User');
     }
 
+    public function index()
+    {
+        $token = $_GET['token'];
+        
+        $this->view('users/index', $token);
+    }
+
     public function createUserSession($user) {
         $_SESSION['user_id'] = $user->user_id;
         $_SESSION['username'] = $user->username;
@@ -302,24 +309,35 @@ class Users extends Controller {
         $this->view('users/reset_password',$data);
     }
 
-    public function new_password($data){ 
+    public function new_password(){ 
         
-        $token = isset($_GET["token"]) ? $_GET["token"] : null;
-        $token_hash = hash("sha256", $token);
-        $this_user = $this->userModel->findByResetToken($token_hash);
-
-        if ($this_user && strtotime($this_user->reset_token_expired) <= time()) {
-        // Token is valid, allow access to the new_password.php view
-            die("Invalid or expired token");
-        } 
-
+        $error_msg = '';
+        
+        $data = [
+            'password' => '',
+            'confirmPassword' => '',
+            'reset_token_hash' => '',
+            'passwordError' => '',
+            'confirmPasswordError' => '',
+            
+        ];
+        
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
+            $token = $_POST['token'];
+            $token_hash = hash("sha256", $token);
+            $this_user = $this->userModel->findByResetToken($token_hash);
+            
+            if (!empty($this_user) && strtotime($this_user->reset_token_expired) <= time()) {
+            // Token is valid, allow access to the new_password.php view
+                $error_msg = "Invalid or expired token";
+                die($error_msg);
+            } 
             $data = [
                 'password' => trim($_POST['password']),
                 'confirmPassword' => trim($_POST['confirmPassword']),
+                'token' => trim($_POST['token']),
                 'reset_token_hash' => $token_hash,
                 'passwordError' => '',
                 'confirmPasswordError' => '',
@@ -360,11 +378,11 @@ class Users extends Controller {
                 }
             }
             else{
-                $this->view('users/new_password',$data);
+                $this->view('users/index',$error_msg);
             }
 
         }
-         $this->view('users/new_password', $data);
+         $this->view('users/index', $error_msg);
     }
     public function logout() {
         unset($_SESSION['user_id']);

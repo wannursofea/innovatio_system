@@ -34,12 +34,7 @@
 		<div class="d-flex flex-column flex-root" id="kt_app_root">
 			<!--begin::Authentication - Sign-up -->
 			<div class="d-flex flex-column flex-lg-row flex-column-fluid">
-				<!--begin::Logo-->
-				<a href="index.html" class="d-block d-lg-none mx-auto py-20">
-					<img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/logos/default.svg" class="theme-light-show h-25px" />
-					<img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/logos/default-dark.svg" class="theme-dark-show h-25px" />
-				</a>
-				<!--end::Logo-->
+				
 				<!--begin::Aside-->
 				<div class="d-flex flex-column flex-column-fluid flex-center w-lg-50 p-10">
 					<!--begin::Wrapper-->
