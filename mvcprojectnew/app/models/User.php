@@ -229,8 +229,15 @@ class User {
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
-
-        return $row ? ($role == 'Student' ? $row->image : $row->image) : null;
+        
+        if ($row) {
+            if ($role == 'Student') {
+                return $row->image;
+            } elseif ($role == 'Partner') {
+                return $row->pr_image;
+            }
+        }
+        return null;
     }
 }
 
