@@ -188,21 +188,21 @@
 															<div class="text-center flex-shrink-0 me-7 me-lg-13">
 																<!--begin::Avatar-->
 																<div class="symbol symbol-70px symbol-circle mb-2">
-																	<img src="assets/media/avatars/300-2.jpg" class="" alt="" />
+																	<img src="https://media.licdn.com/dms/image/C4E0BAQF2uYlKl-qeWQ/company-logo_200_200/0/1630627556169/youthventuresasia_logo?e=2147483647&v=beta&t=pb4KC_EXr0IxAK2v0ELDG4hXFlcRZgJIO0JHPzH_Bow" class="" alt="" />
 																</div>
 																<!--end::Avatar-->
 																<!--begin::Info-->
 																<div class="mb-0">
-																	<a href="pages/user-profile/overview.html" class="text-gray-700 fw-bold text-hover-primary">Jane Johnson</a>
-																	<span class="text-gray-500 fs-7 fw-semibold d-block mt-1">Co-founder</span>
+																	<a href="https://www.youthventures.asia/" class="text-gray-700 fw-bold text-hover-primary">Youth Venture</a>
+																	<!-- <span class="text-gray-500 fs-7 fw-semibold d-block mt-1">Co-founder</span> -->
 																</div>
 																<!--end::Info-->
 															</div>
 															<!--end::Section-->
 															<!--begin::Text-->
 															<div class="mb-0 fs-6">
-																<div class="text-muted fw-semibold lh-lg mb-2">First, a disclaimer – the entire process of writing a blog post often takes more than a couple of hours, even if you can type eighty words per minute and your writing skills are sharp writing a blog post often takes more than a couple.</div>
-																<a href="pages/user-profile/overview.html" class="fw-semibold link-primary">Author’s Profile</a>
+																<div class="text-muted fw-semibold lh-lg mb-2">Youth Ventures Asia has worked with public and private organizations to adopt an innovative mindset, learn technology skills, and accelerate the growth of youths in Southeast Asia. Our plug-and-play youth development solution helps institutions to improve enrollment or increase the rate of graduate employability and help organizations to reach out to youths at mass.</div>
+																<a href="https://www.youthventures.asia/our-story/" class="fw-semibold link-primary">View More</a>
 															</div>
 															<!--end::Text-->
 														</div>
@@ -320,18 +320,18 @@
 													<!--end::Catigories-->
 													<!--begin::Recent posts-->
 													<div class="m-0">
-														<h4 class="text-gray-900 mb-7">Recent Posts</h4>
+														<h4 class="text-gray-900 mb-7">About Youth Venture</h4>
 														<!--begin::Item-->
 														<div class="d-flex flex-stack mb-7">
 															<!--begin::Symbol-->
 															<div class="symbol symbol-60px symbol-2by3 me-4">
-																<div class="symbol-label" style="background-image: url('assets/media/stock/600x400/img-1.jpg')"></div>
+																<div class="symbol-label" style="background-image: url('https://www.youthventures.asia/content/images/size/w1000/2023/06/0D2509E1-C407-4465-830B-91244FC706C2.jpeg')"></div>
 															</div>
 															<!--end::Symbol-->
 															<!--begin::Title-->
 															<div class="m-0">
-																<a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">About Bootstrap Admin</a>
-																<span class="text-gray-600 fw-semibold d-block pt-1 fs-7">We’ve been a focused on making a the sky</span>
+																<a href="https://www.youthventures.asia/our-story/" class="text-gray-900 fw-bold text-hover-primary fs-6">About Sustainable Ecosystem</a>
+																<span class="text-gray-600 fw-semibold d-block pt-1 fs-7">Developing Sustainable Ecosystem</span>
 															</div>
 															<!--end::Title-->
 														</div>
@@ -340,13 +340,13 @@
 														<div class="d-flex flex-stack mb-7">
 															<!--begin::Symbol-->
 															<div class="symbol symbol-60px symbol-2by3 me-4">
-																<div class="symbol-label" style="background-image: url('assets/media/stock/600x400/img-2.jpg')"></div>
+																<div class="symbol-label" style="background-image: url('https://www.youthventures.asia/content/images/size/w1000/2023/06/3635D6D3-A893-437B-9E96-9C80D31F4871.png')"></div>
 															</div>
 															<!--end::Symbol-->
 															<!--begin::Title-->
 															<div class="m-0">
-																<a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">A yellow sofa</a>
-																<span class="text-gray-600 fw-semibold d-block pt-1 fs-7">We’ve been a focused on making a the sky</span>
+																<a href="https://www.youthventures.asia/connect-conference-2023-go-global-jci-jbe-start-iix/" class="text-gray-900 fw-bold text-hover-primary fs-6">Navigating Malaysia's Regenerative Economy</a>
+																<span class="text-gray-600 fw-semibold d-block pt-1 fs-7">Empowering The Growth Youth Talent and SME</span>
 															</div>
 															<!--end::Title-->
 														</div>
@@ -355,13 +355,13 @@
 														<div class="d-flex flex-stack mb-7">
 															<!--begin::Symbol-->
 															<div class="symbol symbol-60px symbol-2by3 me-4">
-																<div class="symbol-label" style="background-image: url('assets/media/stock/600x400/img-3.jpg')"></div>
+																<div class="symbol-label" style="background-image: url('https://www.youthventures.asia/content/images/2023/10/IMG_4127.jpeg')"></div>
 															</div>
 															<!--end::Symbol-->
 															<!--begin::Title-->
 															<div class="m-0">
-																<a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">Our Camra Mega Set</a>
-																<span class="text-gray-600 fw-semibold d-block pt-1 fs-7">We’ve been a focused on making a the sky</span>
+																<a href="https://www.youthventures.asia/imu-student-entrepreneurs-reduce-health-tech-gap/" class="text-gray-900 fw-bold text-hover-primary fs-6">Accelerate Student Startups</a>
+																<span class="text-gray-600 fw-semibold d-block pt-1 fs-7">KayaCore: Alternative to Butter Kaya</span>
 															</div>
 															<!--end::Title-->
 														</div>
@@ -370,13 +370,13 @@
 														<div class="d-flex flex-stack">
 															<!--begin::Symbol-->
 															<div class="symbol symbol-60px symbol-2by3 me-4">
-																<div class="symbol-label" style="background-image: url('assets/media/stock/600x400/img-4.jpg')"></div>
+																<div class="symbol-label" style="background-image: url('https://www.youthventures.asia/content/images/size/w1200/2023/10/email-1-v4---1080x1080.png')"></div>
 															</div>
 															<!--end::Symbol-->
 															<!--begin::Title-->
 															<div class="m-0">
-																<a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">Time to cook and eat?</a>
-																<span class="text-gray-600 fw-semibold d-block pt-1 fs-7">We’ve been a focused on making a the sky</span>
+																<a href="https://www.youthventures.asia/lets-fight-cancer-together-with-youths/" class="text-gray-900 fw-bold text-hover-primary fs-6">Let’s Fight Cancer Together and Save The World!</a>
+																<span class="text-gray-600 fw-semibold d-block pt-1 fs-7">Youth Ventures Asia and The Noor stand united as a powerful alliance to four charities: MAKNA, NCSM, BCWA, and PINK RIBBON, via INCITEMENT</span>
 															</div>
 															<!--end::Title-->
 														</div>
