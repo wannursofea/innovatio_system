@@ -211,7 +211,7 @@ class User {
  
         } elseif ($role == 'Partner') {
             //Query to get partner image
-            $this->db->query('SELECT pr_image FROM partnerclient WHERE pc_email= :email');
+            $this->db->query('SELECT pr_image FROM partnerclient WHERE email= :email');
         }  else {
             //Default case or handle other roles
             return null;
