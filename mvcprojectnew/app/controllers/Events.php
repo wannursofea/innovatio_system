@@ -88,7 +88,11 @@ class Events extends Controller
             if (isset($_POST['noCollaborator']) && $_POST['noCollaborator'] == '0' && isset($_POST['selectedClients']) && !empty($_POST['selectedClients'])) {
                 // Handle the condition where 'No collaborator' is selected and clients are selected
                 $errorMessage = "Error: You've selected 'No collaborator' and collaborator(s) simultaneously. Please choose either 'No collaborator' or select collaborator(s), not both.";
-                echo $errorMessage;
+                // echo $errorMessage;
+                 // Retain form data
+                         echo '<script>
+                                    alert("' . $errorMessage . '");
+                                </script>';
                 $this->view('events/index',$data);
             }
             elseif(isset($_POST['noCollaborator']) && $_POST['noCollaborator'] == '0' && empty($_POST['selectedClients'])){
