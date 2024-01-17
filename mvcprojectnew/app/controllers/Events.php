@@ -527,7 +527,9 @@ class Events extends Controller
             if ($profile_id) {
                 $latest_data_register = $this->eventModel->findRegisterInfo($profile_id);
                 if($this->eventModel->checkRegisterStatus($profile_id, $event_id)){
-                    die("You already register this event");
+                    // die("You already register this event");
+                    echo '<script>alert("You already registered for this event"); window.location.href="'.URLROOT.'/events/manage_registrationlist";</script>';
+
                 }
 
                 //for selected checkboxes
