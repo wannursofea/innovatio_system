@@ -22,12 +22,13 @@ class Certification
         return $result;
     }
 
-    public function findAllCertifications()
+    public function findAllCertifications($userEmail)
     {
-        $this->db->query('SELECT * FROM certifications ');
+        $this->db->query('SELECT * FROM certifications WHERE email = :email');
+        $this->db->bind(':email', $userEmail);
     
         $result = $this->db->resultSet();
-
+    
         return $result;
     }
 

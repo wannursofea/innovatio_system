@@ -9,12 +9,14 @@ class Certifications extends Controller
 
     public function index()
     {
-        $certifications = $this->certificationModel->findAllCertifications();
+        $certifications = $this->certificationModel->findAllCertifications(($_SESSION['email']));
         $data = 
         [
             'certifications' => $certifications
         ];
         $this->view('certifications/index', $data);
+
+       
     }
 
     public function create()

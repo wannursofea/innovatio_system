@@ -23,12 +23,13 @@ class Experience
         return $result;
     }
 
-    public function findAllExperiences()
+    public function findAllExperiences($userEmail)
     {
-        $this->db->query('SELECT * FROM experience ');
+        $this->db->query('SELECT * FROM experience WHERE email = :email');
+        $this->db->bind(':email', $userEmail);
     
         $result = $this->db->resultSet();
-
+    
         return $result;
     }
 

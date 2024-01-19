@@ -9,7 +9,7 @@ class Experiences extends Controller
 
     public function index()
     {
-        $experiences = $this->experienceModel->findAllExperiences();
+        $experiences = $this->experienceModel->findAllExperiences(($_SESSION['email']));
         $data = 
         [
             'experiences' => $experiences
