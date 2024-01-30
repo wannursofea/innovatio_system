@@ -21,25 +21,6 @@ class Resume
         return $result;
     }
 
-   
-    public function fetchAllSkill(){
-        $this->db->query('SELECT * FROM option_skill');
-
-        $result = $this->db->resultSet();
-
-        return $result;
-
-    }
-    
-    public function fetchAllSoftwareSkill(){
-        $this->db->query('SELECT * FROM option_software_skill');
-
-        $result = $this->db->resultSet();
-
-        return $result;
-
-    }
-
 
     public function findSelectedSoftSkillById($profile_id){
         $result = $this->findSoftSkillById($profile_id);
@@ -59,7 +40,7 @@ class Resume
     
     public function findCertificationByProfileId($profile_id)
     {
-        $this->db->query('SELECT * FROM certifications WHERE profile_id = :profile_id');
+        $this->db->query('SELECT * FROM certification WHERE profile_id = :profile_id');
         $this->db->bind(':profile_id', $profile_id);
 
         $row = $this->db->resultSet();
@@ -83,13 +64,6 @@ class Resume
         $result = $this->db->resultSet();
 
         return $result;
-    }
-
-    public function findSelectedSkillById($profile_id){
-        $result = $this->findSkillById($profile_id);
-        $skill_ids = array_column($result, 'skill_id');
-
-        return $skill_ids;
     }
     
     public function findSelectedSkillOptionById($skill_id){
