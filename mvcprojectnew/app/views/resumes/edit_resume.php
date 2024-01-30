@@ -6,7 +6,7 @@
 					Download
 				</button><br /><br />
 			<?php
-			
+				
 			?>
 			
 				<div class="row">
@@ -63,17 +63,16 @@
 						<br />
 						
 						<h2>Skill</h2>
-						<ul>
-						<?php						
-							foreach($skills as $skill){
-							?>
-							<li>
-								<?= $skill->skillName ?>
-							</li>
-							<?php
-							}
-						?>
-						</ul>
+					<ul>
+    					<?php foreach ($skills as $skill) : ?>
+        					<li><?= $skill->skillName ?></li>
+   						 <?php endforeach; ?>
+
+    					<?php foreach ($softSkills as $softSkill) : ?>
+        					<li><?= $softSkill->softwareSkillName ?></li>
+    					<?php endforeach; ?>
+					</ul>
+
 						
 						<br /><br />
 						
