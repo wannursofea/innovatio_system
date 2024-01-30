@@ -72,7 +72,7 @@ public function edit_resumeview(){
         }
 
         $this->view('/resumes/index1', [
-            "page"          => "edit_resume", 
+            "page"          => "edit_resumeview", 
             "s"             => $student, 
             "skills"        => $skills,
             "softSkills"    => $softSkills,
