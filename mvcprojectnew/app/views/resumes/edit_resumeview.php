@@ -2,11 +2,11 @@
 	<div id="kt_app_content_container" class="app-container container-xxl">
 		<div class="row g-5 g-xl-10">
 			<div class="col-md-12">
-				<button class="btn btn-sm btn-info" onclick="window.print()">
+			<button class="btn btn-sm btn-info" onclick="window.print()">
 					Download
 				</button><br /><br />
 			<?php
-				// print_r($s);
+				
 			?>
 			
 				<div class="row">
@@ -63,17 +63,16 @@
 						<br />
 						
 						<h2>Skill</h2>
-						<ul>
-						<?php						
-							foreach($skills as $skill){
-							?>
-							<li>
-								<?= $skill->skillName ?>
-							</li>
-							<?php
-							}
-						?>
-						</ul>
+					<ul>
+    					<?php foreach ($skills as $skill) : ?>
+        					<li><?= $skill->skillName ?></li>
+   						 <?php endforeach; ?>
+
+    					<?php foreach ($softSkills as $softSkill) : ?>
+        					<li><?= $softSkill->softwareSkillName ?></li>
+    					<?php endforeach; ?>
+					</ul>
+
 						
 						<br /><br />
 						
