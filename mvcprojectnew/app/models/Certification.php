@@ -24,7 +24,7 @@ class Certification
 
     public function findAllCertifications($userEmail)
     {
-        $this->db->query('SELECT * FROM certifications WHERE email = :email');
+        $this->db->query('SELECT * FROM certification WHERE email = :email');
         $this->db->bind(':email', $userEmail);
     
         $result = $this->db->resultSet();
@@ -34,7 +34,7 @@ class Certification
 
     public function addCertification($data)
     {
-        $this->db->query('INSERT INTO certifications (profile_id,certName, validity,email) VALUES (:profile_id,:certName, :validity,:email)');
+        $this->db->query('INSERT INTO certification (profile_id,certName, validity,email) VALUES (:profile_id,:certName, :validity,:email)');
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':certName', $data['certName']);
         $this->db->bind(':validity', $data['validity']);
@@ -52,7 +52,7 @@ class Certification
 
     public function findCertificationById($certification_id)
     {
-        $this->db->query('SELECT * FROM certifications WHERE certification_id = :certification_id');
+        $this->db->query('SELECT * FROM certification WHERE certification_id = :certification_id');
         $this->db->bind(':certification_id', $certification_id);
 
         $row = $this->db->single();
@@ -62,7 +62,7 @@ class Certification
 
     public function updateCertification($data)
     {
-        $this->db->query('UPDATE certifications SET certName = :certName, validity = :validity WHERE certification_id = :certification_id');
+        $this->db->query('UPDATE certification SET certName = :certName, validity = :validity WHERE certification_id = :certification_id');
 
         $this->db->bind(':certification_id', $data['certification_id']);
         $this->db->bind(':certName', $data['certName']);
@@ -79,7 +79,7 @@ class Certification
     }
 
     public function deleteCertification($certification_id){
-        $this->db->query('DELETE FROM certifications WHERE certification_id = :certification_id');
+        $this->db->query('DELETE FROM certification WHERE certification_id = :certification_id');
 
         $this->db->bind(':certification_id', $certification_id);
 
