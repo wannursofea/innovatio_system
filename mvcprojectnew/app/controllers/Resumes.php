@@ -22,7 +22,7 @@ public function edit_resume(){
         $student = $student[0];
         $profile_id = $student->profile_id;
         $xskills = $this->resumeModel->findSkillById($profile_id);
-        $softSkills = $this->resumeModel->findSoftSkillById($profile_id);
+        $sSkill = $this->resumeModel->findSoftSkillById($profile_id);
         $certs = $this->resumeModel->findCertificationByProfileId($profile_id);
         $exp = $this->resumeModel->findExperienceByProfileId($profile_id);
         
@@ -30,6 +30,10 @@ public function edit_resume(){
         
         foreach($xskills as $skill){
             $skills[] = $this->resumeModel->findSelectedSkillOptionById($skill->skill_id);
+        }
+
+        foreach($sSkill as $softSkill){
+            $softSkills[] = $this->resumeModel->findSelectedSoftSkillOptionById($softSkill->softwareSkill_id);
         }
 
         $this->view('/resumes/index', [
@@ -53,7 +57,7 @@ public function edit_resumeview(){
         $student = $student[0];
         $profile_id = $student->profile_id;
         $xskills = $this->resumeModel->findSkillById($profile_id);
-        $softSkills = $this->resumeModel->findSoftSkillById($profile_id);
+        $sSkill = $this->resumeModel->findSoftSkillById($profile_id);
         $certs = $this->resumeModel->findCertificationByProfileId($profile_id);
         $exp = $this->resumeModel->findExperienceByProfileId($profile_id);
         
@@ -61,6 +65,10 @@ public function edit_resumeview(){
         
         foreach($xskills as $skill){
             $skills[] = $this->resumeModel->findSelectedSkillOptionById($skill->skill_id);
+        }
+
+        foreach($sSkill as $softSkill){
+            $softSkills[] = $this->resumeModel->findSelectedSoftSkillOptionById($softSkill->softwareSkill_id);
         }
 
         $this->view('/resumes/index1', [
@@ -71,6 +79,7 @@ public function edit_resumeview(){
             "certs"         => $certs,
             "exp"           => $exp
         ]);
+        
     }else{
         
         $this->view('/resumes/index1', ["page" => "user_not_found"]);
